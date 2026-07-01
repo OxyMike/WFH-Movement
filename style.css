@@ -132,3 +132,5 @@ label { font-weight: 600; font-size: 0.875rem; display: block; margin-bottom: 0.
 .items-center { align-items: center; }
 .justify-between { justify-content: space-between; }
 .hidden { display: none !important; }
+
+#view-timer.active { display: flex; }
