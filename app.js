@@ -1,4 +1,5 @@
 // app.js -- entry point for WFH Movement
+import { EXERCISES } from './exercises.js';
 import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit } from './storage.js';
 import { suggestExercise } from './rotation.js';
 import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
@@ -199,24 +200,11 @@ function openSettingsModal() {
   document.getElementById('s-interval-minutes').value = String(settings.intervalMinutes);
   document.getElementById('s-default-break').value = settings.defaultBreakLength;
 
-  // Reset fixed times list
-  settingsFixedTimes = [...(settings.fixedTimes || [])];
+  // Reset fixed times list using addTimeChip for each saved time
+  settingsFixedTimes = [];
   const listEl = document.getElementById('s-fixed-times-list');
   listEl.innerHTML = '';
-  settingsFixedTimes.forEach(t => {
-    const arr = settingsFixedTimes;
-    const chip = document.createElement('span');
-    chip.className = 'chip';
-    chip.style.cssText = 'display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.25rem 0.6rem; background: var(--color-primary); color: var(--color-bg); border-radius: 999px; font-size: 0.85rem; cursor: pointer;';
-    chip.textContent = t;
-    chip.title = 'Click to remove';
-    chip.addEventListener('click', () => {
-      const idx = arr.indexOf(t);
-      if (idx !== -1) arr.splice(idx, 1);
-      chip.remove();
-    });
-    listEl.appendChild(chip);
-  });
+  (settings.fixedTimes || []).forEach(t => addTimeChip(t, listEl, settingsFixedTimes));
 
   // Toggle visible options
   const mode = settings.reminderMode;
