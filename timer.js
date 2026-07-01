@@ -6,21 +6,24 @@ export function formatTime(seconds) {
 }
 
 export function startTimer(durationSeconds, onTick, onComplete) {
-  let remaining = durationSeconds;
-  onTick(remaining, 0);
+  const endTime = Date.now() + durationSeconds * 1000;
+  let done = false;
+  onTick(durationSeconds, 0);
 
   const id = setInterval(() => {
-    remaining -= 1;
+    if (done) return;
+    const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
     const progress = (durationSeconds - remaining) / durationSeconds;
     onTick(remaining, progress);
 
     if (remaining <= 0) {
+      done = true;
       clearInterval(id);
       onComplete();
     }
-  }, 1000);
+  }, 250);
 
-  return { stop: () => clearInterval(id) };
+  return { stop: () => { done = true; clearInterval(id); } };
 }
 
 export function playTone(frequency = 440, durationMs = 200) {
