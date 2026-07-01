@@ -8,7 +8,7 @@ export const EXERCISES = [
     description: 'Lengthens the hip flexors that shorten and tighten from prolonged sitting.',
     cues: [
       'Lower into a lunge with your back knee on the floor',
-      'Drive your hips forward — not your chest',
+      'Drive your hips forward, not your chest',
       'Keep your core braced and hold the tension without bouncing'
     ],
     quickDuration: 90,
