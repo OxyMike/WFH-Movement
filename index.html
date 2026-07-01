@@ -13,7 +13,7 @@
   <!-- VIEW: Onboarding -->
   <div id="view-onboarding" class="view">
     <div class="container text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
-      <h1 style="font-size: 2.5rem; font-weight: 700; color: #0f7b6c; margin-bottom: 0.5rem;">WFH Movement</h1>
+      <h1 style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">WFH Movement</h1>
       <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2.5rem;">Work For Health — movement breaks that actually fit your day</p>
 
       <div class="card" style="max-width: 480px; margin: 0 auto;">
@@ -21,17 +21,17 @@
 
           <div style="margin-bottom: 1.25rem;">
             <label for="work-start" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day starts</label>
-            <input type="time" id="work-start" value="08:00" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+            <input type="time" id="work-start" value="08:00" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           </div>
 
           <div style="margin-bottom: 1.25rem;">
             <label for="work-end" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day ends</label>
-            <input type="time" id="work-end" value="17:00" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+            <input type="time" id="work-end" value="17:00" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           </div>
 
           <div style="margin-bottom: 1.25rem;">
             <label for="reminder-mode" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Reminder style</label>
-            <select id="reminder-mode" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+            <select id="reminder-mode" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
               <option value="interval">Every X minutes - recommended</option>
               <option value="fixed">At specific times I choose</option>
             </select>
@@ -39,7 +39,7 @@
 
           <div id="interval-options" style="margin-bottom: 1.25rem;">
             <label for="interval-minutes" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Remind me every</label>
-            <select id="interval-minutes" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+            <select id="interval-minutes" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
               <option value="30">30 minutes</option>
               <option value="45" selected>45 minutes</option>
               <option value="60">60 minutes</option>
@@ -51,14 +51,14 @@
             <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Break times</label>
             <div id="fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
             <div class="flex gap-4" style="align-items: center;">
-              <input type="time" id="fixed-time-input" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+              <input type="time" id="fixed-time-input" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
               <button type="button" id="add-fixed-time" class="btn btn-accent btn-sm">Add time</button>
             </div>
           </div>
 
           <div style="margin-bottom: 2rem;">
             <label for="default-break" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Default break length</label>
-            <select id="default-break" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+            <select id="default-break" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
               <option value="quick">Quick - 90 seconds</option>
               <option value="full" selected>Full - 5 minutes</option>
             </select>
@@ -72,10 +72,10 @@
 
   <!-- VIEW: Dashboard -->
   <div id="view-dashboard" class="view" style="display: none;">
-    <header style="background: #0f7b6c; color: #fff; padding: 1rem 0;">
+    <header style="background: var(--color-primary); color: var(--color-bg); padding: 1rem 0;">
       <div class="container flex items-center justify-between">
         <span style="font-size: 1.25rem; font-weight: 700;">WFH Movement</span>
-        <button id="btn-open-settings" class="btn btn-ghost btn-sm" style="color: #fff; border-color: rgba(255,255,255,0.4);">Settings</button>
+        <button id="btn-open-settings" class="btn btn-ghost btn-sm" style="color: var(--color-bg); border-color: rgba(255,255,255,0.4);">Settings</button>
       </div>
     </header>
 
@@ -85,17 +85,17 @@
       <div id="dashboard-idle">
         <div class="card text-center mt-4">
           <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Next break in</p>
-          <div id="next-break-countdown" style="font-size: 3rem; font-weight: 700; color: #0f7b6c; line-height: 1.1;">--:--</div>
+          <div id="next-break-countdown" style="font-size: 3rem; font-weight: 700; color: var(--color-primary); line-height: 1.1;">--:--</div>
           <p id="next-break-label" class="text-muted" style="margin-top: 0.5rem;">Setting up your schedule...</p>
 
           <div class="flex gap-4 mt-6" style="justify-content: center;">
             <div class="text-center">
-              <div id="stat-today" style="font-size: 2rem; font-weight: 700; color: #0f7b6c;">0</div>
+              <div id="stat-today" style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">0</div>
               <p class="text-muted" style="font-size: 0.8rem;">breaks today</p>
             </div>
-            <div style="width: 1px; background: #e5e7eb;"></div>
+            <div style="width: 1px; background: var(--color-border);"></div>
             <div class="text-center">
-              <div id="stat-streak" style="font-size: 2rem; font-weight: 700; color: #0f7b6c;">0</div>
+              <div id="stat-streak" style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">0</div>
               <p class="text-muted" style="font-size: 0.8rem;">day streak</p>
             </div>
           </div>
@@ -108,15 +108,15 @@
       <div id="dashboard-active" class="hidden">
         <div class="card mt-4">
           <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
-            <h2 id="active-exercise-name" style="font-size: 1.25rem; font-weight: 700; color: #111827;"></h2>
+            <h2 id="active-exercise-name" style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-heading);"></h2>
             <span id="active-exercise-area" class="badge"></span>
           </div>
 
-          <div id="active-exercise-illustration" style="background: #f0fdf9; border-radius: 0.75rem; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #0f7b6c; font-size: 3rem;">
+          <div id="active-exercise-illustration" style="background: var(--color-panel-green-bg); border-radius: 0.75rem; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--color-primary); font-size: 3rem;">
           </div>
 
-          <p id="active-exercise-description" style="color: #374151; margin-bottom: 0.75rem;"></p>
-          <ul id="active-exercise-cues" style="padding-left: 1.25rem; color: #374151; margin-bottom: 1.25rem;"></ul>
+          <p id="active-exercise-description" style="color: var(--color-text-body); margin-bottom: 0.75rem;"></p>
+          <ul id="active-exercise-cues" style="padding-left: 1.25rem; color: var(--color-text-body); margin-bottom: 1.25rem;"></ul>
 
           <div class="flex gap-4">
             <button id="btn-start-quick" class="btn btn-accent" style="flex: 1;">Quick Break / 90 seconds</button>
@@ -127,82 +127,82 @@
       </div>
 
     </div>
-
-    <!-- Section: Why it matters -->
-    <section id="section-why" style="display: none; background: #f9fafb; padding: 3rem 0;">
-      <div class="container">
-        <h2 style="font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: #111827;">Why movement breaks matter</h2>
-
-        <!-- Panel 1 -->
-        <div class="card mt-4">
-          <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f7b6c; margin-bottom: 1rem;">What happens in the next 60 minutes</h3>
-          <ul style="padding-left: 1.25rem; color: #374151; line-height: 1.9;">
-            <li><strong>Circulation drops 50%</strong> — blood pools in your lower legs within one hour of sitting</li>
-            <li><strong>Metabolism slows</strong> — your body enters an energy-saving mode and calorie burning drops significantly</li>
-            <li><strong>Fat-burning enzyme shuts off</strong> — lipoprotein lipase, which breaks down fats in your bloodstream, deactivates</li>
-            <li><strong>Insulin resistance begins</strong> — muscles stop contracting, reducing their ability to clear glucose from your blood</li>
-            <li><strong>Spinal compression increases</strong> — lumbar disc pressure is higher when seated than when standing or lying down</li>
-          </ul>
-        </div>
-
-        <!-- Panel 2 -->
-        <div class="card mt-6">
-          <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f7b6c; margin-bottom: 1rem;">What accumulates over months and years</h3>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-            <div style="background: #f0fdf9; border-radius: 0.75rem; padding: 1rem;">
-              <h4 style="font-weight: 700; color: #0f7b6c; margin-bottom: 0.5rem;">Cardiovascular</h4>
-              <ul style="padding-left: 1.1rem; color: #374151; font-size: 0.9rem; line-height: 1.7;">
-                <li>54% higher heart attack risk</li>
-                <li>Stiffened arteries</li>
-                <li>Plaque buildup</li>
-              </ul>
-            </div>
-            <div style="background: #fffbeb; border-radius: 0.75rem; padding: 1rem;">
-              <h4 style="font-weight: 700; color: #b45309; margin-bottom: 0.5rem;">Metabolic</h4>
-              <ul style="padding-left: 1.1rem; color: #374151; font-size: 0.9rem; line-height: 1.7;">
-                <li>Chronic high blood pressure</li>
-                <li>Midsection weight gain</li>
-                <li>Type 2 diabetes</li>
-              </ul>
-            </div>
-            <div style="background: #fef2f2; border-radius: 0.75rem; padding: 1rem;">
-              <h4 style="font-weight: 700; color: #b91c1c; margin-bottom: 0.5rem;">Musculoskeletal</h4>
-              <ul style="padding-left: 1.1rem; color: #374151; font-size: 0.9rem; line-height: 1.7;">
-                <li>Gluteal muscle wasting</li>
-                <li>Bone mineral loss</li>
-                <li>Early spinal disc degeneration</li>
-              </ul>
-            </div>
-            <div style="background: #f5f3ff; border-radius: 0.75rem; padding: 1rem;">
-              <h4 style="font-weight: 700; color: #6d28d9; margin-bottom: 0.5rem;">Vascular</h4>
-              <ul style="padding-left: 1.1rem; color: #374151; font-size: 0.9rem; line-height: 1.7;">
-                <li>Varicose veins</li>
-                <li>Life-threatening Deep Vein Thrombosis blood clots</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panel 3 -->
-        <div class="card mt-6">
-          <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f7b6c; margin-bottom: 1rem;">Why your gym session is not enough</h3>
-          <p style="color: #374151; line-height: 1.8; margin-bottom: 0.75rem;">Medical research shows that standard workouts at the end of the day cannot completely undo the damage of sitting all day. The damage happens in real time, hour by hour.</p>
-          <p style="color: #374151; line-height: 1.8; margin-bottom: 0.75rem;">The solution is frequent micro-movement: stand up and move for just 2 to 5 minutes for every 30 to 60 minutes you spend seated. One minute of bodyweight movement restarts your metabolism and muscle glucose uptake immediately.</p>
-          <p style="color: #0f7b6c; font-weight: 600; line-height: 1.8;">This is exactly what WFH Movement is built for.</p>
-        </div>
-
-      </div>
-    </section>
   </div>
 
+  <!-- Section: Why it matters (sibling of view divs, app.js toggles visibility) -->
+  <section id="section-why" style="display: none; background: var(--color-bg-subtle); padding: 3rem 0;">
+    <div class="container">
+      <h2 style="font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: var(--color-text-heading);">Why movement breaks matter</h2>
+
+      <!-- Panel 1 -->
+      <div class="card mt-4">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">What happens in the next 60 minutes</h3>
+        <ul style="padding-left: 1.25rem; color: var(--color-text-body); line-height: 1.9;">
+          <li><strong>Circulation drops 50%</strong> — blood pools in your lower legs within one hour of sitting</li>
+          <li><strong>Metabolism slows</strong> — your body enters an energy-saving mode and calorie burning drops significantly</li>
+          <li><strong>Fat-burning enzyme shuts off</strong> — lipoprotein lipase, which breaks down fats in your bloodstream, deactivates</li>
+          <li><strong>Insulin resistance begins</strong> — muscles stop contracting, reducing their ability to clear glucose from your blood</li>
+          <li><strong>Spinal compression increases</strong> — lumbar disc pressure is higher when seated than when standing or lying down</li>
+        </ul>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="card mt-6">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">What accumulates over months and years</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div style="background: var(--color-panel-green-bg); border-radius: 0.75rem; padding: 1rem;">
+            <h4 style="font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">Cardiovascular</h4>
+            <ul style="padding-left: 1.1rem; color: var(--color-text-body); font-size: 0.9rem; line-height: 1.7;">
+              <li>54% higher heart attack risk</li>
+              <li>Stiffened arteries</li>
+              <li>Plaque buildup</li>
+            </ul>
+          </div>
+          <div style="background: var(--color-panel-amber-bg); border-radius: 0.75rem; padding: 1rem;">
+            <h4 style="font-weight: 700; color: var(--color-panel-amber-text); margin-bottom: 0.5rem;">Metabolic</h4>
+            <ul style="padding-left: 1.1rem; color: var(--color-text-body); font-size: 0.9rem; line-height: 1.7;">
+              <li>Chronic high blood pressure</li>
+              <li>Midsection weight gain</li>
+              <li>Type 2 diabetes</li>
+            </ul>
+          </div>
+          <div style="background: var(--color-panel-red-bg); border-radius: 0.75rem; padding: 1rem;">
+            <h4 style="font-weight: 700; color: var(--color-panel-red-text); margin-bottom: 0.5rem;">Musculoskeletal</h4>
+            <ul style="padding-left: 1.1rem; color: var(--color-text-body); font-size: 0.9rem; line-height: 1.7;">
+              <li>Gluteal muscle wasting</li>
+              <li>Bone mineral loss</li>
+              <li>Early spinal disc degeneration</li>
+            </ul>
+          </div>
+          <div style="background: var(--color-panel-purple-bg); border-radius: 0.75rem; padding: 1rem;">
+            <h4 style="font-weight: 700; color: var(--color-panel-purple-text); margin-bottom: 0.5rem;">Vascular</h4>
+            <ul style="padding-left: 1.1rem; color: var(--color-text-body); font-size: 0.9rem; line-height: 1.7;">
+              <li>Varicose veins</li>
+              <li>Life-threatening Deep Vein Thrombosis blood clots</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="card mt-6">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem;">Why your gym session is not enough</h3>
+        <p style="color: var(--color-text-body); line-height: 1.8; margin-bottom: 0.75rem;">Medical research shows that standard workouts at the end of the day cannot completely undo the damage of sitting all day. The damage happens in real time, hour by hour.</p>
+        <p style="color: var(--color-text-body); line-height: 1.8; margin-bottom: 0.75rem;">The solution is frequent micro-movement: stand up and move for just 2 to 5 minutes for every 30 to 60 minutes you spend seated. One minute of bodyweight movement restarts your metabolism and muscle glucose uptake immediately.</p>
+        <p style="color: var(--color-primary); font-weight: 600; line-height: 1.8;">This is exactly what WFH Movement is built for.</p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- VIEW: Timer -->
-  <div id="view-timer" class="view" style="display: none; min-height: 100vh; background: #0f7b6c; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+  <div id="view-timer" class="view" style="min-height: 100vh; background: var(--color-primary); color: var(--color-bg); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
     <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;"></h2>
 
     <div id="timer-countdown" style="font-size: 5rem; font-weight: 700; line-height: 1; margin-bottom: 1.5rem; font-variant-numeric: tabular-nums;">5:00</div>
 
     <div id="timer-progress-bar" style="width: 100%; max-width: 320px; height: 8px; background: rgba(255,255,255,0.25); border-radius: 999px; margin-bottom: 2rem; overflow: hidden;">
-      <div id="timer-progress-fill" style="width: 0%; height: 100%; background: #fff; border-radius: 999px; transition: width 1s linear;"></div>
+      <div id="timer-progress-fill" style="width: 0%; height: 100%; background: var(--color-bg); border-radius: 999px; transition: width 1s linear;"></div>
     </div>
 
     <ul id="timer-cues" style="list-style: none; padding: 0; text-align: center; margin-bottom: 2rem; color: rgba(255,255,255,0.85); line-height: 2;"></ul>
@@ -220,17 +220,17 @@
 
       <div style="margin-bottom: 1.25rem;">
         <label for="s-work-start" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day starts</label>
-        <input type="time" id="s-work-start" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+        <input type="time" id="s-work-start" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
       </div>
 
       <div style="margin-bottom: 1.25rem;">
         <label for="s-work-end" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day ends</label>
-        <input type="time" id="s-work-end" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+        <input type="time" id="s-work-end" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
       </div>
 
       <div style="margin-bottom: 1.25rem;">
         <label for="s-reminder-mode" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Reminder style</label>
-        <select id="s-reminder-mode" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+        <select id="s-reminder-mode" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           <option value="interval">Every X minutes - recommended</option>
           <option value="fixed">At specific times I choose</option>
         </select>
@@ -238,7 +238,7 @@
 
       <div id="s-interval-options" style="margin-bottom: 1.25rem;">
         <label for="s-interval-minutes" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Remind me every</label>
-        <select id="s-interval-minutes" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+        <select id="s-interval-minutes" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           <option value="30">30 minutes</option>
           <option value="45">45 minutes</option>
           <option value="60">60 minutes</option>
@@ -250,21 +250,21 @@
         <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Break times</label>
         <div id="s-fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
         <div class="flex gap-4" style="align-items: center;">
-          <input type="time" id="s-fixed-time-input" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+          <input type="time" id="s-fixed-time-input" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           <button type="button" id="s-add-fixed-time" class="btn btn-accent btn-sm">Add time</button>
         </div>
       </div>
 
       <div style="margin-bottom: 1.5rem;">
         <label for="s-default-break" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Default break length</label>
-        <select id="s-default-break" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;">
+        <select id="s-default-break" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
           <option value="quick">Quick - 90 seconds</option>
           <option value="full">Full - 5 minutes</option>
         </select>
       </div>
 
       <button id="btn-save-settings" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">Save settings</button>
-      <button id="btn-reset-data" class="btn btn-full" style="background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5;">Reset all data</button>
+      <button id="btn-reset-data" class="btn btn-full" style="background: var(--color-panel-red-bg); color: var(--color-panel-red-text); border: 1px solid var(--color-panel-red-border);">Reset all data</button>
     </div>
   </div>
 

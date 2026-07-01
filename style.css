@@ -11,6 +11,18 @@
   --color-border: #e5e7eb;
   --color-danger: #dc2626;
 
+  --color-panel-green-bg: #f0fdf9;
+  --color-panel-amber-bg: #fffbeb;
+  --color-panel-red-bg: #fef2f2;
+  --color-panel-purple-bg: #f5f3ff;
+  --color-panel-amber-text: #b45309;
+  --color-panel-red-text: #b91c1c;
+  --color-panel-purple-text: #6d28d9;
+  --color-panel-red-border: #fca5a5;
+
+  --color-text-body: #374151;
+  --color-text-heading: #111827;
+
   --font: system-ui, -apple-system, sans-serif;
   --radius: 8px;
   --radius-lg: 16px;
