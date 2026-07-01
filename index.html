@@ -199,10 +199,21 @@
   <div id="view-timer" class="view" style="min-height: 100vh; background: var(--color-primary); color: var(--color-bg); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
     <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;"></h2>
 
-    <div id="timer-countdown" style="font-size: 5rem; font-weight: 700; line-height: 1; margin-bottom: 1.5rem; font-variant-numeric: tabular-nums;">5:00</div>
-
-    <div id="timer-progress-bar" style="width: 100%; max-width: 320px; height: 8px; background: rgba(255,255,255,0.25); border-radius: 999px; margin-bottom: 2rem; overflow: hidden;">
-      <div id="timer-progress-fill" style="width: 0%; height: 100%; background: var(--color-bg); border-radius: 999px; transition: width 1s linear;"></div>
+    <!-- Circular Pomodoro ring -->
+    <div style="position: relative; margin-bottom: 1.75rem;">
+      <svg viewBox="0 0 280 280" width="220" height="220" style="display: block;">
+        <!-- Track ring -->
+        <circle cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/>
+        <!-- Progress ring (shrinks as time elapses) -->
+        <circle id="timer-ring" cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="14"
+          stroke-linecap="round"
+          stroke-dasharray="753.98"
+          stroke-dashoffset="0"
+          transform="rotate(-90 140 140)"
+          style="transition: stroke-dashoffset 1s linear;"/>
+      </svg>
+      <!-- Countdown centered inside ring -->
+      <div id="timer-countdown" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3.25rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums;">5:00</div>
     </div>
 
     <ul id="timer-cues" style="list-style: none; padding: 0; text-align: center; margin-bottom: 2rem; color: rgba(255,255,255,0.85); line-height: 2;"></ul>

@@ -139,12 +139,14 @@ function launchTimer(exercise, durationSeconds) {
 
   if (activeTimer) activeTimer.stop();
   halfwayPlayed = false;
+  document.getElementById('timer-ring').style.strokeDashoffset = '0';
 
   activeTimer = startTimer(
     durationSeconds,
     function onTick(remaining, progress) {
+      const CIRCUMFERENCE = 753.98;
       document.getElementById('timer-countdown').textContent = formatTime(remaining);
-      document.getElementById('timer-progress-fill').style.width = `${progress * 100}%`;
+      document.getElementById('timer-ring').style.strokeDashoffset = String(CIRCUMFERENCE * progress);
 
       if (!halfwayPlayed && progress >= 0.5) {
         halfwayPlayed = true;
@@ -256,6 +258,7 @@ function completeOnboarding() {
   }
 
   startApp();
+  triggerBreak();
 }
 
 // ---------------------------------------------------------------------------
