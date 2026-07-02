@@ -1,7 +1,7 @@
 {
   "name": "WFH Movement",
   "short_name": "WFH Movement",
-  "description": "Work For Health — movement reminders for people who work from home",
+  "description": "Work For Health, movement reminders for people who work from home",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#faf6f0",

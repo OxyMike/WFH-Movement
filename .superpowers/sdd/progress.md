@@ -20,5 +20,5 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 2: Landing page and setup restyle (commits 4c88916..954f324, review clean — Minor: title tag em dash pre-existing; inline-style sprawl is plan-mandated pattern)
 - [x] Task 3: Dashboard redesign (commits 954f324..b52fb4d, review clean — Minor: exercises.js illustration field now dead weight; manual browser pass deferred to Task 5)
 - [x] Task 4: Timer screen warmth (commits b52fb4d..6ba0c3c, review clean — Minor: cue interval runs on empty cues array; skip-vs-flash asymmetry intentional)
-- [ ] Task 5: Cache bump, full pass, deploy
+- [x] Task 5: Cache bump + em dash cleanup, final review clean, shipped
 
