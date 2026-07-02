@@ -25,12 +25,10 @@ function capitalize(str) {
 // ---------------------------------------------------------------------------
 
 function showView(name) {
-  ['view-onboarding', 'view-dashboard', 'view-timer'].forEach(id => {
+  ['view-landing', 'view-onboarding', 'view-dashboard', 'view-timer'].forEach(id => {
     document.getElementById(id).classList.remove('active');
   });
   document.getElementById('view-' + name).classList.add('active');
-  const whySection = document.getElementById('section-why');
-  whySection.style.display = name === 'dashboard' ? 'block' : 'none';
 }
 
 // ---------------------------------------------------------------------------
@@ -342,8 +340,11 @@ if ('serviceWorker' in navigator) {
 // Boot
 // ---------------------------------------------------------------------------
 
+document.getElementById('btn-start-setup-hero').addEventListener('click', () => showView('onboarding'));
+document.getElementById('btn-start-setup-bottom').addEventListener('click', () => showView('onboarding'));
+
 if (isFirstVisit()) {
-  showView('onboarding');
+  showView('landing');
 } else {
   startApp();
 }
