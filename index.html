@@ -128,60 +128,69 @@
 
   <!-- VIEW: Dashboard -->
   <div id="view-dashboard" class="view">
-    <header style="background: var(--color-primary); color: var(--color-bg); padding: 1rem 0;">
+    <header style="padding: 1.25rem 0;">
       <div class="container flex items-center justify-between">
-        <span style="font-size: 1.25rem; font-weight: 700;">WFH Movement</span>
-        <button id="btn-open-settings" class="btn btn-ghost btn-sm" style="color: var(--color-bg); border-color: rgba(255,255,255,0.4);">Settings</button>
+        <span style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--color-primary);">WFH Movement</span>
+        <button id="btn-open-settings" class="btn btn-ghost btn-sm">Settings</button>
       </div>
     </header>
 
-    <div class="container" style="padding-top: 1.5rem; padding-bottom: 2rem;">
+    <div class="container" style="padding-bottom: 2rem;">
+      <h1 id="dashboard-greeting" style="font-size: 1.5rem; margin-bottom: 1rem;">Good morning, let's keep you moving</h1>
 
-      <!-- Dashboard: Idle state -->
       <div id="dashboard-idle">
-        <div class="card text-center mt-4">
-          <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Next break in</p>
-          <div id="next-break-countdown" style="font-size: 3rem; font-weight: 700; color: var(--color-primary); line-height: 1.1;">--:--</div>
+        <div class="card text-center">
+          <p class="text-muted" style="font-size: 0.9rem;">Next nudge in</p>
+          <div id="next-break-countdown" style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">--:--</div>
           <p id="next-break-label" class="text-muted" style="margin-top: 0.5rem;">Setting up your schedule...</p>
 
           <div class="flex gap-4 mt-6" style="justify-content: center;">
             <div class="text-center">
-              <div id="stat-today" style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">0</div>
+              <div id="stat-today" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">0</div>
               <p class="text-muted" style="font-size: 0.8rem;">breaks today</p>
             </div>
             <div style="width: 1px; background: var(--color-border);"></div>
             <div class="text-center">
-              <div id="stat-streak" style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">0</div>
+              <div style="display: flex; align-items: baseline; gap: 0.25rem; justify-content: center;">
+                <span style="font-size: 1.2rem;">🔥</span>
+                <span id="stat-streak" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent);">0</span>
+              </div>
               <p class="text-muted" style="font-size: 0.8rem;">day streak</p>
             </div>
           </div>
 
-          <button id="btn-take-break-now" class="btn btn-primary btn-full mt-6">Take a break now</button>
+          <button id="btn-take-break-now" class="btn btn-accent btn-full mt-6">Take a break now</button>
+        </div>
+
+        <p class="text-center mt-6">
+          <a id="link-why" href="#" style="color: var(--color-text-muted); font-size: 0.9rem;">Why breaks matter</a>
+        </p>
+        <div id="dashboard-why" class="hidden card mt-4">
+          <h3 style="margin-bottom: 0.75rem;">Why breaks matter</h3>
+          <p>Within one hour of sitting, your circulation drops by half, your metabolism slows, and your muscles stop clearing sugar from your blood. Your evening workout can't undo it. The fix is simple: two minutes of movement for every hour in the chair, and that's exactly what your nudges are for.</p>
         </div>
       </div>
 
-      <!-- Dashboard: Active exercise state -->
       <div id="dashboard-active" class="hidden">
-        <div class="card mt-4">
+        <div class="card">
           <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
-            <h2 id="active-exercise-name" style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-heading);"></h2>
+            <h2 id="active-exercise-name" style="font-size: 1.25rem;"></h2>
             <span id="active-exercise-area" class="badge"></span>
           </div>
 
-          <div id="active-exercise-illustration" style="background: var(--color-panel-green-bg); border-radius: 0.75rem; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--color-primary); font-size: 3rem;">
+          <div id="active-exercise-illustration" style="background: var(--color-panel-sage); border-radius: 16px; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 1rem; gap: 0.4rem;">
           </div>
 
-          <p id="active-exercise-description" style="color: var(--color-text-body); margin-bottom: 0.75rem;"></p>
-          <ul id="active-exercise-cues" style="padding-left: 1.25rem; color: var(--color-text-body); margin-bottom: 1.25rem;"></ul>
+          <p id="active-exercise-description" style="margin-bottom: 0.75rem;"></p>
+          <ul id="active-exercise-cues" style="list-style: none; margin-bottom: 1.25rem; line-height: 1.9;"></ul>
 
           <div class="flex gap-4">
-            <button id="btn-start-quick" class="btn btn-accent" style="flex: 1;">Quick Break / 90 seconds</button>
-            <button id="btn-start-full" class="btn btn-primary" style="flex: 1;">Full break / 5 minutes</button>
+            <button id="btn-start-quick" class="btn btn-primary" style="flex: 1;">Quick reset · 90 sec</button>
+            <button id="btn-start-full" class="btn btn-accent" style="flex: 1;">Full break · 5 min</button>
           </div>
-          <button id="btn-swap-exercise" class="btn btn-ghost btn-full mt-4">Show me something else</button>
+          <button id="btn-swap-exercise" class="btn btn-ghost btn-full mt-4">Show me a different one</button>
         </div>
       </div>
-
     </div>
   </div>
 

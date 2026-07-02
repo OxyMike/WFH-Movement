@@ -20,6 +20,16 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+const AREA_ICONS = { hips: '🦵', spine: '🧘', shoulders: '💪', neck: '🙆', wrists: '🖐️' };
+
+function updateGreeting() {
+  const h = new Date().getHours();
+  const text = h < 12 ? "Good morning, let's keep you moving"
+    : h < 17 ? "Good afternoon, time to shake off the chair"
+    : "Good evening, one more stretch before you wind down";
+  document.getElementById('dashboard-greeting').textContent = text;
+}
+
 // ---------------------------------------------------------------------------
 // View management
 // ---------------------------------------------------------------------------
@@ -76,6 +86,7 @@ function startCountdownDisplay() {
 
 function startApp() {
   showView('dashboard');
+  updateGreeting();
   updateDashboardStats();
   startCountdownDisplay();
 
@@ -92,9 +103,9 @@ function renderActiveExercise(exercise) {
   document.getElementById('active-exercise-area').textContent = capitalize(exercise.targetArea);
 
   const illustrationEl = document.getElementById('active-exercise-illustration');
-  illustrationEl.innerHTML = exercise.illustration
-    ? `<img src="illustrations/${exercise.illustration}" alt="${exercise.name}" style="max-height: 140px; max-width: 100%;">`
-    : '';
+  illustrationEl.innerHTML = `
+  <span style="font-size: 2.5rem;">${AREA_ICONS[exercise.targetArea] || '🤸'}</span>
+  <span class="badge">${capitalize(exercise.targetArea)}</span>`;
 
   document.getElementById('active-exercise-description').textContent = exercise.description;
 
@@ -102,7 +113,7 @@ function renderActiveExercise(exercise) {
   cuesEl.innerHTML = '';
   (exercise.cues || []).forEach(cue => {
     const li = document.createElement('li');
-    li.textContent = cue;
+    li.textContent = `✓ ${cue}`;
     cuesEl.appendChild(li);
   });
 }
@@ -293,6 +304,11 @@ document.getElementById('btn-swap-exercise').addEventListener('click', () => {
   const record = getTodayRecord();
   currentExercise = suggestExercise(record.lastTargetArea, currentExercise ? currentExercise.id : null);
   renderActiveExercise(currentExercise);
+});
+
+document.getElementById('link-why').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('dashboard-why').classList.toggle('hidden');
 });
 
 // Timer
