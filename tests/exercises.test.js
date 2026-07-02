@@ -2,7 +2,7 @@
 import { test, assert, assertEqual, summary } from './run.js';
 import { EXERCISES } from '../exercises.js';
 
-const VALID_AREAS = ['hips', 'spine', 'shoulders', 'neck', 'wrists'];
+const VALID_AREAS = ['hips', 'spine', 'shoulders', 'neck', 'wrists', 'cardio'];
 
 test('EXERCISES is a non-empty array', () => {
   assert(Array.isArray(EXERCISES), 'EXERCISES should be an array');
@@ -32,6 +32,26 @@ test('all five target areas are represented', () => {
   const areas = new Set(EXERCISES.map(e => e.targetArea));
   for (const area of VALID_AREAS) {
     assert(areas.has(area), `No exercises found for targetArea "${area}"`);
+  }
+});
+
+test('every exercise has a valid tier', () => {
+  const valid = ['easy', 'medium', 'hard'];
+  for (const ex of EXERCISES) {
+    if (!valid.includes(ex.tier)) throw new Error(`${ex.id} has invalid tier: ${ex.tier}`);
+  }
+});
+
+test('library has 32 exercises with 8 hard', () => {
+  if (EXERCISES.length !== 32) throw new Error(`expected 32, got ${EXERCISES.length}`);
+  const hard = EXERCISES.filter(e => e.tier === 'hard');
+  if (hard.length !== 8) throw new Error(`expected 8 hard, got ${hard.length}`);
+});
+
+test('every tier has at least two target areas for rotation', () => {
+  for (const tier of ['easy', 'medium', 'hard']) {
+    const areas = new Set(EXERCISES.filter(e => e.tier === tier).map(e => e.targetArea));
+    if (areas.size < 2) throw new Error(`tier ${tier} has fewer than 2 areas`);
   }
 });
 

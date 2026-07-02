@@ -5,6 +5,7 @@ export const EXERCISES = [
     id: 'hip-flexor-stretch',
     name: 'Hip Flexor Stretch',
     targetArea: 'hips',
+    tier: 'medium',
     description: 'Lengthens the hip flexors that shorten and tighten from prolonged sitting.',
     cues: [
       'Lower into a lunge with your back knee on the floor',
@@ -19,6 +20,7 @@ export const EXERCISES = [
     id: 'glute-bridge',
     name: 'Glute Bridge',
     targetArea: 'hips',
+    tier: 'medium',
     description: 'Reactivates the glutes, which become inhibited and weak from sitting all day.',
     cues: [
       'Lie on your back, feet flat, knees bent to 90 degrees',
@@ -33,6 +35,7 @@ export const EXERCISES = [
     id: 'figure-four-stretch',
     name: 'Standing Figure-Four',
     targetArea: 'hips',
+    tier: 'medium',
     description: 'Opens the hip external rotators and stretches the piriformis, which compresses under prolonged sitting.',
     cues: [
       'Stand on one foot, cross the opposite ankle over your standing knee',
@@ -47,6 +50,7 @@ export const EXERCISES = [
     id: 'lateral-hip-circles',
     name: 'Lateral Hip Circles',
     targetArea: 'hips',
+    tier: 'medium',
     description: 'Restores hip mobility through its full range of motion in all planes.',
     cues: [
       'Stand with feet shoulder-width apart and hands on your hips',
@@ -61,6 +65,7 @@ export const EXERCISES = [
     id: 'calf-raises',
     name: 'Calf Raises',
     targetArea: 'hips',
+    tier: 'medium',
     description: 'Activates the calf muscle pump to push pooled blood back up from the lower legs.',
     cues: [
       'Stand with feet hip-width apart, holding a wall or desk for light balance',
@@ -77,6 +82,7 @@ export const EXERCISES = [
     id: 'cat-cow',
     name: 'Cat-Cow',
     targetArea: 'spine',
+    tier: 'medium',
     description: 'Pumps synovial fluid through the spinal joints and counteracts the static compression of sitting.',
     cues: [
       'On hands and knees, align wrists under shoulders and knees under hips',
@@ -91,6 +97,7 @@ export const EXERCISES = [
     id: 'thoracic-rotation',
     name: 'Thoracic Rotation',
     targetArea: 'spine',
+    tier: 'medium',
     description: 'Restores mid-back rotation that is lost when you are locked in a forward-facing desk position.',
     cues: [
       'Sit on the edge of your chair, feet flat, hands behind your head',
@@ -105,6 +112,7 @@ export const EXERCISES = [
     id: 'dead-bug',
     name: 'Dead Bug',
     targetArea: 'spine',
+    tier: 'medium',
     description: 'Trains deep core stability to support the lumbar spine against the load of sitting.',
     cues: [
       'Lie on your back, arms pointing at the ceiling, knees bent at 90 degrees in the air',
@@ -119,6 +127,7 @@ export const EXERCISES = [
     id: 'standing-backbend',
     name: 'Standing Backbend',
     targetArea: 'spine',
+    tier: 'medium',
     description: 'Decompresses the lumbar spine and counteracts the forward flexion posture of desk work.',
     cues: [
       'Stand tall, place your hands on your lower back with fingers pointing down',
@@ -133,6 +142,7 @@ export const EXERCISES = [
     id: 'seated-spinal-twist',
     name: 'Seated Spinal Twist',
     targetArea: 'spine',
+    tier: 'easy',
     description: 'Restores rotational mobility to the lumbar and thoracic spine without leaving your chair.',
     cues: [
       'Sit tall at the front of your chair, feet flat on the floor',
@@ -149,6 +159,7 @@ export const EXERCISES = [
     id: 'doorway-chest-opener',
     name: 'Doorway Chest Opener',
     targetArea: 'shoulders',
+    tier: 'medium',
     description: 'Stretches the pectoral muscles that shorten and pull the shoulders forward at a desk.',
     cues: [
       'Stand in a doorway, place forearms on the frame at 90 degrees',
@@ -163,6 +174,7 @@ export const EXERCISES = [
     id: 'shoulder-blade-squeeze',
     name: 'Shoulder Blade Squeeze',
     targetArea: 'shoulders',
+    tier: 'medium',
     description: 'Activates the mid-trapezius and rhomboids, which become inhibited in the rounded-shoulder desk posture.',
     cues: [
       'Sit or stand tall, arms at your sides',
@@ -177,6 +189,7 @@ export const EXERCISES = [
     id: 'cross-body-shoulder-stretch',
     name: 'Cross-Body Shoulder Stretch',
     targetArea: 'shoulders',
+    tier: 'easy',
     description: 'Releases the posterior shoulder capsule that tightens from sustained keyboard and mouse use.',
     cues: [
       'Bring one arm straight across your chest at shoulder height',
@@ -191,6 +204,7 @@ export const EXERCISES = [
     id: 'overhead-reach',
     name: 'Overhead Reach',
     targetArea: 'shoulders',
+    tier: 'easy',
     description: 'Restores full shoulder elevation and decompresses the thoracic spine simultaneously.',
     cues: [
       'Interlace your fingers and press your palms toward the ceiling',
@@ -205,6 +219,7 @@ export const EXERCISES = [
     id: 'wall-angels',
     name: 'Wall Angels',
     targetArea: 'shoulders',
+    tier: 'medium',
     description: 'Trains the shoulder blades to move correctly and restores thoracic extension against gravity.',
     cues: [
       'Stand with your back flat against a wall, feet 6 inches out, low back gently pressed in',
@@ -221,6 +236,7 @@ export const EXERCISES = [
     id: 'chin-tucks',
     name: 'Chin Tucks',
     targetArea: 'neck',
+    tier: 'easy',
     description: 'Corrects forward head posture (tech neck) by retraining the deep cervical flexors.',
     cues: [
       'Sit or stand tall, eyes forward',
@@ -235,6 +251,7 @@ export const EXERCISES = [
     id: 'lateral-neck-stretch',
     name: 'Lateral Neck Stretch',
     targetArea: 'neck',
+    tier: 'easy',
     description: 'Releases the upper trapezius and scalene muscles that become chronically tight from screen tension.',
     cues: [
       'Sit tall, reach one hand under your thigh or hold the seat to anchor the shoulder down',
@@ -249,6 +266,7 @@ export const EXERCISES = [
     id: 'levator-scapulae-stretch',
     name: 'Levator Scapulae Stretch',
     targetArea: 'neck',
+    tier: 'easy',
     description: 'Targets the muscle running from the neck to the shoulder blade, a common source of desk-related neck pain.',
     cues: [
       'Sit tall, rotate your head 45 degrees to one side',
@@ -263,6 +281,7 @@ export const EXERCISES = [
     id: 'neck-rolls',
     name: 'Neck Rolls',
     targetArea: 'neck',
+    tier: 'easy',
     description: 'Improves cervical mobility and releases accumulated tension from sustained screen time.',
     cues: [
       'Drop your chin to your chest and slowly roll your head to one shoulder',
@@ -279,6 +298,7 @@ export const EXERCISES = [
     id: 'wrist-flexor-stretch',
     name: 'Wrist Flexor Stretch',
     targetArea: 'wrists',
+    tier: 'easy',
     description: 'Lengthens the forearm flexors that tighten from hours of typing and mouse use.',
     cues: [
       'Extend one arm forward, palm up',
@@ -293,6 +313,7 @@ export const EXERCISES = [
     id: 'wrist-extensor-stretch',
     name: 'Wrist Extensor Stretch',
     targetArea: 'wrists',
+    tier: 'easy',
     description: 'Releases the forearm extensors, which are often overlooked but contribute to lateral elbow pain.',
     cues: [
       'Extend one arm forward, palm down, fingers pointing toward the floor',
@@ -307,6 +328,7 @@ export const EXERCISES = [
     id: 'prayer-stretch',
     name: 'Prayer Stretch',
     targetArea: 'wrists',
+    tier: 'easy',
     description: 'Stretches the wrist flexors bilaterally and gently loads the carpal tunnel structures.',
     cues: [
       'Press your palms together in front of your chest at heart height',
@@ -321,6 +343,7 @@ export const EXERCISES = [
     id: 'forearm-supination',
     name: 'Forearm Supination and Pronation',
     targetArea: 'wrists',
+    tier: 'easy',
     description: 'Restores forearm rotation mobility that becomes restricted from sustained keyboard posture.',
     cues: [
       'Hold your elbow at 90 degrees at your side, upper arm against your ribcage',
@@ -335,6 +358,7 @@ export const EXERCISES = [
     id: 'wrist-circles',
     name: 'Wrist Circles',
     targetArea: 'wrists',
+    tier: 'easy',
     description: 'Maintains full wrist mobility and lubricates the joint after sustained static gripping.',
     cues: [
       'Extend both arms forward, hands loosely fisted',
@@ -344,5 +368,111 @@ export const EXERCISES = [
     quickDuration: 90,
     fullDuration: 300,
     illustration: 'wrist-circles.svg'
+  },
+
+  // --- HARD TIER: heart-rate movers ---
+  {
+    id: 'bodyweight-squats',
+    name: 'Bodyweight Squats',
+    targetArea: 'hips',
+    tier: 'hard',
+    description: 'Fires the largest muscles in your body to spike circulation and re-energize your legs.',
+    cues: [
+      'Feet shoulder-width apart, toes slightly out',
+      'Sit your hips back and down like reaching for a low chair',
+      'Drive through your heels to stand tall, squeezing your glutes at the top'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'bodyweight-squats.svg'
+  },
+  {
+    id: 'desk-pushups',
+    name: 'Desk Pushups',
+    targetArea: 'shoulders',
+    tier: 'hard',
+    description: 'Builds pressing strength and wakes up your chest and arms using nothing but your desk.',
+    cues: [
+      'Hands on the desk edge, slightly wider than shoulders, body in a straight line',
+      'Lower your chest toward the desk with elbows at 45 degrees',
+      'Press back up without letting your hips sag'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'desk-pushups.svg'
+  },
+  {
+    id: 'jumping-jacks',
+    name: 'Jumping Jacks',
+    targetArea: 'cardio',
+    tier: 'hard',
+    description: 'A full-body classic that raises your heart rate fast and shakes off desk stiffness everywhere at once.',
+    cues: [
+      'Start standing, arms at your sides',
+      'Jump feet wide while sweeping your arms overhead',
+      'Land softly on the balls of your feet and keep a steady rhythm'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'jumping-jacks.svg'
+  },
+  {
+    id: 'high-knees',
+    name: 'High Knees',
+    targetArea: 'cardio',
+    tier: 'hard',
+    description: 'Drives your heart rate up and re-activates the hip flexors in the opposite direction sitting locks them.',
+    cues: [
+      'Run in place, driving each knee up toward hip height',
+      'Stay light on the balls of your feet',
+      'Pump your arms and keep your chest tall'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'high-knees.svg'
+  },
+  {
+    id: 'alternating-lunges',
+    name: 'Alternating Lunges',
+    targetArea: 'hips',
+    tier: 'hard',
+    description: 'Strengthens each leg independently and stretches the hip flexors under load.',
+    cues: [
+      'Step one foot forward and lower until both knees reach 90 degrees',
+      'Keep your front knee over your ankle, not past your toes',
+      'Push back to standing and switch legs each rep'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'alternating-lunges.svg'
+  },
+  {
+    id: 'wall-sit',
+    name: 'Wall Sit',
+    targetArea: 'hips',
+    tier: 'hard',
+    description: 'An isometric burner that builds leg endurance and posture strength with zero movement.',
+    cues: [
+      'Back flat against a wall, slide down until knees reach 90 degrees',
+      'Keep your weight in your heels and knees over ankles',
+      'Breathe steadily and hold; rest and repeat when your legs shake'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'wall-sit.svg'
+  },
+  {
+    id: 'stair-climbs',
+    name: 'Stair Climbs',
+    targetArea: 'cardio',
+    tier: 'hard',
+    description: 'Turns any staircase into a cardio machine that pumps blood back up from your lower legs.',
+    cues: [
+      'Climb at a steady pace, driving through each whole foot',
+      'Use the descent as active recovery',
+      'No stairs handy? Step up and down on one sturdy step instead'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'stair-climbs.svg'
+  },
+  {
+    id: 'mountain-climbers',
+    name: 'Mountain Climbers',
+    targetArea: 'spine',
+    tier: 'hard',
+    description: 'Combines core stability with cardio by driving your knees while your trunk holds a plank.',
+    cues: [
+      'Start in a straight-arm plank, shoulders over wrists',
+      'Drive one knee toward your chest, then switch in a running rhythm',
+      'Keep your hips level and your back flat throughout'
+    ],
+    quickDuration: 90, fullDuration: 300, illustration: 'mountain-climbers.svg'
   }
 ];
