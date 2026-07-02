@@ -26,3 +26,7 @@ export function summary() {
   console.log(`\n${passed} passed, ${failed} failed`);
   if (failed > 0) process.exit(1);
 }
+
+export function run() {
+  summary();
+}
