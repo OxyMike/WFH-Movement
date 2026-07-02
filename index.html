@@ -195,27 +195,22 @@
   </div>
 
   <!-- VIEW: Timer -->
-  <div id="view-timer" class="view" style="min-height: 100vh; background: var(--color-primary); color: var(--color-bg); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
-    <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;"></h2>
+  <div id="view-timer" class="view" style="min-height: 100vh; background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-deep) 100%); color: var(--color-card); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+    <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center; color: var(--color-card);"></h2>
 
-    <!-- Circular Pomodoro ring -->
     <div style="position: relative; margin-bottom: 1.75rem;">
-      <svg viewBox="0 0 280 280" width="220" height="220" style="display: block;">
-        <!-- Track ring -->
+      <svg viewBox="0 0 280 280" width="220" height="220" style="display: block; filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));">
         <circle cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/>
-        <!-- Progress ring (shrinks as time elapses) -->
         <circle id="timer-ring" cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="14"
-          stroke-linecap="round"
-          stroke-dasharray="753.98"
-          stroke-dashoffset="0"
-          transform="rotate(-90 140 140)"
-          style="transition: stroke-dashoffset 1s linear;"/>
+          stroke-linecap="round" stroke-dasharray="753.98" stroke-dashoffset="0"
+          transform="rotate(-90 140 140)" style="transition: stroke-dashoffset 1s linear;"/>
       </svg>
-      <!-- Countdown centered inside ring -->
-      <div id="timer-countdown" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3.25rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums;">5:00</div>
+      <div id="timer-countdown" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3.25rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; font-variant-numeric: tabular-nums;">5:00</div>
     </div>
 
-    <ul id="timer-cues" style="list-style: none; padding: 0; text-align: center; margin-bottom: 2rem; color: rgba(255,255,255,0.85); line-height: 2;"></ul>
+    <p id="timer-cue" style="text-align: center; max-width: 340px; min-height: 3.2em; margin-bottom: 2rem; font-size: 1.05rem; color: rgba(255,255,255,0.9); transition: opacity 0.4s ease;"></p>
+
+    <div id="timer-complete-flash" class="hidden" style="position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-primary-deep); font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; color: var(--color-card); z-index: 50;">Nice work 🎉</div>
 
     <button id="btn-skip-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Skip</button>
   </div>

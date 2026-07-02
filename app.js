@@ -11,6 +11,7 @@ let activeTimer = null;
 let reminderEngine = null;
 let countdownInterval = null;
 let halfwayPlayed = false;
+let cueInterval = null;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -138,13 +139,20 @@ function launchTimer(exercise, durationSeconds) {
   showView('timer');
   document.getElementById('timer-exercise-name').textContent = exercise.name;
 
-  const cuesEl = document.getElementById('timer-cues');
-  cuesEl.innerHTML = '';
-  (exercise.cues || []).forEach(cue => {
-    const li = document.createElement('li');
-    li.textContent = cue;
-    cuesEl.appendChild(li);
-  });
+  const cues = exercise.cues || [];
+  let cueIndex = 0;
+  const cueEl = document.getElementById('timer-cue');
+  cueEl.textContent = cues[0] || '';
+  if (cueInterval) clearInterval(cueInterval);
+  cueInterval = setInterval(() => {
+    cueIndex = (cueIndex + 1) % Math.max(cues.length, 1);
+    cueEl.style.opacity = '0';
+    setTimeout(() => {
+      cueEl.textContent = cues[cueIndex] || '';
+      cueEl.style.opacity = '1';
+    }, 400);
+  }, 8000);
+  document.getElementById('timer-complete-flash').classList.add('hidden');
 
   if (activeTimer) activeTimer.stop();
   halfwayPlayed = false;
@@ -165,12 +173,17 @@ function launchTimer(exercise, durationSeconds) {
     function onComplete() {
       playTone(659, 300);
       setTimeout(() => playTone(784, 400), 350);
-      setTimeout(() => completeBreak(currentExercise), 750);
+      document.getElementById('timer-complete-flash').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('timer-complete-flash').classList.add('hidden');
+        completeBreak(currentExercise);
+      }, 1500);
     }
   );
 }
 
 function completeBreak(exercise) {
+  if (cueInterval) { clearInterval(cueInterval); cueInterval = null; }
   logBreak(exercise.id, exercise.targetArea);
   showView('dashboard');
   document.getElementById('dashboard-active').classList.add('hidden');
