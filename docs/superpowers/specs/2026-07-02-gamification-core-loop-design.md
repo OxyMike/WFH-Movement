@@ -69,7 +69,7 @@ The completion flash becomes a reward card (same 1.5 s minimum, extends to ~2.5 
 - `rotation.js`: `suggestExercise(lastTargetArea, excludeId, tier)` — tier param filters first.
 - `storage.js`: game state (`{ xp: 0 }`) stored under a `game` key inside the existing `wfh-movement` localStorage object; absent key defaults to zero XP (no migration needed). Level is always derived from XP, never stored.
 - `app.js` + `index.html`: choice card markup, snooze wiring, reward card, dashboard level display, notification action routing.
-- `reminder.js`: gains a `snooze(minutes)` capability (or app.js schedules a one-off 15-minute timeout that calls triggerBreak; whichever the plan finds cleaner without breaking the frozen reminder engine's tests).
+- Snooze: app.js schedules a one-off 15-minute `setTimeout` that calls `triggerBreak()`. reminder.js stays frozen and unaware of snoozes; its normal schedule continues independently.
 - `service-worker.js`: notification actions array + tier routing in notificationclick; cache bump to `wfh-movement-v5`.
 - Timer.js stays frozen.
 
