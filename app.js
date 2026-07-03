@@ -1,10 +1,12 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit } from './storage.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString } from './storage.js';
 import { suggestExercise } from './rotation.js';
 import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
-import { TIER_DURATION, awardBreak, getProgress } from './game.js';
+import { TIER_DURATION, awardBreak, awardQuestBonus, getProgress } from './game.js';
+import { getTodaysQuests, evaluateQuests } from './quests.js';
+import { getSittingMinutes, recordDaySummary } from './insights.js';
 
 // Module-level state
 let currentExercise = null;
@@ -66,6 +68,81 @@ function updateLevelDisplay() {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Quests, shield, sitting timer
+// ---------------------------------------------------------------------------
+
+function todayDateString() {
+  return localDateString();
+}
+
+function refreshQuests() {
+  const settings = getSettings();
+  const quests = getTodaysQuests(todayDateString(), settings);
+  const strip = document.getElementById('quest-strip');
+  if (quests.length === 0) { strip.classList.add('hidden'); return; }
+  strip.classList.remove('hidden');
+
+  const record = getTodayRecord();
+  const evals = evaluateQuests(record, quests, settings);
+  const cardsEl = document.getElementById('quest-cards');
+  cardsEl.innerHTML = '';
+  evals.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'padding: 0.9rem;';
+    card.innerHTML = `
+      <div style="font-weight: 700; font-size: 0.9rem;">${q.completed ? '✅ ' : ''}${q.title}</div>
+      <div class="text-muted" style="font-size: 0.8rem; margin-top: 0.25rem;">${q.progress}/${q.target} · +${q.bonusXp} XP</div>`;
+    cardsEl.appendChild(card);
+  });
+}
+
+function awardNewQuestCompletions() {
+  const settings = getSettings();
+  const quests = getTodaysQuests(todayDateString(), settings);
+  if (quests.length === 0) return;
+  const record = getTodayRecord();
+  const done = new Set(record.questsDone || []);
+  const evals = evaluateQuests(record, quests, settings);
+  evals.filter(q => q.completed && !done.has(q.id)).forEach(q => {
+    done.add(q.id);
+    const r = awardQuestBonus(q.bonusXp);
+    showXpToast(`Quest complete: ${q.title} +${q.bonusXp} XP${r.leveledUp ? ` · Level ${r.level}!` : ''}`);
+  });
+  record.questsDone = [...done];
+  saveState({ ...(getState() || {}), today: record });
+}
+
+let toastTimeout = null;
+function showXpToast(text) {
+  const toast = document.getElementById('xp-toast');
+  toast.textContent = text;
+  toast.classList.remove('hidden');
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.add('hidden'), 3000);
+}
+
+function updateShieldAndSitting() {
+  const h = getStreak();
+  document.getElementById('shield-chip').classList.toggle('hidden', !h.shieldHeld);
+  const note = document.getElementById('shield-note');
+  if (h.shieldUsedFor) {
+    const weekday = new Date(h.shieldUsedFor + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long' });
+    note.textContent = `your shield covered ${weekday}, streak safe`;
+    note.classList.remove('hidden');
+    acknowledgeShieldUse();
+  }
+  const mins = getSittingMinutes(new Date(), getSettings(), getTodayRecord());
+  const line = document.getElementById('sitting-line');
+  if (mins === null) {
+    line.classList.add('hidden');
+  } else {
+    line.textContent = `Sitting for ${mins} min (since your last break)`;
+    line.classList.remove('hidden');
+  }
+}
+
 function startCountdownDisplay() {
   if (countdownInterval) clearInterval(countdownInterval);
 
@@ -74,6 +151,8 @@ function startCountdownDisplay() {
     const now = new Date();
     const countdownEl = document.getElementById('next-break-countdown');
     const labelEl = document.getElementById('next-break-label');
+
+    updateShieldAndSitting();
 
     if (!isWithinWorkWindow(settings, now)) {
       countdownEl.textContent = '--:--';
@@ -106,6 +185,8 @@ function startApp() {
   updateDashboardStats();
   updateLevelDisplay();
   startCountdownDisplay();
+  refreshQuests();
+  updateShieldAndSitting();
 
   if (reminderEngine) reminderEngine.stop();
   reminderEngine = startReminderEngine(triggerBreak);
@@ -229,12 +310,16 @@ function launchTimer(exercise, durationSeconds) {
 
 function completeBreak(exercise) {
   if (cueInterval) { clearInterval(cueInterval); cueInterval = null; }
-  logBreak(exercise.id, exercise.targetArea);
+  logBreak(exercise.id, exercise.targetArea, currentTier);
+  recordDaySummary({ date: todayDateString(), tier: currentTier, targetArea: exercise.targetArea });
+  awardNewQuestCompletions();
+  refreshQuests();
   showView('dashboard');
   document.getElementById('dashboard-active').classList.add('hidden');
   document.getElementById('dashboard-idle').classList.remove('hidden');
   updateDashboardStats();
   updateLevelDisplay();
+  updateShieldAndSitting();
   currentTier = null;
 }
 
@@ -277,6 +362,9 @@ function openSettingsModal() {
   listEl.innerHTML = '';
   (settings.fixedTimes || []).forEach(t => addTimeChip(t, listEl, settingsFixedTimes));
 
+  const workDays = settings.workDays || [1, 2, 3, 4, 5];
+  for (let d = 0; d < 7; d++) document.getElementById('s-wd-' + d).checked = workDays.includes(d);
+
   // Toggle visible options
   const mode = settings.reminderMode;
   document.getElementById('s-interval-options').classList.toggle('hidden', mode === 'fixed');
@@ -296,7 +384,8 @@ function saveSettingsFromModal() {
     reminderMode: document.getElementById('s-reminder-mode').value,
     intervalMinutes: parseInt(document.getElementById('s-interval-minutes').value, 10),
     fixedTimes: [...settingsFixedTimes],
-    defaultBreakLength: document.getElementById('s-default-break').value
+    defaultBreakLength: document.getElementById('s-default-break').value,
+    workDays: [0, 1, 2, 3, 4, 5, 6].filter(d => document.getElementById('s-wd-' + d).checked)
   };
   saveSettings(settings);
   closeSettingsModal();
@@ -305,6 +394,7 @@ function saveSettingsFromModal() {
   if (reminderEngine) reminderEngine.stop();
   reminderEngine = startReminderEngine(triggerBreak);
   startCountdownDisplay();
+  refreshQuests();
 }
 
 // ---------------------------------------------------------------------------

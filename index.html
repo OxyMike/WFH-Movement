@@ -154,10 +154,13 @@
               <div style="display: flex; align-items: baseline; gap: 0.25rem; justify-content: center;">
                 <span style="font-size: 1.2rem;">🔥</span>
                 <span id="stat-streak" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent);">0</span>
+                <span id="shield-chip" class="hidden" title="Streak shield: covers one missed workday">🛡️</span>
               </div>
               <p class="text-muted" style="font-size: 0.8rem;">day streak</p>
             </div>
           </div>
+
+          <p id="sitting-line" class="text-muted hidden" style="font-size: 0.85rem; margin-top: 0.75rem;"></p>
 
           <div class="mt-6" style="text-align: left;">
             <div class="flex items-center justify-between" style="margin-bottom: 0.3rem;">
@@ -178,6 +181,12 @@
         <div id="dashboard-why" class="hidden card mt-4">
           <h3 style="margin-bottom: 0.75rem;">Why breaks matter</h3>
           <p>Within one hour of sitting, your circulation drops by half, your metabolism slows, and your muscles stop clearing sugar from your blood. Your evening workout can't undo it. The fix is simple: two minutes of movement for every hour in the chair, and that's exactly what your nudges are for.</p>
+        </div>
+
+        <p id="shield-note" class="text-muted text-center hidden mt-4" style="font-size: 0.85rem;"></p>
+        <div id="quest-strip" class="hidden mt-6">
+          <h3 style="font-size: 1rem; margin-bottom: 0.6rem;">Today's quests</h3>
+          <div id="quest-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;"></div>
         </div>
       </div>
 
@@ -283,10 +292,25 @@
         </select>
       </div>
 
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-weight: 700; margin-bottom: 0.4rem;">Your workdays</label>
+        <div id="s-workdays" class="flex gap-4" style="flex-wrap: wrap;">
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-0"> Sun</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-1"> Mon</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-2"> Tue</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-3"> Wed</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-4"> Thu</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-5"> Fri</label>
+          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-6"> Sat</label>
+        </div>
+      </div>
+
       <button id="btn-save-settings" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">Save settings</button>
       <button id="btn-reset-data" class="btn btn-full" style="background: var(--color-panel-red-bg); color: var(--color-panel-red-text); border: 1px solid var(--color-panel-red-border);">Reset all data</button>
     </div>
   </div>
+
+  <div id="xp-toast" class="hidden" style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--color-primary); color: var(--color-card); padding: 0.6rem 1.25rem; border-radius: 999px; font-family: var(--font-heading); font-weight: 700; box-shadow: var(--shadow-card); z-index: 60;"></div>
 
   <script type="module" src="app.js"></script>
 </body>
