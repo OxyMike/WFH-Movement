@@ -408,8 +408,9 @@ if ('serviceWorker' in navigator) {
 document.getElementById('btn-start-setup-hero').addEventListener('click', () => showView('onboarding'));
 document.getElementById('btn-start-setup-bottom').addEventListener('click', () => showView('onboarding'));
 
-const tierParam = new URLSearchParams(window.location.search).get('tier');
-if (tierParam && ['easy', 'medium', 'hard'].includes(tierParam) && !isFirstVisit()) {
+const rawTierParam = new URLSearchParams(window.location.search).get('tier');
+const tierParam = ['easy', 'medium', 'hard'].includes(rawTierParam) ? rawTierParam : null;
+if (tierParam && !isFirstVisit()) {
   startApp();
   startTierBreak(tierParam);
 }

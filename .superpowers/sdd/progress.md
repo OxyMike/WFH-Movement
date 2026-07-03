@@ -22,3 +22,13 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 4: Timer screen warmth (commits b52fb4d..6ba0c3c, review clean — Minor: cue interval runs on empty cues array; skip-vs-flash asymmetry intentional)
 - [x] Task 5: Cache bump + em dash cleanup, final review clean, shipped
 
+
+## Gamification Core Loop (plan: docs/superpowers/plans/2026-07-02-gamification-core-loop.md)
+
+- [x] Task 1: game.js module (commits a748bb5..5a0a9ae, review approved — Important-process: undisclosed additive run.js export; inline localStorage mock instead of shared stub. Minor: BUFF_COPY unused yet)
+- [x] Task 2: Exercise tiers + 8 hard exercises (commits 5a0a9ae..abdd3d5, review clean — Minor: test name "all five target areas" stale now that cardio makes six)
+- [x] Task 3: Rotation tier filter (commits abdd3d5..82e1a9f, review clean — Minor: RED evidence paraphrased not pasted)
+- [x] Task 4: Choice card and one-tap flow (commits 82e1a9f..0423d62, review clean — Minor: currentTier never reset between breaks, harmless but Task 5+ could add defensive reset)
+- [x] Task 5: XP award, reward card, dashboard progress (commits 0423d62..9627e20, review clean — controller verified flash-hide at launchTimer app.js:161)
+- [x] Task 6: Notification actions, cache v5 + shipped (commits 9627e20..fd0de5e, review approved — boot guard traced through all four tierParam×firstVisit combos clean; Important: mid-session SW message path relies on Task 4 contract, cover in manual pass)
+
