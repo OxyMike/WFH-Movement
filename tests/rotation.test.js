@@ -38,4 +38,23 @@ test('suggestExercise satisfies both area and excludeId constraints together', (
   }
 });
 
+test('suggestExercise with tier returns only that tier', () => {
+  for (let i = 0; i < 20; i++) {
+    const ex = suggestExercise(null, null, 'hard');
+    if (ex.tier !== 'hard') throw new Error(`got ${ex.tier} exercise: ${ex.id}`);
+  }
+});
+
+test('suggestExercise avoids lastTargetArea within tier when possible', () => {
+  for (let i = 0; i < 20; i++) {
+    const ex = suggestExercise('hips', null, 'hard');
+    if (ex.targetArea === 'hips') throw new Error('did not avoid hips within hard tier');
+  }
+});
+
+test('suggestExercise without tier still works (backward compatible)', () => {
+  const ex = suggestExercise('hips', null);
+  if (!ex || !ex.id) throw new Error('two-arg call broke');
+});
+
 summary();
