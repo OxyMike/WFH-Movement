@@ -4,7 +4,7 @@ import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAl
 import { suggestExercise } from './rotation.js';
 import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
-import { TIER_DURATION } from './game.js';
+import { TIER_DURATION, awardBreak, getProgress } from './game.js';
 
 // Module-level state
 let currentExercise = null;
@@ -52,6 +52,20 @@ function updateDashboardStats() {
   document.getElementById('stat-streak').textContent = getStreak().streak;
 }
 
+function updateLevelDisplay() {
+  const p = getProgress();
+  document.getElementById('dash-level-title').textContent = `Level ${p.level} · ${p.title}`;
+  const label = document.getElementById('dash-xp-label');
+  const fill = document.getElementById('dash-xp-bar-fill');
+  if (p.xpForNext === null) {
+    label.textContent = `${p.xp} XP · max level`;
+    fill.style.width = '100%';
+  } else {
+    label.textContent = `${p.xpIntoLevel} / ${p.xpForNext} XP`;
+    fill.style.width = `${Math.min(100, (p.xpIntoLevel / p.xpForNext) * 100)}%`;
+  }
+}
+
 function startCountdownDisplay() {
   if (countdownInterval) clearInterval(countdownInterval);
 
@@ -90,6 +104,7 @@ function startApp() {
   showView('dashboard');
   updateGreeting();
   updateDashboardStats();
+  updateLevelDisplay();
   startCountdownDisplay();
 
   if (reminderEngine) reminderEngine.stop();
@@ -164,11 +179,29 @@ function launchTimer(exercise, durationSeconds) {
     function onComplete() {
       playTone(659, 300);
       setTimeout(() => playTone(784, 400), 350);
+
+      const result = awardBreak(currentTier);
+      document.getElementById('reward-xp').textContent = `+${result.xpGained} XP`;
+      const p = getProgress();
+      const barFill = document.getElementById('reward-bar-fill');
+      barFill.style.width = '0%';
+      const levelupEl = document.getElementById('reward-levelup');
+      if (result.leveledUp) {
+        levelupEl.textContent = `Level ${result.level} unlocked: ${result.title}`;
+        levelupEl.classList.remove('hidden');
+        setTimeout(() => playTone(880, 400), 750);
+      } else {
+        levelupEl.classList.add('hidden');
+      }
       document.getElementById('timer-complete-flash').classList.remove('hidden');
+      requestAnimationFrame(() => {
+        barFill.style.width = p.xpForNext === null ? '100%' : `${Math.min(100, (p.xpIntoLevel / p.xpForNext) * 100)}%`;
+      });
+      const holdMs = result.leveledUp ? 2500 : 1500;
       setTimeout(() => {
         document.getElementById('timer-complete-flash').classList.add('hidden');
         completeBreak(currentExercise);
-      }, 1500);
+      }, holdMs);
     }
   );
 }
@@ -180,6 +213,8 @@ function completeBreak(exercise) {
   document.getElementById('dashboard-active').classList.add('hidden');
   document.getElementById('dashboard-idle').classList.remove('hidden');
   updateDashboardStats();
+  updateLevelDisplay();
+  currentTier = null;
 }
 
 // ---------------------------------------------------------------------------
