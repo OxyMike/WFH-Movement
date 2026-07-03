@@ -53,6 +53,22 @@ export function awardBreak(tier) {
   };
 }
 
+export function awardQuestBonus(xp) {
+  const prevXp = currentXp();
+  const totalXp = prevXp + xp;
+  const state = getState() || {};
+  state.game = { xp: totalXp };
+  saveState(state);
+  const level = levelForXp(totalXp);
+  return {
+    xpGained: xp,
+    totalXp,
+    level,
+    leveledUp: level > levelForXp(prevXp),
+    title: LEVELS[level - 1].title
+  };
+}
+
 export function getProgress() {
   const xp = currentXp();
   const level = levelForXp(xp);

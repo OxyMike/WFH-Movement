@@ -1,5 +1,5 @@
 import { test, run } from './run.js';
-import { TIER_XP, TIER_DURATION, LEVELS, levelForXp, awardBreak, getProgress } from '../game.js';
+import { TIER_XP, TIER_DURATION, LEVELS, levelForXp, awardBreak, getProgress, awardQuestBonus } from '../game.js';
 import { resetAll } from '../storage.js';
 
 // Mock localStorage for Node environment
@@ -55,6 +55,15 @@ test('getProgress at level 10 has null xpForNext', () => {
   for (let i = 0; i < 92; i++) awardBreak('hard'); // 3220 xp
   const p = getProgress();
   if (p.level !== 10 || p.xpForNext !== null) throw new Error('level 10 should have null xpForNext');
+});
+
+test('awardQuestBonus adds XP and reports level-up', () => {
+  resetAll();
+  awardBreak('hard'); // 35
+  const r = awardQuestBonus(20);
+  if (r.xpGained !== 20 || r.totalXp !== 55) throw new Error('bad bonus math');
+  const r2 = awardQuestBonus(50); // 105 total -> level 2
+  if (r2.level !== 2 || !r2.leveledUp) throw new Error('bonus should trigger level-up');
 });
 
 run();
