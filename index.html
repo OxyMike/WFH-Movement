@@ -15,78 +15,105 @@
 
   <!-- VIEW: Landing (first visit) -->
   <div id="view-landing" class="view">
-    <div class="container text-center" style="padding-top: 4rem; padding-bottom: 2rem;">
-      <h1 style="font-size: 2.75rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.75rem;">WFH Movement</h1>
-      <p style="font-size: 1.25rem; max-width: 480px; margin: 0 auto 2rem;">Your body wasn't built to sit all day. Two minutes an hour fixes more than you think.</p>
-      <button id="btn-start-setup-hero" class="btn btn-accent" style="font-size: 1.1rem; padding: 0.85rem 2.25rem;">Start moving</button>
+    <div class="container hero-section">
+      <h1 class="hero-title">WFH Movement</h1>
+      <p class="hero-subtitle">Your body wasn't built to sit all day. Two minutes an hour fixes more than you think.</p>
+      <button id="btn-start-setup-hero" class="btn btn-accent">Start moving</button>
     </div>
 
-    <div class="container" style="padding-bottom: 2rem;">
-      <div class="card">
-        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">What one hour of sitting does</h2>
-        <ul style="list-style: none; line-height: 2.1;">
-          <li>🩸 Circulation drops by half, blood pools in your lower legs</li>
-          <li>🔥 Your metabolism slides into energy-saving mode</li>
-          <li>🧈 The enzyme that burns fat in your bloodstream switches off</li>
-          <li>🍬 Your muscles stop clearing sugar from your blood</li>
-          <li>🦴 Pressure on your spinal discs climbs higher than standing</li>
+    <div class="container" style="padding-bottom: 3rem;">
+      <div class="card fact-card">
+        <h2 style="font-size: 1.35rem; margin-bottom: 1.25rem;">What one hour of sitting does</h2>
+        <ul style="list-style: none; line-height: 2;">
+          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🩸 Circulation drops by half, blood pools in your lower legs</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🔥 Your metabolism slides into energy-saving mode</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🧈 The enzyme that burns fat in your bloodstream switches off</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🍬 Your muscles stop clearing sugar from your blood</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🦴 Pressure on your spinal discs climbs higher than standing</li>
         </ul>
-        <details style="margin-top: 1rem;">
-          <summary style="cursor: pointer; font-weight: 700; color: var(--color-primary);">See what long-term sitting does</summary>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-            <div style="background: var(--color-panel-sage); border-radius: 12px; padding: 1rem;">
-              <h4 style="margin-bottom: 0.5rem;">Heart</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem;"><li>54% higher heart attack risk</li><li>Stiffened arteries</li><li>Plaque buildup</li></ul>
+        <details style="margin-top: 1.5rem;">
+          <summary class="details-summary">See what long-term sitting does</summary>
+          <div class="sitting-info-grid">
+            <div class="sitting-info-card sitting-info-card-sage">
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-primary-deep);">Heart</h4>
+              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
+                <li>54% higher heart attack risk</li>
+                <li>Stiffened arteries</li>
+                <li>Plaque buildup</li>
+              </ul>
             </div>
-            <div style="background: var(--color-panel-peach); border-radius: 12px; padding: 1rem;">
-              <h4 style="margin-bottom: 0.5rem;">Metabolism</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem;"><li>Chronic high blood pressure</li><li>Midsection weight gain</li><li>Type 2 diabetes</li></ul>
+            <div class="sitting-info-card sitting-info-card-peach">
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-accent-deep);">Metabolism</h4>
+              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
+                <li>Chronic high blood pressure</li>
+                <li>Midsection weight gain</li>
+                <li>Type 2 diabetes</li>
+              </ul>
             </div>
-            <div style="background: var(--color-panel-cream); border-radius: 12px; padding: 1rem;">
-              <h4 style="margin-bottom: 0.5rem;">Muscles and bones</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem;"><li>Gluteal muscle wasting</li><li>Bone mineral loss</li><li>Early disc degeneration</li></ul>
+            <div class="sitting-info-card sitting-info-card-cream">
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-text-heading);">Muscles and bones</h4>
+              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
+                <li>Gluteal muscle wasting</li>
+                <li>Bone mineral loss</li>
+                <li>Early disc degeneration</li>
+              </ul>
             </div>
-            <div style="background: var(--color-panel-sage); border-radius: 12px; padding: 1rem;">
-              <h4 style="margin-bottom: 0.5rem;">Veins</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem;"><li>Varicose veins</li><li>Deep vein blood clots</li></ul>
+            <div class="sitting-info-card sitting-info-card-sage">
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-primary-deep);">Veins</h4>
+              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
+                <li>Varicose veins</li>
+                <li>Deep vein blood clots</li>
+              </ul>
             </div>
           </div>
-          <p style="margin-top: 1rem; font-size: 0.95rem;">Your evening workout can't undo it either. The damage happens hour by hour, so the fix has to happen hour by hour too.</p>
+          <p style="margin-top: 1.25rem; font-size: 0.95rem; line-height: 1.6; color: var(--color-text-body);">Your evening workout can't undo it either. The damage happens hour by hour, so the fix has to happen hour by hour too.</p>
         </details>
       </div>
 
       <div class="card mt-6 text-center">
-        <h2 style="font-size: 1.2rem; margin-bottom: 1.25rem;">How it works</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;">
-          <div><div style="font-size: 2rem;">🕘</div><p style="font-weight: 700;">Set your hours</p><p class="text-muted" style="font-size: 0.9rem;">Tell us when your workday runs</p></div>
-          <div><div style="font-size: 2rem;">👋</div><p style="font-weight: 700;">Get gentle nudges</p><p class="text-muted" style="font-size: 0.9rem;">A friendly reminder, never a nag</p></div>
-          <div><div style="font-size: 2rem;">🤸</div><p style="font-weight: 700;">Move for 2 minutes</p><p class="text-muted" style="font-size: 0.9rem;">PT-picked moves that undo the chair</p></div>
+        <h2 style="font-size: 1.35rem; margin-bottom: 1.5rem;">How it works</h2>
+        <div class="how-it-works-grid">
+          <div class="how-it-works-step">
+            <div class="how-it-works-icon">9️⃣</div>
+            <div class="how-it-works-title">Set your hours</div>
+            <p class="text-muted" style="font-size: 0.9rem;">Tell us when your workday runs</p>
+          </div>
+          <div class="how-it-works-step">
+            <div class="how-it-works-icon">👋</div>
+            <div class="how-it-works-title">Get gentle nudges</div>
+            <p class="text-muted" style="font-size: 0.9rem;">A friendly reminder, never a nag</p>
+          </div>
+          <div class="how-it-works-step">
+            <div class="how-it-works-icon">🤸</div>
+            <div class="how-it-works-title">Move for 2 minutes</div>
+            <p class="text-muted" style="font-size: 0.9rem;">PT-picked moves that undo the chair</p>
+          </div>
         </div>
-        <button id="btn-start-setup-bottom" class="btn btn-accent mt-6" style="font-size: 1.1rem; padding: 0.85rem 2.25rem;">Start moving</button>
+        <button id="btn-start-setup-bottom" class="btn btn-accent mt-6">Start moving</button>
       </div>
     </div>
   </div>
 
   <!-- VIEW: Onboarding -->
   <div id="view-onboarding" class="view">
-    <div class="container text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
-      <h1 style="font-size: 2rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">Let's set you up</h1>
-      <p class="text-muted" style="margin-bottom: 2rem;">Three quick questions and you're moving</p>
+    <div class="container text-center" style="padding: 4rem 0 3rem;">
+      <h1 style="font-size: 2.25rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">Let's set you up</h1>
+      <p class="text-muted" style="margin-bottom: 2.5rem; font-size: 1.1rem;">Three quick questions and you're moving</p>
       <div class="card" style="max-width: 480px; margin: 0 auto; text-align: left;">
         <form id="onboarding-form">
 
           <div style="margin-bottom: 1.25rem;">
-            <label for="work-start" style="display: block; font-weight: 700; margin-bottom: 0.4rem;">When does your workday start?</label>
+            <label for="work-start">When does your workday start?</label>
             <input type="time" id="work-start" value="08:00" class="input">
           </div>
 
           <div style="margin-bottom: 1.25rem;">
-            <label for="work-end" style="display: block; font-weight: 700; margin-bottom: 0.4rem;">And when does it wrap up?</label>
+            <label for="work-end">And when does it wrap up?</label>
             <input type="time" id="work-end" value="17:00" class="input">
           </div>
 
           <div style="margin-bottom: 1.25rem;">
-            <label for="reminder-mode" style="display: block; font-weight: 700; margin-bottom: 0.4rem;">How should we nudge you?</label>
+            <label for="reminder-mode">How should we nudge you?</label>
             <select id="reminder-mode" class="input">
               <option value="interval">Every X minutes - recommended</option>
               <option value="fixed">At specific times I choose</option>
@@ -94,7 +121,7 @@
           </div>
 
           <div id="interval-options" style="margin-bottom: 1.25rem;">
-            <label for="interval-minutes" style="display: block; font-weight: 700; margin-bottom: 0.4rem;">Remind me every</label>
+            <label for="interval-minutes">Remind me every</label>
             <select id="interval-minutes" class="input">
               <option value="30">30 minutes</option>
               <option value="45" selected>45 minutes</option>
@@ -104,7 +131,7 @@
           </div>
 
           <div id="fixed-options" class="hidden" style="margin-bottom: 1.25rem;">
-            <label style="display: block; font-weight: 700; margin-bottom: 0.4rem;">Break times</label>
+            <label>Break times</label>
             <div id="fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
             <div class="flex gap-4" style="align-items: center;">
               <input type="time" id="fixed-time-input" class="input" style="flex: 1;">
@@ -113,7 +140,7 @@
           </div>
 
           <div style="margin-bottom: 2rem;">
-            <label for="default-break" style="display: block; font-weight: 700; margin-bottom: 0.4rem;">How long is a good break for you?</label>
+            <label for="default-break">How long is a good break for you?</label>
             <select id="default-break" class="input">
               <option value="quick">Quick - 90 seconds</option>
               <option value="full" selected>Full - 5 minutes</option>
@@ -128,171 +155,179 @@
 
   <!-- VIEW: Dashboard -->
   <div id="view-dashboard" class="view">
-    <header style="padding: 1.25rem 0;">
-      <div class="container flex items-center justify-between">
+    <header>
+      <div class="container flex items-center justify-between" style="padding: 1rem 0;">
         <span style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--color-primary);">WFH Movement</span>
         <button id="btn-open-settings" class="btn btn-ghost btn-sm">Settings</button>
       </div>
     </header>
 
-    <div class="container" style="padding-bottom: 2rem;">
-      <h1 id="dashboard-greeting" style="font-size: 1.5rem; margin-bottom: 1rem;">Good morning, let's keep you moving</h1>
+    <div class="container" style="padding-bottom: 3rem;">
+      <h1 id="dashboard-greeting">Good morning, let's keep you moving</h1>
 
       <div id="dashboard-idle">
         <div class="card text-center">
-          <p class="text-muted" style="font-size: 0.9rem;">Next nudge in</p>
-          <div id="next-break-countdown" style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">--:--</div>
-          <p id="next-break-label" class="text-muted" style="margin-top: 0.5rem;">Setting up your schedule...</p>
+          <p class="text-muted" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Next nudge in</p>
+          <div id="next-break-countdown">--:--</div>
+          <p id="next-break-label" class="text-muted" style="margin-top: 0.25rem; font-weight: 600;">Setting up your schedule...</p>
 
-          <div class="flex gap-4 mt-6" style="justify-content: center;">
-            <div class="text-center">
-              <div id="stat-today" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">0</div>
-              <p class="text-muted" style="font-size: 0.8rem;">breaks today</p>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div id="stat-today" class="stat-value">0</div>
+              <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">breaks today</p>
             </div>
-            <div style="width: 1px; background: var(--color-border);"></div>
-            <div class="text-center">
+            <div class="stat-box">
               <div style="display: flex; align-items: baseline; gap: 0.25rem; justify-content: center;">
-                <span style="font-size: 1.2rem;">🔥</span>
-                <span id="stat-streak" style="font-size: 2rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent);">0</span>
+                <span style="font-size: 1.25rem;">🔥</span>
+                <span id="stat-streak" class="stat-value">0</span>
                 <span id="shield-chip" class="hidden" title="Streak shield: covers one missed workday">🛡️</span>
               </div>
-              <p class="text-muted" style="font-size: 0.8rem;">day streak</p>
+              <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">day streak</p>
             </div>
           </div>
 
-          <p id="sitting-line" class="text-muted hidden" style="font-size: 0.85rem; margin-top: 0.75rem;"></p>
+          <p id="sitting-line" class="text-muted hidden" style="font-size: 0.9rem; margin-top: 0.75rem; font-weight: 600;"></p>
 
-          <div class="mt-6" style="text-align: left;">
-            <div class="flex items-center justify-between" style="margin-bottom: 0.3rem;">
-              <span id="dash-level-title" style="font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);"></span>
-              <span id="dash-xp-label" class="text-muted" style="font-size: 0.8rem;"></span>
+          <div class="xp-widget">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+              <span id="dash-level-title" style="font-weight: 800; font-family: var(--font-heading); color: var(--color-primary-deep);"></span>
+              <span id="dash-xp-label" class="text-muted" style="font-size: 0.85rem; font-weight: 700;"></span>
             </div>
-            <div style="width: 100%; height: 8px; background: var(--color-panel-sage); border-radius: 999px; overflow: hidden;">
-              <div id="dash-xp-bar-fill" style="width: 0%; height: 100%; background: var(--color-primary); border-radius: 999px; transition: width 0.5s ease;"></div>
+            <div class="xp-bar-container">
+              <div id="dash-xp-bar-fill" style="width: 0%; height: 100%; transition: width 0.5s ease;"></div>
             </div>
           </div>
 
-          <button id="btn-take-break-now" class="btn btn-accent btn-full mt-6">Take a break now</button>
+          <button id="btn-take-break-now" class="btn btn-accent btn-full" style="margin-top: 1.5rem;">Take a break now</button>
         </div>
 
-        <p class="text-center mt-6">
-          <a id="link-why" href="#" style="color: var(--color-text-muted); font-size: 0.9rem;">Why breaks matter</a>
-          <a id="link-progress" href="#" style="color: var(--color-text-muted); font-size: 0.9rem; margin-left: 1rem;">See your progress</a>
+        <p class="text-center" style="margin-top: 2rem;">
+          <a id="link-why" href="#" class="dashboard-link" style="margin-right: 1.25rem;">Why breaks matter</a>
+          <a id="link-progress" href="#" class="dashboard-link">See your progress</a>
         </p>
-        <div id="dashboard-why" class="hidden card mt-4">
-          <h3 style="margin-bottom: 0.75rem;">Why breaks matter</h3>
-          <p>Within one hour of sitting, your circulation drops by half, your metabolism slows, and your muscles stop clearing sugar from your blood. Your evening workout can't undo it. The fix is simple: two minutes of movement for every hour in the chair, and that's exactly what your nudges are for.</p>
+        <div id="dashboard-why" class="hidden card mt-4" style="text-align: left; line-height: 1.6; border: 1px solid var(--color-border);">
+          <h3 style="margin-bottom: 0.75rem; color: var(--color-text-heading); font-size: 1.1rem;">Why breaks matter</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-body);">Within one hour of sitting, your circulation drops by half, your metabolism slows, and your muscles stop clearing sugar from your blood. Your evening workout can't undo it. The fix is simple: two minutes of movement for every hour in the chair, and that's exactly what your nudges are for.</p>
         </div>
 
-        <p id="shield-note" class="text-muted text-center hidden mt-4" style="font-size: 0.85rem;"></p>
-        <div id="quest-strip" class="hidden mt-6">
-          <h3 style="font-size: 1rem; margin-bottom: 0.6rem;">Today's quests</h3>
-          <div id="quest-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;"></div>
+        <p id="shield-note" class="text-muted text-center hidden mt-4" style="font-size: 0.85rem; font-weight: 600;"></p>
+        <div id="quest-strip" class="hidden">
+          <h3>Today's quests</h3>
+          <div id="quest-cards"></div>
         </div>
       </div>
 
       <div id="dashboard-active" class="hidden">
         <div class="card text-center">
-          <h2 style="font-size: 1.3rem; margin-bottom: 0.4rem;">Focus Buff available</h2>
-          <p class="text-muted" style="margin-bottom: 1.25rem;">2 minutes of movement raises blood flow to your brain. Sharper thinking for the next hour.</p>
+          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--color-text-heading);">Focus Buff available</h2>
+          <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 1rem;">2 minutes of movement raises blood flow to your brain. Sharper thinking for the next hour.</p>
 
-          <button id="btn-tier-easy" class="btn btn-primary btn-full" style="margin-bottom: 0.35rem;">🌱 Easy · 1 min · +10 XP</button>
-          <p id="choice-streak-note" class="text-muted hidden" style="font-size: 0.8rem; margin-bottom: 0.75rem;"></p>
-          <button id="btn-tier-medium" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">🚶 Medium · 2 min · +20 XP</button>
-          <button id="btn-tier-hard" class="btn btn-accent btn-full" style="margin-bottom: 1rem;">🔥 Hard · 3 min · +35 XP</button>
+          <button id="btn-tier-easy" class="btn btn-primary btn-full">🌱 Easy · 1 min · +10 XP</button>
+          <p id="choice-streak-note" class="text-muted hidden" style="font-size: 0.85rem; margin-top: -0.25rem; margin-bottom: 0.75rem; font-weight: 700; color: var(--color-accent-deep);"></p>
+          <button id="btn-tier-medium" class="btn btn-primary btn-full">🚶 Medium · 2 min · +20 XP</button>
+          <button id="btn-tier-hard" class="btn btn-accent btn-full">🔥 Hard · 3 min · +35 XP</button>
 
-          <a id="link-snooze" href="#" class="text-muted" style="font-size: 0.9rem;">Snooze 15 min</a>
+          <a id="link-snooze" href="#" class="dashboard-link" style="margin-top: 1rem; display: inline-block;">Snooze 15 min</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- VIEW: Timer -->
-  <div id="view-timer" class="view" style="min-height: 100vh; background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-deep) 100%); color: var(--color-card); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
-    <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center; color: var(--color-card);"></h2>
-    <p id="timer-exercise-area" style="margin-top: -1rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.7); font-size: 0.9rem;"></p>
+  <div id="view-timer" class="view">
+    <h2 id="timer-exercise-name"></h2>
+    <p id="timer-exercise-area"></p>
 
-    <div style="position: relative; margin-bottom: 1.75rem;">
-      <svg viewBox="0 0 280 280" width="220" height="220" style="display: block; filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));">
-        <circle cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/>
-        <circle id="timer-ring" cx="140" cy="140" r="120" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="14"
+    <div class="timer-container">
+      <svg class="timer-svg" viewBox="0 0 280 280" width="220" height="220">
+        <circle class="timer-circle-bg" cx="140" cy="140" r="120" fill="none" stroke-width="14"/>
+        <circle id="timer-ring" class="timer-circle-ring" cx="140" cy="140" r="120" fill="none" stroke-width="14"
           stroke-linecap="round" stroke-dasharray="753.98" stroke-dashoffset="0"
           transform="rotate(-90 140 140)" style="transition: stroke-dashoffset 1s linear;"/>
       </svg>
-      <div id="timer-countdown" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3.25rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; font-variant-numeric: tabular-nums;">5:00</div>
+      <div id="timer-countdown" class="timer-text">5:00</div>
     </div>
 
-    <p id="timer-cue" style="text-align: center; max-width: 340px; min-height: 3.2em; margin-bottom: 2rem; font-size: 1.05rem; color: rgba(255,255,255,0.9); transition: opacity 0.4s ease;"></p>
+    <p id="timer-cue"></p>
 
-    <div id="timer-complete-flash" class="hidden" style="position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; background: var(--color-primary-deep); font-family: var(--font-heading); color: var(--color-card); z-index: 50;">
-      <div style="font-size: 2.5rem; font-weight: 800;">Nice work 🎉</div>
-      <div id="reward-xp" style="font-size: 1.75rem; font-weight: 800; color: var(--color-panel-peach);"></div>
-      <div id="reward-buff" style="font-size: 1rem; color: rgba(255,255,255,0.85);">Focus Buff applied</div>
-      <div style="width: 220px; height: 10px; background: rgba(255,255,255,0.25); border-radius: 999px; overflow: hidden;">
+    <div id="timer-complete-flash" class="hidden">
+      <div>Nice work 🎉</div>
+      <div id="reward-xp"></div>
+      <div id="reward-buff" style="font-size: 1.1rem; color: rgba(255,255,255,0.9); font-weight: 700;">Focus Buff applied</div>
+      <div class="reward-bar-container" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
         <div id="reward-bar-fill" style="width: 0%; height: 100%; background: var(--color-card); border-radius: 999px; transition: width 0.8s ease;"></div>
       </div>
-      <div id="reward-levelup" class="hidden" style="font-size: 1.25rem; font-weight: 800; color: var(--color-panel-peach);"></div>
+      <div id="reward-levelup" class="hidden" style="font-size: 1.35rem; font-weight: 800; color: var(--color-panel-peach);"></div>
     </div>
 
-    <div class="flex gap-4">
-      <button id="btn-swap-on-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Show me a different one</button>
-      <button id="btn-skip-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Skip</button>
+    <div class="timer-btn-row">
+      <button id="btn-swap-on-timer" class="btn btn-ghost timer-btn">Show me a different one</button>
+      <button id="btn-skip-timer" class="btn btn-ghost timer-btn">Skip</button>
     </div>
   </div>
 
   <!-- VIEW: Progress -->
   <div id="view-progress" class="view">
-    <div class="container" style="padding-top: 1.5rem; padding-bottom: 2rem;">
-      <button id="btn-back-dashboard" class="btn btn-ghost btn-sm" style="margin-bottom: 1rem;">Back</button>
-      <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Your progress</h1>
+    <div class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
+      <button id="btn-back-dashboard" class="btn btn-ghost btn-sm" style="margin-bottom: 1.5rem;">Back</button>
+      <h1>Your progress</h1>
 
       <div class="card">
-        <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">This week</h3>
-        <div class="flex gap-4" style="justify-content: space-around; text-align: center;">
-          <div><div id="prog-minutes" style="font-size: 1.75rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">0</div><p class="text-muted" style="font-size: 0.8rem;">minutes moved</p></div>
-          <div><div id="prog-streak" style="font-size: 1.75rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent);">0</div><p class="text-muted" style="font-size: 0.8rem;">day streak</p></div>
-          <div><div id="prog-best" style="font-size: 1.75rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">0</div><p class="text-muted" style="font-size: 0.8rem;">best streak</p></div>
+        <h3>This week</h3>
+        <div class="flex gap-4" style="justify-content: space-around; text-align: center; margin-top: 1rem;">
+          <div>
+            <div id="prog-minutes" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">0</div>
+            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">minutes moved</p>
+          </div>
+          <div>
+            <div id="prog-streak" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent); line-height: 1.1;">0</div>
+            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">day streak</p>
+          </div>
+          <div>
+            <div id="prog-best" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">0</div>
+            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">best streak</p>
+          </div>
         </div>
         <div id="prog-bars" class="flex mt-6" style="align-items: flex-end; gap: 0.4rem; height: 70px; justify-content: space-between;"></div>
       </div>
 
       <div class="card mt-6">
-        <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">Body-area balance, last 7 days</h3>
-        <div id="prog-areas" class="flex gap-4" style="flex-wrap: wrap;"></div>
-        <p id="prog-nudge" class="text-muted" style="font-size: 0.85rem; margin-top: 0.75rem;"></p>
+        <h3>Body-area balance, last 7 days</h3>
+        <div id="prog-areas" class="flex gap-4" style="flex-wrap: wrap; margin-top: 1rem;"></div>
+        <p id="prog-nudge" class="text-muted"></p>
       </div>
     </div>
   </div>
 
   <!-- MODAL: Settings -->
-  <div id="modal-settings" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem;">
-    <div class="card" style="width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;">
-      <div class="flex items-center justify-between" style="margin-bottom: 1.5rem;">
-        <h2 style="font-size: 1.25rem; font-weight: 700;">Settings</h2>
+  <div id="modal-settings" class="hidden">
+    <div class="card">
+      <div class="flex items-center justify-between" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--color-text-heading);">Settings</h2>
         <button id="btn-close-settings" class="btn btn-ghost btn-sm">Close</button>
       </div>
 
       <div style="margin-bottom: 1.25rem;">
-        <label for="s-work-start" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day starts</label>
-        <input type="time" id="s-work-start" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+        <label for="s-work-start">Work day starts</label>
+        <input type="time" id="s-work-start" class="input">
       </div>
 
       <div style="margin-bottom: 1.25rem;">
-        <label for="s-work-end" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Work day ends</label>
-        <input type="time" id="s-work-end" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+        <label for="s-work-end">Work day ends</label>
+        <input type="time" id="s-work-end" class="input">
       </div>
 
       <div style="margin-bottom: 1.25rem;">
-        <label for="s-reminder-mode" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Reminder style</label>
-        <select id="s-reminder-mode" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+        <label for="s-reminder-mode">Reminder style</label>
+        <select id="s-reminder-mode" class="input">
           <option value="interval">Every X minutes - recommended</option>
           <option value="fixed">At specific times I choose</option>
         </select>
       </div>
 
       <div id="s-interval-options" style="margin-bottom: 1.25rem;">
-        <label for="s-interval-minutes" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Remind me every</label>
-        <select id="s-interval-minutes" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+        <label for="s-interval-minutes">Remind me every</label>
+        <select id="s-interval-minutes" class="input">
           <option value="30">30 minutes</option>
           <option value="45">45 minutes</option>
           <option value="60">60 minutes</option>
@@ -301,32 +336,32 @@
       </div>
 
       <div id="s-fixed-options" class="hidden" style="margin-bottom: 1.25rem;">
-        <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Break times</label>
+        <label>Break times</label>
         <div id="s-fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
         <div class="flex gap-4" style="align-items: center;">
-          <input type="time" id="s-fixed-time-input" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+          <input type="time" id="s-fixed-time-input" class="input" style="flex: 1;">
           <button type="button" id="s-add-fixed-time" class="btn btn-accent btn-sm">Add time</button>
         </div>
       </div>
 
       <div style="margin-bottom: 1.5rem;">
-        <label for="s-default-break" style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Default break length</label>
-        <select id="s-default-break" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--color-border); border-radius: 0.5rem; font-size: 1rem;">
+        <label for="s-default-break">Default break length</label>
+        <select id="s-default-break" class="input">
           <option value="quick">Quick - 90 seconds</option>
           <option value="full">Full - 5 minutes</option>
         </select>
       </div>
 
-      <div style="margin-bottom: 1.25rem;">
-        <label style="display: block; font-weight: 700; margin-bottom: 0.4rem;">Your workdays</label>
-        <div id="s-workdays" class="flex gap-4" style="flex-wrap: wrap;">
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-0"> Sun</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-1"> Mon</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-2"> Tue</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-3"> Wed</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-4"> Thu</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-5"> Fri</label>
-          <label style="font-size: 0.85rem;"><input type="checkbox" id="s-wd-6"> Sat</label>
+      <div style="margin-bottom: 2rem;">
+        <label>Your workdays</label>
+        <div id="s-workdays">
+          <label><input type="checkbox" id="s-wd-0"> Sun</label>
+          <label><input type="checkbox" id="s-wd-1"> Mon</label>
+          <label><input type="checkbox" id="s-wd-2"> Tue</label>
+          <label><input type="checkbox" id="s-wd-3"> Wed</label>
+          <label><input type="checkbox" id="s-wd-4"> Thu</label>
+          <label><input type="checkbox" id="s-wd-5"> Fri</label>
+          <label><input type="checkbox" id="s-wd-6"> Sat</label>
         </div>
       </div>
 
@@ -335,7 +370,7 @@
     </div>
   </div>
 
-  <div id="xp-toast" class="hidden" style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--color-primary); color: var(--color-card); padding: 0.6rem 1.25rem; border-radius: 999px; font-family: var(--font-heading); font-weight: 700; box-shadow: var(--shadow-card); z-index: 60;"></div>
+  <div id="xp-toast" class="hidden"></div>
 
   <script type="module" src="app.js"></script>
 </body>
