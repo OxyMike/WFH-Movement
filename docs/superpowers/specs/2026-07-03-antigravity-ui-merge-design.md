@@ -6,7 +6,7 @@
 
 ## Overview
 
-Replace the shell of WFH Movement with the redesigned frontend Mike built in Antigravity, now stored at `Frontendexampleantigravity/`. The app keeps its working logic: reminders, streaks, XP, quests, insights, and PWA install. The Antigravity example contributes the look, the layout, a 28-quest content library with step-by-step coaching sequences, and 14 animated SVG movement figures. Its own JavaScript logic is mock and gets discarded.
+Replace the shell of WFH Movement with the redesigned frontend Mike built in Antigravity, now stored at `Frontendexampleantigravity/`. The app keeps its working logic: reminders, streaks, XP, quests, insights, and PWA install. The Antigravity example contributes the look, the layout, a 28-quest content library with step-by-step coaching sequences, and 21 animated SVG movement figures. Its own JavaScript logic is mock and gets discarded.
 
 ## Decisions Made
 
@@ -17,7 +17,7 @@ Replace the shell of WFH Movement with the redesigned frontend Mike built in Ant
 5. Approach: adopt the Antigravity HTML/CSS as the new shell and rewire the real logic into it (not a restyle of the old HTML).
 6. Scope is phased. Phase 1 is this spec. Phase 2 gets its own spec later.
 7. The 28-quest library in the example becomes the app's real exercise data, with per-quest XP and durations replacing the tier system.
-8. The 14 animated SVG archetypes replace the static files in `illustrations/`.
+8. The 21 animated SVG archetypes replace the static files in `illustrations/`.
 9. First-time visitors get a real landing page in the Antigravity visual style: hero, the sitting science content from the live app, and a Start button into onboarding. Returning users skip straight to Today.
 10. Every user-facing string gets a copy pass in Mike's voice before ship: direct and encouraging, matter-of-fact about the science, warm about the human. The example's copy ("Adherence recommendation", "Verify your structural health trends") is a draft, not final.
 11. The notification permission ask lives on the final onboarding slide.
@@ -45,7 +45,7 @@ Body stiffness scan, coach insights panel, combo meter, movement restrictions (s
 | `game.js` | Gains a level-gated unlocks table for Rewards; XP award switches from tier-based to per-quest values |
 | `quests.js` | Quest templates that reference old area names switch to the new taxonomy (hips becomes legs, spine becomes core) |
 | `insights.js` | Area list switches to the five new zones with legacy-name mapping on read; day minutes come from quest durations instead of tier lookup |
-| `figures.js` | New module holding the 14 animated SVG archetypes with a fallback getter |
+| `figures.js` | New module holding the 21 animated SVG archetypes with a fallback getter |
 | `service-worker.js` | Cache version bump; notification actions change from tier buttons to Start quest and Later (15-minute snooze), since tier-length breaks retire |
 | `storage.js`, `reminder.js`, `timer.js`, `rotation.js` | Unchanged |
 | `illustrations/` | Deleted; replaced by inline animated SVG archetypes |
@@ -125,7 +125,7 @@ Legs carries the most quests because sitting is a lower-body problem. Legacy his
 
 ## Exercise Assets
 
-The 14 animated SVG archetypes (shoulders, neck, wrist, twist, legs, squats, pushups, march, sidebend, eyes, calf, lunge, rebound, lungs) move from the example into the app as the exercise figures. Each quest step names its archetype and animation class, so one archetype serves many quests. Steps without a figure fall back to the shoulders archetype. The animation CSS ships in the new stylesheet. The 32 static files in `illustrations/` are deleted.
+The 21 animated SVG archetypes (shoulders, neck, wrist, twist, legs, squats, pushups, march, sidebend, eyes, calf, lunge, rebound, lungs, and per-movement variants such as chin_tucks, seated_plank, doorway_stretch, hamstring_sweep, leg_extension, desk_plank) move from the example into the app as the exercise figures. Each quest step names its archetype and animation class, so one archetype serves many quests. Steps without a figure fall back to the shoulders archetype. The animation CSS ships in the new stylesheet. The 32 static files in `illustrations/` are deleted.
 
 ## Data and Migration
 

@@ -41,3 +41,8 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 4: Dashboard quest strip, shield, sitting timer, settings (commits 5a14246..266b7a6, review approved — Minor: shield note never re-hides after display; acknowledgeShieldUse confirmed one-shot by controller)
 - [x] Task 5: Progress view, cache v7 + shipped (commits 266b7a6..b11cd2b, review clean — Minor: nudge "least" can pick a zero-count area, plan-inherited)
 
+
+
+## Antigravity UI Merge Phase 1 (plan: docs/superpowers/plans/2026-07-03-antigravity-ui-merge.md)
+
+- [x] Task 1: Checkpoint commits (commits de12ea3..6b5e824, controller-verified stat check; no code to review)
