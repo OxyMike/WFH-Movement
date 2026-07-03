@@ -1,8 +1,6 @@
-// game.js -- gamification: XP, levels, titles, buff copy
+// game.js -- gamification: XP, levels, titles, unlock packs
 import { getState, saveState } from './storage.js';
-
-export const TIER_XP = { easy: 10, medium: 20, hard: 35 };
-export const TIER_DURATION = { easy: 60, medium: 120, hard: 180 };
+import { EXERCISES } from './exercises.js';
 
 export const LEVELS = [
   { threshold: 0, title: 'Chair Dweller' },
@@ -17,12 +15,6 @@ export const LEVELS = [
   { threshold: 3200, title: 'Desk Escapist' }
 ];
 
-export const BUFF_COPY = {
-  promptTitle: 'Focus Buff available',
-  promptSubline: '2 minutes of movement raises blood flow to your brain. Sharper thinking for the next hour.',
-  applied: 'Focus Buff applied'
-};
-
 export function levelForXp(xp) {
   let level = 1;
   for (let i = 0; i < LEVELS.length; i++) {
@@ -36,37 +28,37 @@ function currentXp() {
   return (state && state.game && state.game.xp) || 0;
 }
 
-export function awardBreak(tier) {
+function addXp(xpGained) {
   const prevXp = currentXp();
-  const xpGained = TIER_XP[tier] || 0;
   const totalXp = prevXp + xpGained;
   const state = getState() || {};
   state.game = { xp: totalXp };
   saveState(state);
   const level = levelForXp(totalXp);
   return {
-    xpGained,
-    totalXp,
-    level,
+    xpGained, totalXp, level,
     leveledUp: level > levelForXp(prevXp),
     title: LEVELS[level - 1].title
   };
 }
 
-export function awardQuestBonus(xp) {
-  const prevXp = currentXp();
-  const totalXp = prevXp + xp;
-  const state = getState() || {};
-  state.game = { xp: totalXp };
-  saveState(state);
-  const level = levelForXp(totalXp);
-  return {
-    xpGained: xp,
-    totalXp,
-    level,
-    leveledUp: level > levelForXp(prevXp),
-    title: LEVELS[level - 1].title
-  };
+export function awardBreak(xp) { return addXp(xp); }
+export function awardQuestBonus(xp) { return addXp(xp); }
+
+export const UNLOCK_PACKS = [
+  { category: 'mobility', label: 'Mobility Pack', level: 1 },
+  { category: 'quiet', label: 'Quiet Pack', level: 2 },
+  { category: 'stretch', label: 'Stretch Pack', level: 4 },
+  { category: 'strength', label: 'Strength Pack', level: 6 }
+];
+
+export function getUnlocks() {
+  const level = levelForXp(currentXp());
+  return UNLOCK_PACKS.map(p => ({
+    ...p,
+    unlocked: level >= p.level,
+    quests: EXERCISES.filter(e => e.category === p.category).map(e => e.name)
+  }));
 }
 
 export function getProgress() {

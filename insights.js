@@ -1,16 +1,21 @@
 // insights.js -- derived stats: week totals, area balance, sitting timer
 import { getState, saveState, localDateString } from './storage.js';
-import { TIER_DURATION } from './game.js';
 
-const AREAS = ['hips', 'spine', 'shoulders', 'neck', 'wrists', 'cardio'];
+const AREAS = ['neck', 'shoulders', 'core', 'wrists', 'legs'];
+const LEGACY_AREAS = { hips: 'legs', spine: 'core', cardio: 'legs' };
 
-export function recordDaySummary({ date, tier, targetArea }) {
+function normalizeArea(area) {
+  return LEGACY_AREAS[area] || area;
+}
+
+export function recordDaySummary({ date, minutes, targetArea }) {
   const state = getState() || {};
   const log = state.dayLog || {};
   const day = log[date] || { count: 0, minutes: 0, areas: {} };
   day.count += 1;
-  day.minutes += tier ? (TIER_DURATION[tier] || 0) / 60 : 0;
-  day.areas[targetArea] = (day.areas[targetArea] || 0) + 1;
+  day.minutes += minutes || 0;
+  const area = normalizeArea(targetArea);
+  day.areas[area] = (day.areas[area] || 0) + 1;
   log[date] = day;
   state.dayLog = log;
   saveState(state);
@@ -46,7 +51,10 @@ export function getAreaBalance(now) {
   const counts = Object.fromEntries(AREAS.map(a => [a, 0]));
   for (const date of lastNDates(now, 7)) {
     const areas = log[date]?.areas || {};
-    for (const a of AREAS) counts[a] += areas[a] || 0;
+    for (const [raw, n] of Object.entries(areas)) {
+      const a = normalizeArea(raw);
+      if (a in counts) counts[a] += n;
+    }
   }
   return AREAS.map(area => ({ area, count: counts[area] }));
 }

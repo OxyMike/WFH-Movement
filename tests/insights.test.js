@@ -15,10 +15,10 @@ const SETTINGS = { workStart: '08:00', workEnd: '17:00', workDays: [1, 2, 3, 4, 
 test('recordDaySummary accumulates count, minutes, areas', () => {
   resetAll();
   saveSettings({});
-  recordDaySummary({ date: '2026-07-06', tier: 'easy', targetArea: 'neck' });
-  recordDaySummary({ date: '2026-07-06', tier: 'hard', targetArea: 'hips' });
+  recordDaySummary({ date: '2026-07-06', minutes: 1, targetArea: 'neck' });
+  recordDaySummary({ date: '2026-07-06', minutes: 3, targetArea: 'legs' });
   const stats = getWeekStats(new Date('2026-07-06T12:00:00'));
-  if (stats.minutesMoved !== 4) throw new Error(`easy(1) + hard(3) = 4 min, got ${stats.minutesMoved}`);
+  if (stats.minutesMoved !== 4) throw new Error(`1 + 3 = 4 min, got ${stats.minutesMoved}`);
   const day = stats.days.find(d => d.date === '2026-07-06');
   if (!day || day.count !== 2) throw new Error('day count wrong');
 });
@@ -26,21 +26,30 @@ test('recordDaySummary accumulates count, minutes, areas', () => {
 test('getWeekStats covers exactly the last 7 calendar days', () => {
   resetAll();
   saveSettings({});
-  recordDaySummary({ date: '2026-07-06', tier: 'easy', targetArea: 'neck' });
-  recordDaySummary({ date: '2026-06-28', tier: 'hard', targetArea: 'hips' }); // 8 days before Jul 6
+  recordDaySummary({ date: '2026-07-06', minutes: 1, targetArea: 'neck' });
+  recordDaySummary({ date: '2026-06-28', minutes: 3, targetArea: 'legs' }); // 8 days before Jul 6
   const stats = getWeekStats(new Date('2026-07-06T12:00:00'));
   if (stats.days.length !== 7) throw new Error('expected 7 day buckets');
   if (stats.minutesMoved !== 1) throw new Error('old day should not count');
 });
 
-test('getAreaBalance lists all six areas with counts', () => {
+test('getAreaBalance lists all five areas with counts', () => {
   resetAll();
   saveSettings({});
-  recordDaySummary({ date: '2026-07-06', tier: 'easy', targetArea: 'neck' });
+  recordDaySummary({ date: '2026-07-06', minutes: 1, targetArea: 'neck' });
   const bal = getAreaBalance(new Date('2026-07-06T12:00:00'));
-  if (bal.length !== 6) throw new Error('expected 6 areas');
+  if (bal.length !== 5) throw new Error('expected 5 areas');
   if (bal.find(a => a.area === 'neck').count !== 1) throw new Error('neck count wrong');
-  if (bal.find(a => a.area === 'cardio').count !== 0) throw new Error('cardio should be 0');
+  if (bal.find(a => a.area === 'legs').count !== 0) throw new Error('legs should be 0');
+});
+
+test('legacy areas map on read: hips->legs, spine->core', () => {
+  resetAll();
+  recordDaySummary({ date: '2026-07-01', minutes: 2, targetArea: 'hips' });
+  recordDaySummary({ date: '2026-07-01', minutes: 5, targetArea: 'spine' });
+  const balance = getAreaBalance(new Date('2026-07-02T12:00:00'));
+  const get = a => balance.find(b => b.area === a).count;
+  if (get('legs') !== 1 || get('core') !== 1) throw new Error('legacy mapping failed');
 });
 
 test('getSittingMinutes measures since last break within work hours', () => {

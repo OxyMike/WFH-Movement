@@ -1,5 +1,5 @@
 import { test, run } from './run.js';
-import { TIER_XP, TIER_DURATION, LEVELS, levelForXp, awardBreak, getProgress, awardQuestBonus } from '../game.js';
+import { LEVELS, levelForXp, awardBreak, getProgress, awardQuestBonus, getUnlocks } from '../game.js';
 import { resetAll } from '../storage.js';
 
 // Mock localStorage for Node environment
@@ -10,9 +10,13 @@ global.localStorage = {
   removeItem: (k) => { delete store[k]; }
 };
 
-test('tier XP and durations match spec', () => {
-  if (TIER_XP.easy !== 10 || TIER_XP.medium !== 20 || TIER_XP.hard !== 35) throw new Error('bad TIER_XP');
-  if (TIER_DURATION.easy !== 60 || TIER_DURATION.medium !== 120 || TIER_DURATION.hard !== 180) throw new Error('bad TIER_DURATION');
+test('awardBreak takes an xp amount', () => {
+  resetAll();
+  const first = awardBreak(80);
+  if (first.xpGained !== 80 || first.totalXp !== 80) throw new Error('bad first award');
+  if (first.level !== 1 || first.leveledUp) throw new Error('should still be level 1');
+  const r = awardBreak(40); // 120 total -> level 2
+  if (r.totalXp !== 120 || r.level !== 2 || !r.leveledUp) throw new Error('expected level-up at 120 xp');
 });
 
 test('LEVELS has 10 entries ending at Desk Escapist', () => {
@@ -32,11 +36,11 @@ test('levelForXp at exact thresholds and one below', () => {
 
 test('awardBreak accumulates XP and reports level-up', () => {
   resetAll();
-  const first = awardBreak('hard');
+  const first = awardBreak(35);
   if (first.xpGained !== 35 || first.totalXp !== 35) throw new Error('bad first award');
   if (first.level !== 1 || first.leveledUp) throw new Error('should still be level 1');
   let r;
-  for (let i = 0; i < 2; i++) r = awardBreak('hard'); // 105 total
+  for (let i = 0; i < 2; i++) r = awardBreak(35); // 105 total
   if (r.totalXp !== 105 || r.level !== 2 || !r.leveledUp) throw new Error('expected level-up at 105 xp');
   if (r.title !== 'Posture Apprentice') throw new Error('bad level 2 title');
 });
@@ -45,25 +49,53 @@ test('getProgress derives level from stored XP with defaults', () => {
   resetAll();
   const p0 = getProgress();
   if (p0.xp !== 0 || p0.level !== 1 || p0.title !== 'Chair Dweller') throw new Error('bad default progress');
-  awardBreak('medium'); // 20
+  awardBreak(20); // 20
   const p = getProgress();
   if (p.xp !== 20 || p.xpIntoLevel !== 20 || p.xpForNext !== 100) throw new Error('bad progress math');
 });
 
 test('getProgress at level 10 has null xpForNext', () => {
   resetAll();
-  for (let i = 0; i < 92; i++) awardBreak('hard'); // 3220 xp
+  for (let i = 0; i < 92; i++) awardBreak(35); // 3220 xp
   const p = getProgress();
   if (p.level !== 10 || p.xpForNext !== null) throw new Error('level 10 should have null xpForNext');
 });
 
 test('awardQuestBonus adds XP and reports level-up', () => {
   resetAll();
-  awardBreak('hard'); // 35
+  awardBreak(35); // 35
   const r = awardQuestBonus(20);
   if (r.xpGained !== 20 || r.totalXp !== 55) throw new Error('bad bonus math');
   const r2 = awardQuestBonus(50); // 105 total -> level 2
   if (r2.level !== 2 || !r2.leveledUp) throw new Error('bonus should trigger level-up');
+});
+
+test('unlock ladder: mobility 1, quiet 2, stretch 4, strength 6', () => {
+  resetAll();
+  const packAt = (unlocks, c) => unlocks.find(p => p.category === c);
+  let u = getUnlocks();
+  if (u.length !== 4) throw new Error('expected 4 packs');
+  if (!packAt(u, 'mobility').unlocked) throw new Error('mobility open at level 1');
+  if (packAt(u, 'quiet').unlocked || packAt(u, 'stretch').unlocked || packAt(u, 'strength').unlocked)
+    throw new Error('others locked at level 1');
+  awardBreak(100); // level 2
+  u = getUnlocks();
+  if (!packAt(u, 'quiet').unlocked) throw new Error('quiet opens at level 2');
+  if (packAt(u, 'stretch').unlocked) throw new Error('stretch still locked at level 2');
+  awardBreak(600); // 700 xp -> level 5
+  u = getUnlocks();
+  if (!packAt(u, 'stretch').unlocked) throw new Error('stretch open at level 5');
+  if (packAt(u, 'strength').unlocked) throw new Error('strength still locked at level 5');
+  awardBreak(300); // 1000 xp -> level 6
+  u = getUnlocks();
+  if (!packAt(u, 'strength').unlocked) throw new Error('strength opens at level 6');
+});
+
+test('packs list their quests by name', () => {
+  const u = getUnlocks();
+  for (const p of u) {
+    if (!Array.isArray(p.quests) || p.quests.length === 0) throw new Error(`${p.category} pack empty`);
+  }
 });
 
 run();
