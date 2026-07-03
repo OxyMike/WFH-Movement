@@ -32,3 +32,12 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 5: XP award, reward card, dashboard progress (commits 0423d62..9627e20, review clean — controller verified flash-hide at launchTimer app.js:161)
 - [x] Task 6: Notification actions, cache v5 + shipped (commits 9627e20..fd0de5e, review approved — boot guard traced through all four tierParam×firstVisit combos clean; Important: mid-session SW message path relies on Task 4 contract, cover in manual pass)
 
+
+## Quest Board (plan: docs/superpowers/plans/2026-07-02-quest-board.md)
+
+- [x] Task 1: storage.js workday streaks, shield, tier logging (commits 4448873..700a22e, review approved; controller follow-up ab2a9cf fixed UTC-vs-local date boundary and exported localDateString — later tasks must use it instead of toISOString().slice(0,10))
+- [x] Task 2: quests.js and awardQuestBonus (commits ab2a9cf..bbf3511, review approved — Minor: settings params unused by design; report rigor thin on easy-quest bound)
+- [x] Task 3: insights.js (commits bbf3511..5a14246, review clean — Minor: lastNDates computed twice in getWeekStats; test fixtures rewritten for TZ portability)
+- [x] Task 4: Dashboard quest strip, shield, sitting timer, settings (commits 5a14246..266b7a6, review approved — Minor: shield note never re-hides after display; acknowledgeShieldUse confirmed one-shot by controller)
+- [x] Task 5: Progress view, cache v7 + shipped (commits 266b7a6..b11cd2b, review clean — Minor: nudge "least" can pick a zero-count area, plan-inherited)
+

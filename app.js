@@ -133,13 +133,18 @@ function updateShieldAndSitting() {
     note.classList.remove('hidden');
     acknowledgeShieldUse();
   }
-  const mins = getSittingMinutes(new Date(), getSettings(), getTodayRecord());
+  const settings = getSettings();
+  const record = getTodayRecord();
+  const mins = getSittingMinutes(new Date(), settings, record);
   const line = document.getElementById('sitting-line');
-  if (mins === null) {
-    line.classList.add('hidden');
-  } else {
+  if (mins !== null) {
     line.textContent = `Sitting for ${mins} min (since your last break)`;
     line.classList.remove('hidden');
+  } else if (isWithinWorkWindow(settings, new Date()) && record.completedBreaks.length === 0) {
+    line.textContent = 'Fresh start';
+    line.classList.remove('hidden');
+  } else {
+    line.classList.add('hidden');
   }
 }
 
