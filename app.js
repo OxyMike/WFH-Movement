@@ -394,6 +394,11 @@ document.getElementById('s-add-fixed-time').addEventListener('click', () => {
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    const data = event.data || {};
+    if (data.type === 'START_TIER') startTierBreak(data.tier);
+    if (data.type === 'SHOW_CHOICE') triggerBreak();
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -403,8 +408,16 @@ if ('serviceWorker' in navigator) {
 document.getElementById('btn-start-setup-hero').addEventListener('click', () => showView('onboarding'));
 document.getElementById('btn-start-setup-bottom').addEventListener('click', () => showView('onboarding'));
 
-if (isFirstVisit()) {
-  showView('landing');
-} else {
+const tierParam = new URLSearchParams(window.location.search).get('tier');
+if (tierParam && ['easy', 'medium', 'hard'].includes(tierParam) && !isFirstVisit()) {
   startApp();
+  startTierBreak(tierParam);
+}
+
+if (!tierParam || isFirstVisit()) {
+  if (isFirstVisit()) {
+    showView('landing');
+  } else {
+    startApp();
+  }
 }
