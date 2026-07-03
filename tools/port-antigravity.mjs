@@ -65,7 +65,7 @@ writeFileSync('exercises.js',
 const figureEntries = Object.entries(svgs)
   .map(([k, v]) => `  ${k}: \`${v.replace(/`/g, '\\`')}\``).join(',\n');
 writeFileSync('figures.js',
-  '// figures.js -- 14 animated SVG movement archetypes from the Antigravity redesign\n' +
+  '// figures.js -- 21 animated SVG movement archetypes from the Antigravity redesign\n' +
   `export const FIGURES = {\n${figureEntries}\n};\n\n` +
   'export function getFigure(key) {\n  return FIGURES[key] || FIGURES.shoulders;\n}\n');
 

@@ -1,4 +1,4 @@
-// figures.js -- 14 animated SVG movement archetypes from the Antigravity redesign
+// figures.js -- 21 animated SVG movement archetypes from the Antigravity redesign
 export const FIGURES = {
   shoulders: `
         <svg class="exercise-svg" viewBox="0 0 100 60">
