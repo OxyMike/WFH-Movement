@@ -11,8 +11,14 @@ const DEFAULT_SETTINGS = {
   workDays: [1, 2, 3, 4, 5]
 };
 
+// Local calendar date, not UTC: an evening break must count toward the
+// user's own "today" even west of Greenwich.
+export function localDateString(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 function todayString() {
-  return new Date().toISOString().slice(0, 10);
+  return localDateString();
 }
 
 export function getState() {
@@ -117,9 +123,9 @@ export function resetAll() {
 }
 
 function previousDay(dateStr) {
-  const d = new Date(dateStr);
+  const d = new Date(dateStr + 'T12:00:00');
   d.setDate(d.getDate() - 1);
-  return d.toISOString().slice(0, 10);
+  return localDateString(d);
 }
 
 export function isWorkday(dateStr, workDays) {
