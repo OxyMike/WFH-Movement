@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wfh-movement-v5';
+const CACHE_NAME = 'wfh-movement-v6';
 const ASSETS = [
   '/',
   '/index.html',

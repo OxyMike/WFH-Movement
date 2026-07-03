@@ -115,6 +115,13 @@ function startApp() {
 // Break flow
 // ---------------------------------------------------------------------------
 
+const TIER_BUTTON_LABELS = {
+  easy: '🌱 Easy · 1 min · +10 XP',
+  medium: '🚶 Medium · 2 min · +20 XP',
+  hard: '🔥 Hard · 3 min · +35 XP'
+};
+let pendingByTier = {};
+
 function triggerBreak() {
   const streak = getStreak().streak;
   const note = document.getElementById('choice-streak-note');
@@ -124,6 +131,16 @@ function triggerBreak() {
   } else {
     note.classList.add('hidden');
   }
+
+  // Pre-pick one exercise per tier so each button shows what you are choosing
+  const record = getTodayRecord();
+  pendingByTier = {};
+  ['easy', 'medium', 'hard'].forEach(tier => {
+    pendingByTier[tier] = suggestExercise(record.lastTargetArea, null, tier);
+    const btn = document.getElementById('btn-tier-' + tier);
+    btn.innerHTML = `${TIER_BUTTON_LABELS[tier]}<span style="display: block; font-weight: 600; font-size: 0.8rem; opacity: 0.85;">${pendingByTier[tier].name}</span>`;
+  });
+
   document.getElementById('dashboard-idle').classList.add('hidden');
   document.getElementById('dashboard-active').classList.remove('hidden');
   showView('dashboard');
@@ -131,8 +148,12 @@ function triggerBreak() {
 
 function startTierBreak(tier) {
   currentTier = tier;
-  const record = getTodayRecord();
-  currentExercise = suggestExercise(record.lastTargetArea, null, tier);
+  if (pendingByTier[tier]) {
+    currentExercise = pendingByTier[tier];
+  } else {
+    const record = getTodayRecord();
+    currentExercise = suggestExercise(record.lastTargetArea, null, tier);
+  }
   launchTimer(currentExercise, TIER_DURATION[tier]);
 }
 
