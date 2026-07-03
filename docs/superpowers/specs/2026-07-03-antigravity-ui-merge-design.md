@@ -18,6 +18,9 @@ Replace the shell of WFH Movement with the redesigned frontend Mike built in Ant
 6. Scope is phased. Phase 1 is this spec. Phase 2 gets its own spec later.
 7. The 28-quest library in the example becomes the app's real exercise data, with per-quest XP and durations replacing the tier system.
 8. The 14 animated SVG archetypes replace the static files in `illustrations/`.
+9. First-time visitors get a real landing page in the Antigravity visual style: hero, the sitting science content from the live app, and a Start button into onboarding. Returning users skip straight to Today.
+10. Every user-facing string gets a copy pass in Mike's voice before ship: direct and encouraging, matter-of-fact about the science, warm about the human. The example's copy ("Adherence recommendation", "Verify your structural health trends") is a draft, not final.
+11. The notification permission ask lives on the final onboarding slide.
 
 ## Scope
 
@@ -64,7 +67,9 @@ The Antigravity `app.js` is not merged. It exists only as a reference for markup
 
 **Top bar.** Real streak badge and audio mute (mute persists to settings). "Calendar Synced" and search are removed until their features exist.
 
-**Onboarding wizard.** Antigravity slide style, content swapped to what drives the app: name, work hours, reminder cadence, the "why movement gaps matter" education slide. Body scan, movement preference, and daily goal slides wait for Phase 2.
+**Landing.** First visit only. Antigravity visual style: hero line, the "what one hour of sitting does" list and long-term damage panels carried over from the live app, and a Start button that opens the onboarding wizard. Returning users never see it; the first-visit flag routes them to Today.
+
+**Onboarding wizard.** Antigravity slide style, content swapped to what drives the app: name, work hours, reminder cadence, the "why movement gaps matter" education slide, and the notification permission ask on the final slide with the on-screen countdown as the stated fallback. Body scan, movement preference, and daily goal slides wait for Phase 2.
 
 ## Quest Library Port
 
