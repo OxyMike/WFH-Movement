@@ -43,7 +43,11 @@ Body stiffness scan, coach insights panel, combo meter, movement restrictions (s
 | `app.js` | Kept as entry point; DOM-binding layer rewritten for the new element IDs; logic imports unchanged |
 | `exercises.js` | Content replaced by the 28-quest library (schema below) |
 | `game.js` | Gains a level-gated unlocks table for Rewards; XP award switches from tier-based to per-quest values |
-| `quests.js`, `storage.js`, `reminder.js`, `insights.js`, `timer.js`, `rotation.js`, `service-worker.js` | Unchanged, except the service worker cache version bump |
+| `quests.js` | Quest templates that reference old area names switch to the new taxonomy (hips becomes legs, spine becomes core) |
+| `insights.js` | Area list switches to the five new zones with legacy-name mapping on read; day minutes come from quest durations instead of tier lookup |
+| `figures.js` | New module holding the 14 animated SVG archetypes with a fallback getter |
+| `service-worker.js` | Cache version bump; notification actions change from tier buttons to Start quest and Later (15-minute snooze), since tier-length breaks retire |
+| `storage.js`, `reminder.js`, `timer.js`, `rotation.js` | Unchanged |
 | `illustrations/` | Deleted; replaced by inline animated SVG archetypes |
 | `Frontendexampleantigravity/` | Reference during the build, deleted in the final cleanup commit |
 
@@ -61,7 +65,7 @@ The Antigravity `app.js` is not merged. It exists only as a reference for markup
 
 **Progress.** Four stat cards: total breaks, minutes moved, current streak, week adherence from `getWeekStats()`. The body-coverage SVG highlights zones from `getAreaBalance()` using the five zones below.
 
-**Settings.** Profile name, work hours, reminder mode (interval or fixed, restored from the live app), notification style, and reset. Movement restrictions wait for Phase 2.
+**Settings.** Profile name, work hours, workdays, reminder mode (interval or fixed, restored from the live app), a sound on/off toggle backed by the `muted` setting, and reset. The example's three-way notification style select has no logic behind it and does not ship. Movement restrictions wait for Phase 2.
 
 **Right rail.** The live quest widget is the break timer: circular countdown, the quest's animated step figure, step title and description, step dots, pause and skip. Steps advance on their own durations. Below the widget: the XP bar and the streak shield card bound to real state. The combo meter waits for Phase 2. On phones an active break expands to a full-screen focus view.
 
@@ -131,7 +135,7 @@ Completed-break history may reference retired exercise ids; stats count them fin
 
 ## Failure Handling
 
-Notification permission denied falls back to the on-screen countdown in the Today view, as the live app does now. Reminder engine, snooze, and shield logic carry over unchanged. The service worker cache version bumps so installed PWAs cannot serve stale HTML against the new CSS. Reset keeps its existing full-wipe behavior, restarting onboarding.
+Notification permission denied falls back to the on-screen countdown in the Today view, as the live app does now. Reminder engine and shield logic carry over unchanged. Snooze moves homes: when a reminder fires, the notification's Later action and a snooze button on the primary quest card both delay the next nudge 15 minutes. The service worker cache version bumps so installed PWAs cannot serve stale HTML against the new CSS. Reset keeps its existing full-wipe behavior, restarting onboarding.
 
 ## Testing
 
