@@ -55,7 +55,7 @@ The Antigravity `app.js` is not merged. It exists only as a reference for markup
 
 ## Screens
 
-**Today.** Greeting uses the time-of-day lines plus the profile name. The sitting card and subtitle read `getSittingMinutes()`. The primary quest card shows the rotation engine's suggestion; Reroll swaps it, Start Quest launches the break. The "why this reset helps" box shows the quest's description. The daily quests grid renders `getTodaysQuests()` with live progress.
+**Today.** Greeting uses the time-of-day lines plus the profile name. Under it, the positive quote line: a stable daily pick from the eight-quote list in the example, with a shuffle button that never repeats the current quote. The sitting card and subtitle read `getSittingMinutes()`. The primary quest card shows the rotation engine's suggestion; Reroll swaps it, Start Quest launches the break. The "why this reset helps" box shows the quest's description. The daily quests grid renders `getTodaysQuests()` with live progress.
 
 **Quests.** The exercise library browser. Filter pills: All, Mobility, Stretch, Strength, Quiet, matching the quest categories. Each card shows name, category, difficulty, duration, XP, and a start button.
 
