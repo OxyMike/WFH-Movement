@@ -54,7 +54,7 @@ The Antigravity `app.js` is not merged. It exists only as a reference for markup
 
 **Calendar and Team.** Dimmed sidebar entries opening a coming-soon panel with one line on what is planned. No mock stats, no fake activity.
 
-**Rewards.** Level circle and title from `getProgress()`. The unlocks grid shows four quest packs, one per category, with level requirements: Mobility at level 1, Stretch at level 2, Strength at level 4, Quiet at level 6. Locked packs show their requirement and quest count; unlocked packs list their quests. The gate is presentational: locked quests still work everywhere else. No exercise is ever withheld.
+**Rewards.** Level circle and title from `getProgress()`. The unlocks grid shows four quest packs, one per category, with level requirements: Mobility at level 1, Quiet at level 2, Stretch at level 4, Strength at level 6. The order mirrors usefulness at a desk: Quiet quests work during calls, which is exactly when desk workers skip breaks, so they showcase early; the sweat-adjacent Strength pack lands last. Locked packs show their requirement and quest count; unlocked packs list their quests. The gate is presentational: locked quests still work everywhere else. No exercise is ever withheld.
 
 **Progress.** Four stat cards: total breaks, minutes moved, current streak, week adherence from `getWeekStats()`. The body-coverage SVG highlights zones from `getAreaBalance()` using the five zones below.
 
