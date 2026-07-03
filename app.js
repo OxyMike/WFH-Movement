@@ -4,9 +4,12 @@ import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAl
 import { suggestExercise } from './rotation.js';
 import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
+import { TIER_DURATION } from './game.js';
 
 // Module-level state
 let currentExercise = null;
+let currentTier = null;
+let snoozeTimeout = null;
 let activeTimer = null;
 let reminderEngine = null;
 let countdownInterval = null;
@@ -20,8 +23,6 @@ let cueInterval = null;
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-const AREA_ICONS = { hips: '🦵', spine: '🧘', shoulders: '💪', neck: '🙆', wrists: '🖐️' };
 
 function updateGreeting() {
   const h = new Date().getHours();
@@ -99,36 +100,25 @@ function startApp() {
 // Break flow
 // ---------------------------------------------------------------------------
 
-function renderActiveExercise(exercise) {
-  document.getElementById('active-exercise-name').textContent = exercise.name;
-  document.getElementById('active-exercise-area').textContent = capitalize(exercise.targetArea);
-
-  const illustrationEl = document.getElementById('active-exercise-illustration');
-  illustrationEl.innerHTML = `
-  <span style="font-size: 2.5rem;">${AREA_ICONS[exercise.targetArea] || '🤸'}</span>
-  <span class="badge">${capitalize(exercise.targetArea)}</span>`;
-
-  document.getElementById('active-exercise-description').textContent = exercise.description;
-
-  const cuesEl = document.getElementById('active-exercise-cues');
-  cuesEl.innerHTML = '';
-  (exercise.cues || []).forEach(cue => {
-    const li = document.createElement('li');
-    li.textContent = `✓ ${cue}`;
-    cuesEl.appendChild(li);
-  });
-}
-
 function triggerBreak() {
-  const record = getTodayRecord();
-  const lastTargetArea = record.lastTargetArea;
-  currentExercise = suggestExercise(lastTargetArea, null);
-
+  const streak = getStreak().streak;
+  const note = document.getElementById('choice-streak-note');
+  if (streak >= 1) {
+    note.textContent = `keeps your ${streak}-day streak alive`;
+    note.classList.remove('hidden');
+  } else {
+    note.classList.add('hidden');
+  }
   document.getElementById('dashboard-idle').classList.add('hidden');
   document.getElementById('dashboard-active').classList.remove('hidden');
-
-  renderActiveExercise(currentExercise);
   showView('dashboard');
+}
+
+function startTierBreak(tier) {
+  currentTier = tier;
+  const record = getTodayRecord();
+  currentExercise = suggestExercise(record.lastTargetArea, null, tier);
+  launchTimer(currentExercise, TIER_DURATION[tier]);
 }
 
 // ---------------------------------------------------------------------------
@@ -138,6 +128,7 @@ function triggerBreak() {
 function launchTimer(exercise, durationSeconds) {
   showView('timer');
   document.getElementById('timer-exercise-name').textContent = exercise.name;
+  document.getElementById('timer-exercise-area').textContent = capitalize(exercise.targetArea);
 
   const cues = exercise.cues || [];
   let cueIndex = 0;
@@ -305,18 +296,16 @@ document.getElementById('btn-complete-onboarding').addEventListener('click', com
 // Dashboard
 document.getElementById('btn-take-break-now').addEventListener('click', triggerBreak);
 
-document.getElementById('btn-start-quick').addEventListener('click', () => {
-  if (currentExercise) launchTimer(currentExercise, 90);
-});
+document.getElementById('btn-tier-easy').addEventListener('click', () => startTierBreak('easy'));
+document.getElementById('btn-tier-medium').addEventListener('click', () => startTierBreak('medium'));
+document.getElementById('btn-tier-hard').addEventListener('click', () => startTierBreak('hard'));
 
-document.getElementById('btn-start-full').addEventListener('click', () => {
-  if (currentExercise) launchTimer(currentExercise, 300);
-});
-
-document.getElementById('btn-swap-exercise').addEventListener('click', () => {
-  const record = getTodayRecord();
-  currentExercise = suggestExercise(record.lastTargetArea, currentExercise ? currentExercise.id : null);
-  renderActiveExercise(currentExercise);
+document.getElementById('link-snooze').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('dashboard-active').classList.add('hidden');
+  document.getElementById('dashboard-idle').classList.remove('hidden');
+  if (snoozeTimeout) clearTimeout(snoozeTimeout);
+  snoozeTimeout = setTimeout(triggerBreak, 15 * 60 * 1000);
 });
 
 document.getElementById('link-why').addEventListener('click', (e) => {
@@ -325,6 +314,13 @@ document.getElementById('link-why').addEventListener('click', (e) => {
 });
 
 // Timer
+document.getElementById('btn-swap-on-timer').addEventListener('click', () => {
+  if (!currentTier || !currentExercise) return;
+  const record = getTodayRecord();
+  currentExercise = suggestExercise(record.lastTargetArea, currentExercise.id, currentTier);
+  launchTimer(currentExercise, TIER_DURATION[currentTier]);
+});
+
 document.getElementById('btn-skip-timer').addEventListener('click', () => {
   if (activeTimer) {
     activeTimer.stop();

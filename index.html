@@ -172,23 +172,16 @@
       </div>
 
       <div id="dashboard-active" class="hidden">
-        <div class="card">
-          <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
-            <h2 id="active-exercise-name" style="font-size: 1.25rem;"></h2>
-            <span id="active-exercise-area" class="badge"></span>
-          </div>
+        <div class="card text-center">
+          <h2 style="font-size: 1.3rem; margin-bottom: 0.4rem;">Focus Buff available</h2>
+          <p class="text-muted" style="margin-bottom: 1.25rem;">2 minutes of movement raises blood flow to your brain. Sharper thinking for the next hour.</p>
 
-          <div id="active-exercise-illustration" style="background: var(--color-panel-sage); border-radius: 16px; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 1rem; gap: 0.4rem;">
-          </div>
+          <button id="btn-tier-easy" class="btn btn-primary btn-full" style="margin-bottom: 0.35rem;">🌱 Easy · 1 min · +10 XP</button>
+          <p id="choice-streak-note" class="text-muted hidden" style="font-size: 0.8rem; margin-bottom: 0.75rem;"></p>
+          <button id="btn-tier-medium" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">🚶 Medium · 2 min · +20 XP</button>
+          <button id="btn-tier-hard" class="btn btn-accent btn-full" style="margin-bottom: 1rem;">🔥 Hard · 3 min · +35 XP</button>
 
-          <p id="active-exercise-description" style="margin-bottom: 0.75rem;"></p>
-          <ul id="active-exercise-cues" style="list-style: none; margin-bottom: 1.25rem; line-height: 1.9;"></ul>
-
-          <div class="flex gap-4">
-            <button id="btn-start-quick" class="btn btn-primary" style="flex: 1;">Quick reset · 90 sec</button>
-            <button id="btn-start-full" class="btn btn-accent" style="flex: 1;">Full break · 5 min</button>
-          </div>
-          <button id="btn-swap-exercise" class="btn btn-ghost btn-full mt-4">Show me a different one</button>
+          <a id="link-snooze" href="#" class="text-muted" style="font-size: 0.9rem;">Snooze 15 min</a>
         </div>
       </div>
     </div>
@@ -197,6 +190,7 @@
   <!-- VIEW: Timer -->
   <div id="view-timer" class="view" style="min-height: 100vh; background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-deep) 100%); color: var(--color-card); flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
     <h2 id="timer-exercise-name" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center; color: var(--color-card);"></h2>
+    <p id="timer-exercise-area" style="margin-top: -1rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.7); font-size: 0.9rem;"></p>
 
     <div style="position: relative; margin-bottom: 1.75rem;">
       <svg viewBox="0 0 280 280" width="220" height="220" style="display: block; filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));">
@@ -212,7 +206,10 @@
 
     <div id="timer-complete-flash" class="hidden" style="position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-primary-deep); font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; color: var(--color-card); z-index: 50;">Nice work 🎉</div>
 
-    <button id="btn-skip-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Skip</button>
+    <div class="flex gap-4">
+      <button id="btn-swap-on-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Show me a different one</button>
+      <button id="btn-skip-timer" class="btn btn-ghost" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Skip</button>
+    </div>
   </div>
 
   <!-- MODAL: Settings -->
