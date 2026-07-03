@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wfh-movement-v6';
+const CACHE_NAME = 'wfh-movement-v7';
 const ASSETS = [
   '/',
   '/index.html',
@@ -10,6 +10,8 @@ const ASSETS = [
   '/reminder.js',
   '/timer.js',
   '/game.js',
+  '/quests.js',
+  '/insights.js',
   '/manifest.json'
 ];
 

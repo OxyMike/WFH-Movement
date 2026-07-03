@@ -6,7 +6,7 @@ import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './re
 import { startTimer, playTone, formatTime } from './timer.js';
 import { TIER_DURATION, awardBreak, awardQuestBonus, getProgress } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
-import { getSittingMinutes, recordDaySummary } from './insights.js';
+import { getSittingMinutes, recordDaySummary, getWeekStats, getAreaBalance } from './insights.js';
 
 // Module-level state
 let currentExercise = null;
@@ -39,7 +39,7 @@ function updateGreeting() {
 // ---------------------------------------------------------------------------
 
 function showView(name) {
-  ['view-landing', 'view-onboarding', 'view-dashboard', 'view-timer'].forEach(id => {
+  ['view-landing', 'view-onboarding', 'view-dashboard', 'view-timer', 'view-progress'].forEach(id => {
     document.getElementById(id).classList.remove('active');
   });
   document.getElementById('view-' + name).classList.add('active');
@@ -324,6 +324,54 @@ function completeBreak(exercise) {
 }
 
 // ---------------------------------------------------------------------------
+// Progress view
+// ---------------------------------------------------------------------------
+
+function renderProgress() {
+  const now = new Date();
+  const stats = getWeekStats(now);
+  document.getElementById('prog-minutes').textContent = stats.minutesMoved;
+  document.getElementById('prog-streak').textContent = stats.streak;
+  document.getElementById('prog-best').textContent = stats.bestStreak;
+
+  const barsEl = document.getElementById('prog-bars');
+  barsEl.innerHTML = '';
+  const max = Math.max(1, ...stats.days.map(d => d.count));
+  stats.days.forEach(d => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;';
+    const bar = document.createElement('div');
+    bar.style.cssText = `width: 100%; max-width: 28px; border-radius: 6px 6px 0 0; background: var(--color-primary); height: ${Math.max(4, (d.count / max) * 60)}px; opacity: ${d.count === 0 ? 0.2 : 1};`;
+    const label = document.createElement('span');
+    label.className = 'text-muted';
+    label.style.fontSize = '0.7rem';
+    label.textContent = new Date(d.date + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'narrow' });
+    wrap.appendChild(bar);
+    wrap.appendChild(label);
+    barsEl.appendChild(wrap);
+  });
+
+  const balance = getAreaBalance(now);
+  const areasEl = document.getElementById('prog-areas');
+  areasEl.innerHTML = '';
+  balance.forEach(({ area, count }) => {
+    const chip = document.createElement('span');
+    chip.className = 'badge';
+    chip.textContent = `${capitalize(area)} · ${count}`;
+    if (count === 0) chip.style.opacity = '0.5';
+    areasEl.appendChild(chip);
+  });
+  const active = balance.filter(b => b.count > 0);
+  const nudgeEl = document.getElementById('prog-nudge');
+  if (active.length > 0) {
+    const least = [...balance].sort((a, b) => a.count - b.count)[0];
+    nudgeEl.textContent = `your ${least.area === 'cardio' ? 'heart rate' : least.area} ${least.area === 'hips' || least.area === 'wrists' || least.area === 'shoulders' ? 'have' : 'has'} been patient this week`;
+  } else {
+    nudgeEl.textContent = 'complete a break and your week starts filling in';
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Settings modal
 // ---------------------------------------------------------------------------
 
@@ -458,6 +506,14 @@ document.getElementById('link-why').addEventListener('click', (e) => {
   e.preventDefault();
   document.getElementById('dashboard-why').classList.toggle('hidden');
 });
+
+document.getElementById('link-progress').addEventListener('click', (e) => {
+  e.preventDefault();
+  renderProgress();
+  showView('progress');
+});
+
+document.getElementById('btn-back-dashboard').addEventListener('click', () => showView('dashboard'));
 
 // Timer
 document.getElementById('btn-swap-on-timer').addEventListener('click', () => {
