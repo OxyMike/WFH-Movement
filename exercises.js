@@ -1,478 +1,676 @@
-// exercises.js
+// exercises.js -- quest library ported from the Antigravity redesign (2026-07-03)
+// See docs/superpowers/specs/2026-07-03-antigravity-ui-merge-design.md
 export const EXERCISES = [
-  // --- HIPS & GLUTES ---
   {
-    id: 'hip-flexor-stretch',
-    name: 'Hip Flexor Stretch',
-    targetArea: 'hips',
-    tier: 'medium',
-    description: 'Lengthens the hip flexors that shorten and tighten from prolonged sitting.',
-    cues: [
-      'Lower into a lunge with your back knee on the floor',
-      'Drive your hips forward, not your chest',
-      'Keep your core braced and hold the tension without bouncing'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'hip-flexor-stretch.svg'
+    "id": "posture-reset",
+    "name": "Posture Reset",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 80,
+    "duration": 4,
+    "targetArea": "shoulders",
+    "desc": "Neck + shoulder release to offset desk stiffness.",
+    "steps": [
+      {
+        "title": "Shoulder Rolls",
+        "desc": "Roll shoulders backward slowly. Breathe deeply.",
+        "duration": 60,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      },
+      {
+        "title": "Neck Release",
+        "desc": "Tilt ear to shoulder, hold 15s each side.",
+        "duration": 60,
+        "animation": "animate-neck",
+        "svg": "neck"
+      },
+      {
+        "title": "Wrist Flex",
+        "desc": "Flex fingers back gently. Release tightness.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      },
+      {
+        "title": "Chest Stretch",
+        "desc": "Interlock fingers behind back and pull shoulders back.",
+        "duration": 60,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      }
+    ]
   },
   {
-    id: 'glute-bridge',
-    name: 'Glute Bridge',
-    targetArea: 'hips',
-    tier: 'medium',
-    description: 'Reactivates the glutes, which become inhibited and weak from sitting all day.',
-    cues: [
-      'Lie on your back, feet flat, knees bent to 90 degrees',
-      'Press through your heels to drive your hips toward the ceiling',
-      'Squeeze your glutes hard at the top and hold for 2 seconds before lowering'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'glute-bridge.svg'
+    "id": "wrist-stretch",
+    "name": "Wrist Stretch",
+    "category": "stretch",
+    "tier": "easy",
+    "xp": 60,
+    "duration": 3,
+    "targetArea": "wrists",
+    "desc": "Flexing tendons, releasing carpal tunnel compression.",
+    "steps": [
+      {
+        "title": "Wrist Flex",
+        "desc": "Flex fingers back gently. Release tightness.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      },
+      {
+        "title": "Finger Fans",
+        "desc": "Spread fingers wide, then make tight fists.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      },
+      {
+        "title": "Forearm Rub",
+        "desc": "Massage tight extensor muscles on forearms.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      }
+    ]
   },
   {
-    id: 'figure-four-stretch',
-    name: 'Standing Figure-Four',
-    targetArea: 'hips',
-    tier: 'medium',
-    description: 'Opens the hip external rotators and stretches the piriformis, which compresses under prolonged sitting.',
-    cues: [
-      'Stand on one foot, cross the opposite ankle over your standing knee',
-      'Sit back as if lowering into a chair and keep your chest up',
-      'Use a wall for balance if needed; feel the stretch in the crossed leg hip'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'figure-four-stretch.svg'
+    "id": "back-twist",
+    "name": "Spine Twist",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 100,
+    "duration": 5,
+    "targetArea": "core",
+    "desc": "Seated twist to mobilize ribcage and stretch spine muscles.",
+    "steps": [
+      {
+        "title": "Seated Spine Twist",
+        "desc": "Twist upper body left, hold 15s, then right.",
+        "duration": 100,
+        "animation": "animate-twist",
+        "svg": "twist"
+      },
+      {
+        "title": "Shoulder Retraction",
+        "desc": "Pinch shoulder blades together and release.",
+        "duration": 100,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      },
+      {
+        "title": "Neck Stretches",
+        "desc": "Look over left shoulder, hold, then right.",
+        "duration": 100,
+        "animation": "animate-neck",
+        "svg": "neck"
+      }
+    ]
   },
   {
-    id: 'lateral-hip-circles',
-    name: 'Lateral Hip Circles',
-    targetArea: 'hips',
-    tier: 'medium',
-    description: 'Restores hip mobility through its full range of motion in all planes.',
-    cues: [
-      'Stand with feet shoulder-width apart and hands on your hips',
-      'Draw slow, large circles with your hips in full rotation both directions',
-      'Keep your shoulders still; the movement comes entirely from the hips'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'lateral-hip-circles.svg'
+    "id": "calf-raises",
+    "name": "Calf Raises",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 60,
+    "duration": 3,
+    "targetArea": "legs",
+    "desc": "Standing heel lifts to re-activate leg circulatory pumps.",
+    "steps": [
+      {
+        "title": "Soleus Venous Pump",
+        "desc": "Raise heels off floor, squeeze calf muscles. Lift and hold 2s.",
+        "duration": 60,
+        "animation": "animate-calf",
+        "svg": "calf"
+      },
+      {
+        "title": "Soleus Stretch",
+        "desc": "Press one heel back into floor, stretching calf muscle.",
+        "duration": 120,
+        "animation": "animate-sidebend",
+        "svg": "sidebend"
+      }
+    ]
   },
   {
-    id: 'calf-raises',
-    name: 'Calf Raises',
-    targetArea: 'hips',
-    tier: 'medium',
-    description: 'Activates the calf muscle pump to push pooled blood back up from the lower legs.',
-    cues: [
-      'Stand with feet hip-width apart, holding a wall or desk for light balance',
-      'Rise onto the balls of your feet as high as you can go',
-      'Lower slowly, taking 3 seconds on the way down to maximize the pumping effect'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'calf-raises.svg'
-  },
-
-  // --- SPINE & CORE ---
-  {
-    id: 'cat-cow',
-    name: 'Cat-Cow',
-    targetArea: 'spine',
-    tier: 'medium',
-    description: 'Pumps synovial fluid through the spinal joints and counteracts the static compression of sitting.',
-    cues: [
-      'On hands and knees, align wrists under shoulders and knees under hips',
-      'Inhale to arch (cow): lift your chest and tailbone toward the ceiling',
-      'Exhale to round (cat): tuck your chin and tailbone, push the floor away'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'cat-cow.svg'
+    "id": "seated-plank",
+    "name": "Seated Plank",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 80,
+    "duration": 4,
+    "targetArea": "core",
+    "desc": "Isometric core holds to counteract hip flexion fatigue.",
+    "steps": [
+      {
+        "title": "Core Engagement",
+        "desc": "Sit on chair edge, lean back 45 degrees, lift feet slightly, hold abdominal core tight.",
+        "duration": 120,
+        "animation": "animate-plank",
+        "svg": "seated_plank"
+      },
+      {
+        "title": "Diaphragm Breaths",
+        "desc": "Inhale for 4s, hold, exhale 4s while maintaining abdominal core tension.",
+        "duration": 120,
+        "animation": "animate-plank",
+        "svg": "seated_plank"
+      }
+    ]
   },
   {
-    id: 'thoracic-rotation',
-    name: 'Thoracic Rotation',
-    targetArea: 'spine',
-    tier: 'medium',
-    description: 'Restores mid-back rotation that is lost when you are locked in a forward-facing desk position.',
-    cues: [
-      'Sit on the edge of your chair, feet flat, hands behind your head',
-      'Rotate your upper back to one side and lead with your elbow, not your shoulder',
-      'Keep your hips square; the rotation happens at the mid-back, not the lower back'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'thoracic-rotation.svg'
+    "id": "eye-focus",
+    "name": "Eye Focus Flow",
+    "category": "quiet",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 2,
+    "targetArea": "neck",
+    "desc": "Near-far optical adjustments for screen strain relief.",
+    "steps": [
+      {
+        "title": "Look Near & Far",
+        "desc": "Focus on your thumb held near, then focus on a distant object. Repeat.",
+        "duration": 60,
+        "animation": "animate-eyes",
+        "svg": "eyes"
+      },
+      {
+        "title": "Lateral Eye Movements",
+        "desc": "Look as far left as possible, then look far right. Move slowly.",
+        "duration": 60,
+        "animation": "animate-eyes",
+        "svg": "eyes"
+      }
+    ]
   },
   {
-    id: 'dead-bug',
-    name: 'Dead Bug',
-    targetArea: 'spine',
-    tier: 'medium',
-    description: 'Trains deep core stability to support the lumbar spine against the load of sitting.',
-    cues: [
-      'Lie on your back, arms pointing at the ceiling, knees bent at 90 degrees in the air',
-      'Slowly lower one arm and the opposite leg toward the floor without letting your back arch',
-      'Return to start and switch sides; breathe out on each extension'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'dead-bug.svg'
+    "id": "shoulder-rolls",
+    "name": "Desk Shoulder Rolls",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 65,
+    "duration": 3,
+    "targetArea": "shoulders",
+    "desc": "Continuous shoulder rotations for tension relief.",
+    "steps": [
+      {
+        "title": "Dynamic Rolls",
+        "desc": "Roll shoulders and neck smoothly.",
+        "duration": 60,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      },
+      {
+        "title": "Tension Release",
+        "desc": "Inhale shrug shoulders up, exhale drop them.",
+        "duration": 60,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      },
+      {
+        "title": "Diaphragm Breaths",
+        "desc": "Inhale for 4s, hold 4s, exhale 4s.",
+        "duration": 60,
+        "animation": "animate-lungs",
+        "svg": "lungs"
+      }
+    ]
   },
   {
-    id: 'standing-backbend',
-    name: 'Standing Backbend',
-    targetArea: 'spine',
-    tier: 'medium',
-    description: 'Decompresses the lumbar spine and counteracts the forward flexion posture of desk work.',
-    cues: [
-      'Stand tall, place your hands on your lower back with fingers pointing down',
-      'Gently arch backward, looking up toward the ceiling without straining',
-      'Hold 2 to 3 seconds and return to upright; this is a gentle extension, not a full backbend'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'standing-backbend.svg'
+    "id": "deep-breaths",
+    "name": "Deep Belly Breath",
+    "category": "quiet",
+    "tier": "easy",
+    "xp": 50,
+    "duration": 3,
+    "targetArea": "core",
+    "desc": "Relaxing diaphragm breath loops to lower heart rate.",
+    "steps": [
+      {
+        "title": "Inhale & Expand",
+        "desc": "Inhale deep through your nose, expanding your abdomen and lungs.",
+        "duration": 60,
+        "animation": "animate-lungs",
+        "svg": "lungs"
+      },
+      {
+        "title": "Exhale & Contract",
+        "desc": "Exhale slow and empty your chest. Feel the diaphragm release.",
+        "duration": 120,
+        "animation": "animate-lungs",
+        "svg": "lungs"
+      }
+    ]
   },
   {
-    id: 'seated-spinal-twist',
-    name: 'Seated Spinal Twist',
-    targetArea: 'spine',
-    tier: 'easy',
-    description: 'Restores rotational mobility to the lumbar and thoracic spine without leaving your chair.',
-    cues: [
-      'Sit tall at the front of your chair, feet flat on the floor',
-      'Place your right hand on your left knee, left hand on the back of the chair',
-      'Rotate through your entire spine on the exhale and hold 20 to 30 seconds, then switch sides'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'seated-spinal-twist.svg'
-  },
-
-  // --- SHOULDERS & CHEST ---
-  {
-    id: 'doorway-chest-opener',
-    name: 'Doorway Chest Opener',
-    targetArea: 'shoulders',
-    tier: 'medium',
-    description: 'Stretches the pectoral muscles that shorten and pull the shoulders forward at a desk.',
-    cues: [
-      'Stand in a doorway, place forearms on the frame at 90 degrees',
-      'Step one foot through and gently lean forward until you feel a stretch across the chest',
-      'Keep your chin tucked and do not let your head jut forward during the stretch'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'doorway-chest-opener.svg'
+    "id": "seated-spinal-twist",
+    "name": "Seated Spinal Twists",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "core",
+    "desc": "Restores rotational thoracic spine mobility and hydrates vertebral discs.",
+    "steps": [
+      {
+        "title": "Twist Left",
+        "desc": "Twist upper body left, hold ribcage, breathe.",
+        "duration": 30,
+        "animation": "animate-twist",
+        "svg": "twist"
+      },
+      {
+        "title": "Twist Right",
+        "desc": "Twist upper body right, stretch spinal columns.",
+        "duration": 30,
+        "animation": "animate-twist",
+        "svg": "twist"
+      }
+    ]
   },
   {
-    id: 'shoulder-blade-squeeze',
-    name: 'Shoulder Blade Squeeze',
-    targetArea: 'shoulders',
-    tier: 'medium',
-    description: 'Activates the mid-trapezius and rhomboids, which become inhibited in the rounded-shoulder desk posture.',
-    cues: [
-      'Sit or stand tall, arms at your sides',
-      'Squeeze your shoulder blades together and down, imagining tucking them into your back pockets',
-      'Hold for 5 seconds, release fully, and repeat; do not shrug your shoulders upward'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'shoulder-blade-squeeze.svg'
+    "id": "figure-4-stretch",
+    "name": "Seated Figure-4 Stretch",
+    "category": "stretch",
+    "tier": "easy",
+    "xp": 50,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Relieves piriformis tension and combats lower back stiffness from seating.",
+    "steps": [
+      {
+        "title": "Left Leg",
+        "desc": "Cross left ankle over right knee. Lean forward from hips.",
+        "duration": 45,
+        "animation": "animate-fig4",
+        "svg": "figure4"
+      },
+      {
+        "title": "Right Leg",
+        "desc": "Cross right ankle over left knee. Lean forward from hips.",
+        "duration": 75,
+        "animation": "animate-fig4",
+        "svg": "figure4"
+      }
+    ]
   },
   {
-    id: 'cross-body-shoulder-stretch',
-    name: 'Cross-Body Shoulder Stretch',
-    targetArea: 'shoulders',
-    tier: 'easy',
-    description: 'Releases the posterior shoulder capsule that tightens from sustained keyboard and mouse use.',
-    cues: [
-      'Bring one arm straight across your chest at shoulder height',
-      'Use your opposite hand or forearm to gently press it toward your chest',
-      'Keep your shoulder down and resist letting it creep up toward your ear'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'cross-body-shoulder-stretch.svg'
+    "id": "chin-tucks",
+    "name": "Chin Tucks",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 30,
+    "duration": 1,
+    "targetArea": "neck",
+    "desc": "Reverses forward head monitor carriage and unloads cervical joints.",
+    "steps": [
+      {
+        "title": "Neck Retraction",
+        "desc": "Pull chin straight back (make double chin). Hold 3s. Repeat 10 times.",
+        "duration": 60,
+        "animation": "animate-chin",
+        "svg": "chin_tucks"
+      }
+    ]
   },
   {
-    id: 'overhead-reach',
-    name: 'Overhead Reach',
-    targetArea: 'shoulders',
-    tier: 'easy',
-    description: 'Restores full shoulder elevation and decompresses the thoracic spine simultaneously.',
-    cues: [
-      'Interlace your fingers and press your palms toward the ceiling',
-      'Reach as high as you can, lengthening through your entire side body',
-      'Take a deep breath in at the top and let your rib cage expand fully'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'overhead-reach.svg'
+    "id": "wrist-extensor",
+    "name": "Wrist Extensor Stretch",
+    "category": "stretch",
+    "tier": "easy",
+    "xp": 45,
+    "duration": 2,
+    "targetArea": "wrists",
+    "desc": "Prevents repetitive strain and carpal tightness from sustained mouse work.",
+    "steps": [
+      {
+        "title": "Extensor Stretch",
+        "desc": "Extend arm, pull fingers down toward body. Hold 30s.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      },
+      {
+        "title": "Flexor Stretch",
+        "desc": "Extend arm, pull fingers back toward ceiling. Hold 30s.",
+        "duration": 60,
+        "animation": "animate-wrist",
+        "svg": "wrist"
+      }
+    ]
   },
   {
-    id: 'wall-angels',
-    name: 'Wall Angels',
-    targetArea: 'shoulders',
-    tier: 'medium',
-    description: 'Trains the shoulder blades to move correctly and restores thoracic extension against gravity.',
-    cues: [
-      'Stand with your back flat against a wall, feet 6 inches out, low back gently pressed in',
-      'Press the backs of your hands and forearms to the wall at 90 degrees',
-      'Slowly slide your arms up and overhead and keep the entire arm in contact with the wall'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'wall-angels.svg'
-  },
-
-  // --- NECK & UPPER TRAPS ---
-  {
-    id: 'chin-tucks',
-    name: 'Chin Tucks',
-    targetArea: 'neck',
-    tier: 'easy',
-    description: 'Corrects forward head posture (tech neck) by retraining the deep cervical flexors.',
-    cues: [
-      'Sit or stand tall, eyes forward',
-      'Gently draw your chin straight back as if making a double chin',
-      'Hold 5 seconds; you should feel a light stretch at the base of the skull, not pain'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'chin-tucks.svg'
+    "id": "glute-squeezes",
+    "name": "Seated Glute Squeezes",
+    "category": "strength",
+    "tier": "easy",
+    "xp": 35,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Combats glute amnesia by re-activating gluteal firing mechanisms.",
+    "steps": [
+      {
+        "title": "Glute Firing",
+        "desc": "Squeeze glutes maximum. Hold 5s. Repeat 10 times.",
+        "duration": 60,
+        "animation": "animate-squat",
+        "svg": "legs"
+      }
+    ]
   },
   {
-    id: 'lateral-neck-stretch',
-    name: 'Lateral Neck Stretch',
-    targetArea: 'neck',
-    tier: 'easy',
-    description: 'Releases the upper trapezius and scalene muscles that become chronically tight from screen tension.',
-    cues: [
-      'Sit tall, reach one hand under your thigh or hold the seat to anchor the shoulder down',
-      'Tilt your ear toward the opposite shoulder and let gravity do the work',
-      'Hold 20 to 30 seconds each side; do not force it further with your hand'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'lateral-neck-stretch.svg'
+    "id": "scapular-retractions",
+    "name": "Scapular Retractions",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "shoulders",
+    "desc": "Activates rhomboids to pull shoulder blades back, fighting desk slumps.",
+    "steps": [
+      {
+        "title": "Rhomboid Squeezes",
+        "desc": "Pinch shoulder blades back. Hold 2s. Repeat 15 times.",
+        "duration": 60,
+        "animation": "animate-shoulders",
+        "svg": "shoulders"
+      }
+    ]
   },
   {
-    id: 'levator-scapulae-stretch',
-    name: 'Levator Scapulae Stretch',
-    targetArea: 'neck',
-    tier: 'easy',
-    description: 'Targets the muscle running from the neck to the shoulder blade, a common source of desk-related neck pain.',
-    cues: [
-      'Sit tall, rotate your head 45 degrees to one side',
-      'Tilt your chin down toward your armpit on that same side',
-      'Use your hand on top of your head to add gentle weight and never force the stretch'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'levator-scapulae-stretch.svg'
+    "id": "doorway-stretch",
+    "name": "Doorway Chest Stretch",
+    "category": "stretch",
+    "tier": "easy",
+    "xp": 50,
+    "duration": 2,
+    "targetArea": "shoulders",
+    "desc": "Stretches chest pectorals and deltoids back to their natural length.",
+    "steps": [
+      {
+        "title": "Pectoral Stretch",
+        "desc": "Place forearms on doorframe, lean chest forward.",
+        "duration": 60,
+        "animation": "animate-doorway",
+        "svg": "doorway_stretch"
+      },
+      {
+        "title": "Breathing",
+        "desc": "Hold doorway stretch and breathe deep.",
+        "duration": 60,
+        "animation": "animate-doorway",
+        "svg": "doorway_stretch"
+      }
+    ]
   },
   {
-    id: 'neck-rolls',
-    name: 'Neck Rolls',
-    targetArea: 'neck',
-    tier: 'easy',
-    description: 'Improves cervical mobility and releases accumulated tension from sustained screen time.',
-    cues: [
-      'Drop your chin to your chest and slowly roll your head to one shoulder',
-      'Continue around in a full half-circle to the other shoulder; do not roll the head back',
-      'Move slowly with your eyes closed and stop to breathe into any point of tension'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'neck-rolls.svg'
-  },
-
-  // --- WRISTS & FOREARMS ---
-  {
-    id: 'wrist-flexor-stretch',
-    name: 'Wrist Flexor Stretch',
-    targetArea: 'wrists',
-    tier: 'easy',
-    description: 'Lengthens the forearm flexors that tighten from hours of typing and mouse use.',
-    cues: [
-      'Extend one arm forward, palm up',
-      'With your other hand, gently press the fingers back toward your body',
-      'Hold 20 to 30 seconds; you should feel the stretch along the inner forearm'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'wrist-flexor-stretch.svg'
+    "id": "side-bends",
+    "name": "Standing Side Bends",
+    "category": "stretch",
+    "tier": "medium",
+    "xp": 45,
+    "duration": 2,
+    "targetArea": "core",
+    "desc": "Lengthens obliques and lateral QL lumbar muscles to relieve back strain.",
+    "steps": [
+      {
+        "title": "Left Bend",
+        "desc": "Reach right arm overhead, bend upper body left.",
+        "duration": 60,
+        "animation": "animate-sidebend",
+        "svg": "sidebend"
+      },
+      {
+        "title": "Right Bend",
+        "desc": "Reach left arm overhead, bend upper body right.",
+        "duration": 60,
+        "animation": "animate-sidebend",
+        "svg": "sidebend"
+      }
+    ]
   },
   {
-    id: 'wrist-extensor-stretch',
-    name: 'Wrist Extensor Stretch',
-    targetArea: 'wrists',
-    tier: 'easy',
-    description: 'Releases the forearm extensors, which are often overlooked but contribute to lateral elbow pain.',
-    cues: [
-      'Extend one arm forward, palm down, fingers pointing toward the floor',
-      'With your other hand, gently press the back of your hand toward your body',
-      'Hold 20 to 30 seconds; you should feel the stretch along the top of the forearm'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'wrist-extensor-stretch.svg'
+    "id": "hip-flexor-stretch",
+    "name": "Standing Hip Flexor Stretch",
+    "category": "stretch",
+    "tier": "medium",
+    "xp": 50,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Opens short hip flexors, releasing forward pelvis tension on back.",
+    "steps": [
+      {
+        "title": "Left Lunge Stretch",
+        "desc": "Step right foot forward in supported lunge, tuck pelvis.",
+        "duration": 45,
+        "animation": "animate-lunge",
+        "svg": "lunge"
+      },
+      {
+        "title": "Right Lunge Stretch",
+        "desc": "Step left foot forward in supported lunge, tuck pelvis.",
+        "duration": 75,
+        "animation": "animate-lunge",
+        "svg": "lunge"
+      }
+    ]
   },
   {
-    id: 'prayer-stretch',
-    name: 'Prayer Stretch',
-    targetArea: 'wrists',
-    tier: 'easy',
-    description: 'Stretches the wrist flexors bilaterally and gently loads the carpal tunnel structures.',
-    cues: [
-      'Press your palms together in front of your chest at heart height',
-      'Slowly lower your hands toward your waist while keeping palms together',
-      'Stop when you feel a stretch in your wrists and forearms; hold 20 to 30 seconds'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'prayer-stretch.svg'
+    "id": "hamstring-sweeps",
+    "name": "Dynamic Hamstring Sweeps",
+    "category": "mobility",
+    "tier": "medium",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Safely lengthens shortened hamstrings dynamically without pulling cold tissue.",
+    "steps": [
+      {
+        "title": "Alternating Sweeps",
+        "desc": "Step forward, extend leg, hinge at hips and sweep arms low.",
+        "duration": 60,
+        "animation": "animate-sweep",
+        "svg": "hamstring_sweep"
+      }
+    ]
   },
   {
-    id: 'forearm-supination',
-    name: 'Forearm Supination and Pronation',
-    targetArea: 'wrists',
-    tier: 'easy',
-    description: 'Restores forearm rotation mobility that becomes restricted from sustained keyboard posture.',
-    cues: [
-      'Hold your elbow at 90 degrees at your side, upper arm against your ribcage',
-      'Rotate your palm slowly all the way up, then all the way down',
-      'Keep the upper arm still; the movement comes from the forearm, not the shoulder'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'forearm-supination.svg'
+    "id": "sit-to-stand",
+    "name": "Sit-to-Stand Squats",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 55,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Chair squats forcing quads to lift body weight, spiking blood flow.",
+    "steps": [
+      {
+        "title": "Chair Squats",
+        "desc": "Stand up from chair using glutes and quads. Sit back down.",
+        "duration": 60,
+        "animation": "animate-squat",
+        "svg": "squats"
+      }
+    ]
   },
   {
-    id: 'wrist-circles',
-    name: 'Wrist Circles',
-    targetArea: 'wrists',
-    tier: 'easy',
-    description: 'Maintains full wrist mobility and lubricates the joint after sustained static gripping.',
-    cues: [
-      'Extend both arms forward, hands loosely fisted',
-      'Draw slow, large circles with both wrists simultaneously, 10 each direction',
-      'Move through the full range; light cracking is normal'
-    ],
-    quickDuration: 90,
-    fullDuration: 300,
-    illustration: 'wrist-circles.svg'
-  },
-
-  // --- HARD TIER: heart-rate movers ---
-  {
-    id: 'bodyweight-squats',
-    name: 'Bodyweight Squats',
-    targetArea: 'hips',
-    tier: 'hard',
-    description: 'Fires the largest muscles in your body to spike circulation and re-energize your legs.',
-    cues: [
-      'Feet shoulder-width apart, toes slightly out',
-      'Sit your hips back and down like reaching for a low chair',
-      'Drive through your heels to stand tall, squeezing your glutes at the top'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'bodyweight-squats.svg'
+    "id": "standing-calf-raises",
+    "name": "Standing Calf Raises",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 50,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Activates calf soleus venous pumps to clear glucose and boost circulation.",
+    "steps": [
+      {
+        "title": "Soleus Venous Pump",
+        "desc": "Raise heels off floor, squeeze calf muscles. Lift and hold 2s.",
+        "duration": 60,
+        "animation": "animate-calf",
+        "svg": "calf"
+      }
+    ]
   },
   {
-    id: 'desk-pushups',
-    name: 'Desk Pushups',
-    targetArea: 'shoulders',
-    tier: 'hard',
-    description: 'Builds pressing strength and wakes up your chest and arms using nothing but your desk.',
-    cues: [
-      'Hands on the desk edge, slightly wider than shoulders, body in a straight line',
-      'Lower your chest toward the desk with elbows at 45 degrees',
-      'Press back up without letting your hips sag'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'desk-pushups.svg'
+    "id": "air-squats",
+    "name": "Air Squats",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 60,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Raises heart rate and lubricates hip and knee joint cavities.",
+    "steps": [
+      {
+        "title": "Air Squats",
+        "desc": "Squat down, hips back, knees out. Aim for 15-20 reps.",
+        "duration": 60,
+        "animation": "animate-squat",
+        "svg": "squats"
+      }
+    ]
   },
   {
-    id: 'jumping-jacks',
-    name: 'Jumping Jacks',
-    targetArea: 'cardio',
-    tier: 'hard',
-    description: 'A full-body classic that raises your heart rate fast and shakes off desk stiffness everywhere at once.',
-    cues: [
-      'Start standing, arms at your sides',
-      'Jump feet wide while sweeping your arms overhead',
-      'Land softly on the balls of your feet and keep a steady rhythm'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'jumping-jacks.svg'
+    "id": "leg-extensions",
+    "name": "Seated Leg Extensions",
+    "category": "strength",
+    "tier": "easy",
+    "xp": 45,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Engages quadriceps and maintains synovial knee fluid motion.",
+    "steps": [
+      {
+        "title": "Left Extension",
+        "desc": "Extend left leg straight out. Hold 30s.",
+        "duration": 60,
+        "animation": "animate-leg-ext",
+        "svg": "leg_extension"
+      },
+      {
+        "title": "Right Extension",
+        "desc": "Extend right leg straight out. Hold 30s.",
+        "duration": 60,
+        "animation": "animate-leg-ext",
+        "svg": "leg_extension"
+      }
+    ]
   },
   {
-    id: 'high-knees',
-    name: 'High Knees',
-    targetArea: 'cardio',
-    tier: 'hard',
-    description: 'Drives your heart rate up and re-activates the hip flexors in the opposite direction sitting locks them.',
-    cues: [
-      'Run in place, driving each knee up toward hip height',
-      'Stay light on the balls of your feet',
-      'Pump your arms and keep your chest tall'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'high-knees.svg'
+    "id": "desk-pushups",
+    "name": "Desk Push-Ups",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 50,
+    "duration": 1,
+    "targetArea": "shoulders",
+    "desc": "Engages chest and core with less joint shear stress than floor pushes.",
+    "steps": [
+      {
+        "title": "Desk Incline Pushups",
+        "desc": "Hands on desk edge, keep straight body line. Flex arms.",
+        "duration": 60,
+        "animation": "animate-pushup",
+        "svg": "pushups"
+      }
+    ]
   },
   {
-    id: 'alternating-lunges',
-    name: 'Alternating Lunges',
-    targetArea: 'hips',
-    tier: 'hard',
-    description: 'Strengthens each leg independently and stretches the hip flexors under load.',
-    cues: [
-      'Step one foot forward and lower until both knees reach 90 degrees',
-      'Keep your front knee over your ankle, not past your toes',
-      'Push back to standing and switch legs each rep'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'alternating-lunges.svg'
+    "id": "stair-climbing",
+    "name": "Brisk Stair Climbing",
+    "category": "strength",
+    "tier": "hard",
+    "xp": 75,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Hourly vascular booster that elevates cardiorespiratory fitness.",
+    "steps": [
+      {
+        "title": "Stair snack climbing",
+        "desc": "Briskly walk/climb stairs up and down continuously.",
+        "duration": 120,
+        "animation": "animate-march",
+        "svg": "march"
+      }
+    ]
   },
   {
-    id: 'wall-sit',
-    name: 'Wall Sit',
-    targetArea: 'hips',
-    tier: 'hard',
-    description: 'An isometric burner that builds leg endurance and posture strength with zero movement.',
-    cues: [
-      'Back flat against a wall, slide down until knees reach 90 degrees',
-      'Keep your weight in your heels and knees over ankles',
-      'Breathe steadily and hold; rest and repeat when your legs shake'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'wall-sit.svg'
+    "id": "desk-plank",
+    "name": "The Desk Plank",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 55,
+    "duration": 1,
+    "targetArea": "core",
+    "desc": "Isometrically engages core muscles that go slack in computer chairs.",
+    "steps": [
+      {
+        "title": "Isometric Desk Plank",
+        "desc": "Forearms on desk edge, hold straight plank. Engage abs.",
+        "duration": 60,
+        "animation": "animate-plank",
+        "svg": "desk_plank"
+      }
+    ]
   },
   {
-    id: 'stair-climbs',
-    name: 'Stair Climbs',
-    targetArea: 'cardio',
-    tier: 'hard',
-    description: 'Turns any staircase into a cardio machine that pumps blood back up from your lower legs.',
-    cues: [
-      'Climb at a steady pace, driving through each whole foot',
-      'Use the descent as active recovery',
-      'No stairs handy? Step up and down on one sturdy step instead'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'stair-climbs.svg'
+    "id": "high-knees",
+    "name": "Marching in Place",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 50,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Elevates heart rate and drives hip flexors dynamically for energy.",
+    "steps": [
+      {
+        "title": "Marching in place",
+        "desc": "Drive knees high to waist level. Swing arms.",
+        "duration": 60,
+        "animation": "animate-march",
+        "svg": "march"
+      }
+    ]
   },
   {
-    id: 'mountain-climbers',
-    name: 'Mountain Climbers',
-    targetArea: 'spine',
-    tier: 'hard',
-    description: 'Combines core stability with cardio by driving your knees while your trunk holds a plank.',
-    cues: [
-      'Start in a straight-arm plank, shoulders over wrists',
-      'Drive one knee toward your chest, then switch in a running rhythm',
-      'Keep your hips level and your back flat throughout'
-    ],
-    quickDuration: 90, fullDuration: 300, illustration: 'mountain-climbers.svg'
+    "id": "rebounding",
+    "name": "Rebounding Bounces",
+    "category": "quiet",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Light impact bouncing that stimulates lymphatic drainage and bone density.",
+    "steps": [
+      {
+        "title": "Lymphatic Bounces",
+        "desc": "Bounce lightly in place, absorb impact through knees.",
+        "duration": 60,
+        "animation": "animate-bounce",
+        "svg": "rebound"
+      }
+    ]
+  },
+  {
+    "id": "pacing",
+    "name": "Pacing Phone Call",
+    "category": "quiet",
+    "tier": "easy",
+    "xp": 80,
+    "duration": 5,
+    "targetArea": "legs",
+    "desc": "Baseline thermogenesis (NEAT) walking that boosts call cognitive focus.",
+    "steps": [
+      {
+        "title": "Walking call pacing",
+        "desc": "Walk slowly around your room/office during active call.",
+        "duration": 300,
+        "animation": "animate-march",
+        "svg": "march"
+      }
+    ]
   }
 ];

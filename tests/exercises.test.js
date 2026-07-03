@@ -1,58 +1,61 @@
-// tests/exercises.test.js
-import { test, assert, assertEqual, summary } from './run.js';
+import { test, run, assert, assertEqual } from './run.js';
 import { EXERCISES } from '../exercises.js';
+import { FIGURES } from '../figures.js';
 
-const VALID_AREAS = ['hips', 'spine', 'shoulders', 'neck', 'wrists', 'cardio'];
+const CATEGORIES = new Set(['mobility', 'stretch', 'strength', 'quiet']);
+const AREAS = new Set(['neck', 'shoulders', 'core', 'wrists', 'legs']);
+const TIERS = new Set(['easy', 'medium', 'hard']);
 
-test('EXERCISES is a non-empty array', () => {
-  assert(Array.isArray(EXERCISES), 'EXERCISES should be an array');
-  assert(EXERCISES.length >= 20, `Should have at least 20 exercises, got ${EXERCISES.length}`);
+test('28 quests, unique ids', () => {
+  assertEqual(EXERCISES.length, 28);
+  assertEqual(new Set(EXERCISES.map(e => e.id)).size, 28);
 });
 
-test('each exercise has required fields', () => {
-  for (const ex of EXERCISES) {
-    assert(typeof ex.id === 'string' && ex.id.length > 0, `Exercise missing id: ${JSON.stringify(ex)}`);
-    assert(typeof ex.name === 'string' && ex.name.length > 0, `Exercise missing name: ${ex.id}`);
-    assert(VALID_AREAS.includes(ex.targetArea), `Invalid targetArea "${ex.targetArea}" on ${ex.id}`);
-    assert(typeof ex.description === 'string' && ex.description.length > 0, `Exercise missing description: ${ex.id}`);
-    assert(Array.isArray(ex.cues) && ex.cues.length >= 2 && ex.cues.length <= 3, `Exercise cues must be 2-3 items: ${ex.id}`);
-    assertEqual(ex.quickDuration, 90, `quickDuration must be 90 on ${ex.id}`);
-    assertEqual(ex.fullDuration, 300, `fullDuration must be 300 on ${ex.id}`);
-    assert(typeof ex.illustration === 'string' && ex.illustration.endsWith('.svg'), `Invalid illustration on ${ex.id}`);
+test('every quest has valid category, area, tier, xp, duration, desc', () => {
+  for (const e of EXERCISES) {
+    assert(CATEGORIES.has(e.category), `${e.id}: bad category ${e.category}`);
+    assert(AREAS.has(e.targetArea), `${e.id}: bad area ${e.targetArea}`);
+    assert(TIERS.has(e.tier), `${e.id}: bad tier ${e.tier}`);
+    assert(Number.isFinite(e.xp) && e.xp > 0, `${e.id}: bad xp`);
+    assert(Number.isFinite(e.duration) && e.duration > 0, `${e.id}: bad duration`);
+    assert(typeof e.desc === 'string' && e.desc.length > 0, `${e.id}: missing desc`);
   }
 });
 
-test('all exercise ids are unique', () => {
-  const ids = EXERCISES.map(e => e.id);
-  const unique = new Set(ids);
-  assertEqual(unique.size, ids.length, 'Duplicate exercise IDs found');
-});
-
-test('all five target areas are represented', () => {
-  const areas = new Set(EXERCISES.map(e => e.targetArea));
-  for (const area of VALID_AREAS) {
-    assert(areas.has(area), `No exercises found for targetArea "${area}"`);
+test('every quest has steps whose durations sum to duration minutes', () => {
+  for (const e of EXERCISES) {
+    assert(Array.isArray(e.steps) && e.steps.length > 0, `${e.id}: no steps`);
+    const sum = e.steps.reduce((s, st) => s + st.duration, 0);
+    assertEqual(sum, e.duration * 60, `${e.id}: steps sum ${sum} != ${e.duration * 60}`);
   }
 });
 
-test('every exercise has a valid tier', () => {
-  const valid = ['easy', 'medium', 'hard'];
-  for (const ex of EXERCISES) {
-    if (!valid.includes(ex.tier)) throw new Error(`${ex.id} has invalid tier: ${ex.tier}`);
+test('every step names an existing figure', () => {
+  for (const e of EXERCISES) {
+    for (const st of e.steps) {
+      assert(st.svg in FIGURES, `${e.id}: unknown figure ${st.svg}`);
+      assert(typeof st.title === 'string' && st.title.length > 0, `${e.id}: step missing title`);
+    }
   }
 });
 
-test('library has 32 exercises with 8 hard', () => {
-  if (EXERCISES.length !== 32) throw new Error(`expected 32, got ${EXERCISES.length}`);
-  const hard = EXERCISES.filter(e => e.tier === 'hard');
-  if (hard.length !== 8) throw new Error(`expected 8 hard, got ${hard.length}`);
-});
-
-test('every tier has at least two target areas for rotation', () => {
-  for (const tier of ['easy', 'medium', 'hard']) {
-    const areas = new Set(EXERCISES.filter(e => e.tier === tier).map(e => e.targetArea));
-    if (areas.size < 2) throw new Error(`tier ${tier} has fewer than 2 areas`);
+test('spec target-area assignments hold', () => {
+  const expect = {
+    'posture-reset': 'shoulders', 'wrist-stretch': 'wrists', 'back-twist': 'core',
+    'calf-raises': 'legs', 'seated-plank': 'core', 'eye-focus': 'neck',
+    'shoulder-rolls': 'shoulders', 'deep-breaths': 'core', 'seated-spinal-twist': 'core',
+    'figure-4-stretch': 'legs', 'chin-tucks': 'neck', 'wrist-extensor': 'wrists',
+    'glute-squeezes': 'legs', 'scapular-retractions': 'shoulders', 'doorway-stretch': 'shoulders',
+    'side-bends': 'core', 'hip-flexor-stretch': 'legs', 'hamstring-sweeps': 'legs',
+    'sit-to-stand': 'legs', 'standing-calf-raises': 'legs', 'air-squats': 'legs',
+    'leg-extensions': 'legs', 'desk-pushups': 'shoulders', 'stair-climbing': 'legs',
+    'desk-plank': 'core', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs'
+  };
+  for (const [id, area] of Object.entries(expect)) {
+    const e = EXERCISES.find(x => x.id === id);
+    assert(e, `missing quest ${id}`);
+    assertEqual(e.targetArea, area, `${id}`);
   }
 });
 
-summary();
+run();
