@@ -59,31 +59,295 @@ document.querySelectorAll('.nav-item[data-tab]').forEach(btn =>
   btn.addEventListener('click', () => showTab(btn.dataset.tab)));
 
 // ---------------------------------------------------------------------------
-// Stubs -- Tasks 8/9 fill these in
+// Stubs -- Task 9 fills these in
 // ---------------------------------------------------------------------------
 
-function renderToday() { /* Task 8/9 fills this in */ }
 function renderLibrary() { /* Task 8/9 fills this in */ }
 function renderRewards() { /* Task 8/9 fills this in */ }
 function renderProgress() { /* Task 8/9 fills this in */ }
 function renderSettings() { /* Task 8/9 fills this in */ }
 function updateTopBar() { /* Task 8/9 fills this in */ }
-function updateRail() { /* Task 8/9 fills this in */ }
-function onReminderFires() { /* Task 8/9 fills this in */ }
-function startSuggestedQuest() { /* Task 8/9 fills this in */ }
+
+// ---------------------------------------------------------------------------
+// Quotes
+// ---------------------------------------------------------------------------
+
+const POSITIVE_QUOTES = [
+  "Sustainable momentum is better than constant speed. Breathe.",
+  "Deep breaths are like little love notes to your nervous system.",
+  "Your body is your only home; give it a 2-minute break.",
+  "Taking care of yourself is part of doing a good job.",
+  "Pace your day. Rest is not a reward, it is a prerequisite.",
+  "Even a 10-second stretch changes the chemistry of your body.",
+  "Your value is not determined by your screen time today.",
+  "Disconnect to reconnect with your posture, feet, and breath."
+];
+
+function initQuote() {
+  const el = document.getElementById('dashboard-quote-text');
+  el.textContent = `"${POSITIVE_QUOTES[new Date().getDate() % POSITIVE_QUOTES.length]}"`;
+}
+
+document.getElementById('btn-quote-shuffle').addEventListener('click', () => {
+  const el = document.getElementById('dashboard-quote-text');
+  const current = el.textContent.replace(/"/g, '');
+  const pool = POSITIVE_QUOTES.filter(q => q !== current);
+  el.textContent = `"${pool[Math.floor(Math.random() * pool.length)]}"`;
+});
+
+// ---------------------------------------------------------------------------
+// Today view
+// ---------------------------------------------------------------------------
+
+let suggestedQuest = null;
+
+function renderToday() {
+  const settings = getSettings();
+  const record = getTodayRecord();
+  const name = settings.userName;
+  const h = new Date().getHours();
+  const dayPart = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('dashboard-greeting').textContent = name ? `${dayPart}, ${name}` : dayPart;
+  initQuote();
+
+  const mins = getSittingMinutes(new Date(), settings, record);
+  document.getElementById('dashboard-sitting-duration').textContent =
+    mins !== null ? `Sitting ${mins} min since your last break.` : 'Your chair misses you already. Good.';
+  document.getElementById('today-seated-timer').textContent = mins !== null ? `${mins} min` : 'Fresh start';
+
+  if (!suggestedQuest) suggestedQuest = suggestExercise(record.lastTargetArea, null, null);
+  renderPrimaryQuest();
+  renderDailyQuests();
+  tickToday();
+}
+
+function renderPrimaryQuest() {
+  document.getElementById('primary-quest-title').textContent = suggestedQuest.name;
+  document.getElementById('primary-quest-description').textContent = suggestedQuest.desc;
+  document.getElementById('primary-quest-time').textContent = `${suggestedQuest.duration} min`;
+  document.getElementById('primary-quest-xp').textContent = `+${suggestedQuest.xp} XP`;
+  document.getElementById('primary-quest-insight').textContent = suggestedQuest.desc;
+}
+
+document.getElementById('btn-reroll-quest').addEventListener('click', () => {
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null);
+  renderPrimaryQuest();
+});
+document.getElementById('btn-start-quest').addEventListener('click', () => startQuest(suggestedQuest));
+
+function startSuggestedQuest() {
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  startQuest(suggestedQuest);
+}
+
+// ---------------------------------------------------------------------------
+// Reminder path and snooze
+// ---------------------------------------------------------------------------
+
+function onReminderFires() {
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  showTab('today');
+  const card = document.getElementById('primary-suggested-card');
+  card.classList.remove('quest-pulse');
+  void card.offsetWidth; // restart the animation
+  card.classList.add('quest-pulse');
+  document.getElementById('btn-snooze-quest').classList.remove('hidden');
+}
+
+document.getElementById('btn-snooze-quest').addEventListener('click', snoozeReminder);
+function snoozeReminder() {
+  document.getElementById('btn-snooze-quest').classList.add('hidden');
+  if (snoozeTimeout) clearTimeout(snoozeTimeout);
+  snoozeTimeout = setTimeout(onReminderFires, 15 * 60 * 1000);
+}
+
+// ---------------------------------------------------------------------------
+// Live quest widget (break flow)
+// ---------------------------------------------------------------------------
+
+let liveQuest = null, liveRemaining = 0, livePaused = false, liveStepIdx = -1;
+
+function sound(freq, ms) {
+  if (!getSettings().muted) playTone(freq, ms);
+}
+
+function stepAtElapsed(quest, elapsed) {
+  let acc = 0;
+  for (let i = 0; i < quest.steps.length; i++) {
+    acc += quest.steps[i].duration;
+    if (elapsed < acc) return i;
+  }
+  return quest.steps.length - 1;
+}
+
+function startQuest(quest) {
+  liveQuest = quest;
+  liveStepIdx = -1;
+  livePaused = false;
+  document.body.classList.add('break-active');
+  document.getElementById('btn-snooze-quest').classList.add('hidden');
+  document.getElementById('live-quest-widget').classList.remove('hidden');
+  document.getElementById('live-quest-widget-header').textContent = 'Live Desk Quest';
+  runLiveTimer(quest.duration * 60);
+}
+
+function runLiveTimer(seconds) {
+  if (activeTimer) activeTimer.stop();
+  const total = liveQuest.duration * 60;
+  activeTimer = startTimer(seconds, (remaining) => {
+    liveRemaining = remaining;
+    document.getElementById('live-timer-countdown').textContent = formatTime(remaining);
+    const CIRC = 377; // 2 * PI * r, r=60 from the svg
+    document.getElementById('timer-progress-circle').style.strokeDashoffset =
+      String(CIRC * (1 - remaining / total));
+    const idx = stepAtElapsed(liveQuest, total - remaining);
+    if (idx !== liveStepIdx) { liveStepIdx = idx; renderLiveStep(); if (idx > 0) sound(523, 150); }
+  }, completeQuest);
+}
+
+function renderLiveStep() {
+  const step = liveQuest.steps[liveStepIdx];
+  document.getElementById('live-quest-movement-title').textContent = step.title;
+  document.getElementById('live-quest-movement-desc').textContent = step.desc;
+  const ill = document.getElementById('live-quest-illustration-container');
+  ill.innerHTML = getFigure(step.svg);
+  ill.className = step.animation || '';
+  const dots = document.getElementById('live-quest-dots');
+  dots.innerHTML = liveQuest.steps
+    .map((_, i) => `<div class="step-dot${i <= liveStepIdx ? ' active' : ''}"></div>`).join('');
+}
+
+document.getElementById('btn-live-pause').addEventListener('click', function () {
+  if (!liveQuest) return;
+  if (!livePaused) { activeTimer.stop(); livePaused = true; this.textContent = 'Resume'; }
+  else { livePaused = false; this.textContent = 'Pause'; runLiveTimer(liveRemaining); }
+});
+document.getElementById('btn-live-skip').addEventListener('click', () => {
+  if (!liveQuest) return;
+  if (activeTimer) activeTimer.stop();
+  completeQuest();
+});
+
+function completeQuest() {
+  const quest = liveQuest;
+  liveQuest = null;
+  document.body.classList.remove('break-active');
+  document.getElementById('btn-live-pause').textContent = 'Pause';
+  sound(659, 300); setTimeout(() => sound(784, 400), 350);
+
+  logBreak(quest.id, quest.targetArea, quest.tier);
+  recordDaySummary({ date: todayDateString(), minutes: quest.duration, targetArea: quest.targetArea });
+  const result = awardBreak(quest.xp);
+  showXpToast(`+${result.xpGained} XP${result.leveledUp ? ` · Level ${result.level}: ${result.title}` : ''}`);
+  if (result.leveledUp) setTimeout(() => sound(880, 400), 750);
+  awardNewQuestCompletions();
+
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  showTab('today');
+  updateRail();
+  updateTopBar();
+}
+
+// ---------------------------------------------------------------------------
+// The rail (XP bar + shield + resting widget)
+// ---------------------------------------------------------------------------
+
+function restingHeaderText() {
+  const ms = getNextReminderMs(getSettings());
+  return ms === null ? 'Off the clock' : `Next quest in ${Math.max(1, Math.round(ms / 60000))} min`;
+}
+
+function renderRestingRail() {
+  if (liveQuest) return;
+  document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  const step = suggestedQuest.steps[0];
+  const ill = document.getElementById('live-quest-illustration-container');
+  ill.innerHTML = getFigure(step.svg);
+  ill.className = ''; // static: no animation between quests
+  document.getElementById('live-quest-movement-title').textContent = suggestedQuest.name;
+  document.getElementById('live-quest-movement-desc').textContent = step.desc;
+  document.getElementById('live-timer-countdown').textContent = formatTime(suggestedQuest.duration * 60);
+  document.getElementById('timer-progress-circle').style.strokeDashoffset = '0';
+  document.getElementById('live-quest-dots').innerHTML =
+    suggestedQuest.steps.map(() => '<div class="step-dot"></div>').join('');
+}
+
+function updateRail() {
+  const p = getProgress();
+  document.getElementById('level-display-label').textContent = `Level ${p.level} · ${p.title}`;
+  document.getElementById('xp-display-label').textContent =
+    p.xpForNext === null ? `${p.xp} XP · max level` : `${p.xpIntoLevel} / ${p.xpForNext} XP`;
+  document.getElementById('xp-progress-fill-bar').style.width =
+    p.xpForNext === null ? '100%' : `${Math.min(100, (p.xpIntoLevel / p.xpForNext) * 100)}%`;
+
+  const h = getStreak();
+  const card = document.getElementById('shield-card');
+  const desc = document.getElementById('shield-desc-text');
+  card.classList.toggle('shield-inactive', !h.shieldHeld);
+  if (h.shieldUsedFor) {
+    const weekday = new Date(h.shieldUsedFor + 'T12:00:00').toLocaleDateString(undefined, { weekday: 'long' });
+    desc.textContent = `Your shield covered ${weekday}. Streak safe.`;
+    acknowledgeShieldUse();
+  } else {
+    desc.textContent = h.shieldHeld
+      ? 'Protects your streak for one missed day'
+      : 'Earn one with a 5-day streak';
+  }
+
+  renderRestingRail();
+}
+
+// ---------------------------------------------------------------------------
+// 10-second Today refresh
+// ---------------------------------------------------------------------------
+
+function tickToday() {
+  const settings = getSettings();
+  const record = getTodayRecord();
+  const mins = getSittingMinutes(new Date(), settings, record);
+  document.getElementById('dashboard-sitting-duration').textContent =
+    mins !== null ? `Sitting ${mins} min since your last break.` : 'Your chair misses you already. Good.';
+  document.getElementById('today-seated-timer').textContent = mins !== null ? `${mins} min` : 'Fresh start';
+  const ms = getNextReminderMs(settings);
+  document.getElementById('next-break-line').textContent =
+    ms === null ? 'Off the clock' : `Next break in ${Math.max(1, Math.round(ms / 60000))} min`;
+  if (!liveQuest) document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
+}
+
+let todayTicker = null;
+function startTodayTicker() {
+  if (todayTicker) clearInterval(todayTicker);
+  todayTicker = setInterval(tickToday, 10000);
+}
 
 // ---------------------------------------------------------------------------
 // Quests, XP toast
 // ---------------------------------------------------------------------------
 
-function refreshQuests() {
+function renderDailyQuests() {
+  const container = document.getElementById('daily-quests-board-container');
+  container.innerHTML = '';
   const settings = getSettings();
   const quests = getTodaysQuests(todayDateString(), settings);
   if (quests.length === 0) return;
 
   const record = getTodayRecord();
-  evaluateQuests(record, quests, settings);
-  // Task 8 adapts this into the daily-quests-board-container rendering.
+  const evals = evaluateQuests(record, quests, settings);
+  evals.forEach(q => {
+    const item = document.createElement('div');
+    item.className = 'fd-card daily-quest-item';
+    item.innerHTML = `
+      <div class="daily-quest-top">
+        <span class="daily-quest-name">${q.title}</span>
+        <span class="daily-quest-status-bullet ${q.completed ? 'completed' : ''}"></span>
+      </div>
+      <div class="daily-quest-bottom">
+        <span class="daily-quest-xp">+${q.bonusXp} XP</span>
+        <span class="daily-quest-progress-label">${q.progress}/${q.target}</span>
+      </div>`;
+    container.appendChild(item);
+  });
 }
 
 function awardNewQuestCompletions() {
@@ -190,6 +454,7 @@ function startApp() {
   showTab('today');
   updateTopBar();
   updateRail();
+  startTodayTicker();
   if (reminderEngine) reminderEngine.stop();
   reminderEngine = startReminderEngine(onReminderFires);
 }
