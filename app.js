@@ -32,7 +32,7 @@ function todayDateString() {
 
 const TABS = ['today', 'quests', 'calendar', 'team', 'rewards', 'progress', 'settings'];
 const TAB_TITLES = {
-  today: "Today's Quest Board", quests: 'Quests Library', calendar: 'Calendar',
+  today: "Today's Quest Board", quests: 'Quest Library', calendar: 'Calendar',
   team: 'Team', rewards: 'Rewards', progress: 'Progress', settings: 'Settings'
 };
 const TAB_RENDERERS = {
@@ -232,14 +232,14 @@ document.getElementById('audio-mute-btn').addEventListener('click', () => {
 // ---------------------------------------------------------------------------
 
 const POSITIVE_QUOTES = [
-  "Sustainable momentum is better than constant speed. Breathe.",
-  "Deep breaths are like little love notes to your nervous system.",
-  "Your body is your only home; give it a 2-minute break.",
+  "Steady beats fast. A short break now keeps you going all afternoon.",
+  "A few slow breaths tell your nervous system the emergency is over.",
+  "This body is the only one you get. Two minutes of care is not much to ask.",
   "Taking care of yourself is part of doing a good job.",
-  "Pace your day. Rest is not a reward, it is a prerequisite.",
-  "Even a 10-second stretch changes the chemistry of your body.",
-  "Your value is not determined by your screen time today.",
-  "Disconnect to reconnect with your posture, feet, and breath."
+  "Rest is not a reward you earn. It is what lets the rest of the day work.",
+  "Even a ten-second stretch shifts what is happening in your muscles.",
+  "Your worth today has nothing to do with hours logged at the screen.",
+  "Step away for a minute and check in with your posture, your feet, your breath."
 ];
 
 function initQuote() {
