@@ -157,6 +157,7 @@ function renderSettings() {
     document.getElementById('settings-wd-' + d).checked = (s.workDays || [1,2,3,4,5]).includes(d);
   document.getElementById('settings-reminder-mode').value = s.reminderMode;
   document.getElementById('settings-interval-minutes').value = String(s.intervalMinutes);
+  document.getElementById('settings-daily-goal').value = String(s.dailyGoal);
   document.getElementById('settings-sound-toggle').checked = !s.muted;
   settingsFixedTimes = [];
   const list = document.getElementById('settings-fixed-times-list');
@@ -184,6 +185,7 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
     workDays: [0,1,2,3,4,5,6].filter(d => document.getElementById('settings-wd-' + d).checked),
     reminderMode: document.getElementById('settings-reminder-mode').value,
     intervalMinutes: parseInt(document.getElementById('settings-interval-minutes').value, 10),
+    dailyGoal: parseInt(document.getElementById('settings-daily-goal').value, 10),
     fixedTimes: [...settingsFixedTimes],
     muted: !document.getElementById('settings-sound-toggle').checked
   });
