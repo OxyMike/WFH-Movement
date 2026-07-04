@@ -2095,6 +2095,9 @@ body { overflow: auto; height: auto; min-height: 100vh; }
 
 /* Wizard controls */
 .onboarding-controls { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.onboarding-close { position: absolute; top: 14px; right: 14px; font-size: 22px; line-height: 1;
+  color: var(--text-muted); padding: 4px 8px; border-radius: var(--border-radius); z-index: 1; }
+.onboarding-close:hover { color: var(--text-color); background: var(--primary-light); }
 
 /* Toast */
 .xp-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);

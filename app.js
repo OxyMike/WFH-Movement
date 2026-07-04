@@ -572,6 +572,9 @@ function showWizardSlide(i) {
 
 document.getElementById('btn-ob-next').addEventListener('click', () => showWizardSlide(wizardIdx + 1));
 document.getElementById('btn-ob-back').addEventListener('click', () => showWizardSlide(wizardIdx - 1));
+document.getElementById('btn-ob-close').addEventListener('click', () => {
+  document.getElementById('onboarding-wizard').classList.remove('active');
+});
 
 document.getElementById('ob-reminder-mode').addEventListener('change', function () {
   const fixed = this.value === 'fixed';
