@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wfh-movement-v7';
+const CACHE_NAME = 'wfh-movement-v8';
 const ASSETS = [
   '/',
   '/index.html',
@@ -12,6 +12,7 @@ const ASSETS = [
   '/game.js',
   '/quests.js',
   '/insights.js',
+  '/figures.js',
   '/manifest.json'
 ];
 
@@ -41,17 +42,16 @@ self.addEventListener('message', event => {
   if (event.data?.type === 'SCHEDULE_NOTIFICATION') {
     const { delayMs, title, body } = event.data;
     setTimeout(() => {
-      self.registration.showNotification('Focus Buff available', {
-        body: 'Pick your energy: easy, medium, or hard',
+      self.registration.showNotification('Time to move', {
+        body: 'Your next quest is ready. Two minutes buys back an hour of sitting.',
         icon: '/icons/icon-192.png',
         badge: '/icons/icon-192.png',
         tag: 'wfh-movement-break',
         renotify: true,
         data: { url: '/' },
         actions: [
-          { action: 'easy', title: '🌱 Easy' },
-          { action: 'medium', title: '🚶 Medium' },
-          { action: 'hard', title: '🔥 Hard' }
+          { action: 'start', title: 'Start quest' },
+          { action: 'later', title: 'Later' }
         ]
       });
     }, delayMs);
@@ -60,18 +60,19 @@ self.addEventListener('message', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-  const tier = ['easy', 'medium', 'hard'].includes(event.action) ? event.action : null;
+  const action = event.action;
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
       const client = list[0];
       if (client) {
         client.focus();
-        if (tier) client.postMessage({ type: 'START_TIER', tier });
+        if (action === 'start') client.postMessage({ type: 'START_SUGGESTED' });
+        else if (action === 'later') client.postMessage({ type: 'SNOOZE' });
         else client.postMessage({ type: 'SHOW_CHOICE' });
         return;
       }
-      const url = tier ? `/?tier=${tier}` : '/';
-      return clients.openWindow(url);
+      if (action === 'later') return;
+      return clients.openWindow(action === 'start' ? '/?break=start' : '/');
     })
   );
 });
