@@ -8,7 +8,8 @@ const DEFAULT_SETTINGS = {
   intervalMinutes: 45,
   fixedTimes: [],
   defaultBreakLength: 'full',
-  workDays: [1, 2, 3, 4, 5]
+  workDays: [1, 2, 3, 4, 5],
+  dailyGoal: 4
 };
 
 // Local calendar date, not UTC: an evening break must count toward the

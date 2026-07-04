@@ -79,3 +79,8 @@ export function getProgress() {
     xpForNext: nextThreshold === null ? null : nextThreshold - currentThreshold
   };
 }
+
+// Daily goal: award once per day when today's break count reaches the target.
+export function shouldAwardGoal(record, goal) {
+  return !record.goalAwarded && (record.completedBreaks || []).length >= goal;
+}
