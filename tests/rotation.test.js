@@ -1,7 +1,47 @@
 // tests/rotation.test.js
 import { test, assert, assertEqual, summary } from './run.js';
-import { suggestExercise } from '../rotation.js';
+import { suggestExercise, easierQuest } from '../rotation.js';
 import { EXERCISES } from '../exercises.js';
+
+test('easierQuest halves total time and keeps duration in sync with step seconds', () => {
+  const q = EXERCISES.find(e => e.id === 'posture-reset'); // 4 min, 4 x 60s steps
+  const easy = easierQuest(q);
+  const stepSum = easy.steps.reduce((a, s) => a + s.duration, 0);
+  assertEqual(stepSum, easy.duration * 60, 'invariant: steps must sum to duration minutes');
+  assert(stepSum < q.steps.reduce((a, s) => a + s.duration, 0), 'total time must strictly decrease');
+});
+
+test('easierQuest preserves identity and reward, only time changes', () => {
+  const q = EXERCISES.find(e => e.id === 'posture-reset');
+  const easy = easierQuest(q);
+  assertEqual(easy.id, q.id);
+  assertEqual(easy.name, q.name);
+  assertEqual(easy.targetArea, q.targetArea);
+  assertEqual(easy.tier, q.tier);
+  assertEqual(easy.xp, q.xp, 'reward is not docked for choosing easier');
+  assertEqual(easy.steps.length, q.steps.length, 'the movement pattern is kept, just shorter');
+});
+
+test('easierQuest never mutates the input quest', () => {
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 2,
+    steps: [{ title: 'a', duration: 60 }, { title: 'b', duration: 60 }] };
+  const snapshot = JSON.stringify(q);
+  easierQuest(q);
+  assertEqual(JSON.stringify(q), snapshot, 'input must be untouched');
+});
+
+test('easierQuest floors step length so a step never drops below 10s', () => {
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 58 / 60,
+    steps: [{ title: 'a', duration: 30 }, { title: 'b', duration: 14 }, { title: 'c', duration: 14 }] };
+  const easy = easierQuest(q);
+  assert(easy.steps.every(s => s.duration >= 10), 'no step below the 10s floor');
+});
+
+test('easierQuest returns null when the quest is already too short to halve', () => {
+  const tiny = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 20 / 60,
+    steps: [{ title: 'a', duration: 10 }, { title: 'b', duration: 10 }] };
+  assertEqual(easierQuest(tiny), null);
+});
 
 test('suggestExercise returns a valid exercise', () => {
   const result = suggestExercise(null, null);

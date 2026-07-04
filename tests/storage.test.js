@@ -12,8 +12,30 @@ global.localStorage = {
 import {
   getSettings, saveSettings, getTodayRecord, logBreak,
   getStreak, resetAll, isFirstVisit, getState, saveState,
-  acknowledgeShieldUse, isWorkday, previousWorkday
+  acknowledgeShieldUse, isWorkday, previousWorkday, nextWorkdayName
 } from '../storage.js';
+
+test('nextWorkdayName from a Saturday with Mon-Fri workdays is Monday', () => {
+  assertEqual(nextWorkdayName('2026-07-04', [1, 2, 3, 4, 5]), 'Monday');
+});
+
+test('nextWorkdayName from a Sunday with Mon-Fri workdays is Monday', () => {
+  assertEqual(nextWorkdayName('2026-07-05', [1, 2, 3, 4, 5]), 'Monday');
+});
+
+test('nextWorkdayName respects custom workday sets', () => {
+  assertEqual(nextWorkdayName('2026-07-04', [2, 4]), 'Tuesday'); // Sat -> Tue
+  assertEqual(nextWorkdayName('2026-07-04', [0]), 'Sunday');     // Sat -> Sun
+});
+
+test('nextWorkdayName looks forward from the given day, exclusive', () => {
+  // 2026-07-06 is a Monday; the next workday after it is Tuesday
+  assertEqual(nextWorkdayName('2026-07-06', [1, 2, 3, 4, 5]), 'Tuesday');
+});
+
+test('nextWorkdayName returns null when no workdays are configured', () => {
+  assertEqual(nextWorkdayName('2026-07-04', []), null);
+});
 
 test('isFirstVisit returns true when no data exists', () => {
   resetAll();

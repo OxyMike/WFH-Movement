@@ -545,6 +545,13 @@ a {
     gap: 12px;
 }
 
+.daily-quests-rest-note {
+    grid-column: 1 / -1;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
 .daily-quest-item {
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);

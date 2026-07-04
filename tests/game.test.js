@@ -1,6 +1,15 @@
 import { test, run } from './run.js';
-import { LEVELS, levelForXp, awardBreak, getProgress, awardQuestBonus, getUnlocks } from '../game.js';
+import { LEVELS, levelForXp, awardBreak, getProgress, awardQuestBonus, getUnlocks, skipXpFactor } from '../game.js';
 import { resetAll } from '../storage.js';
+
+test('skipXpFactor gives half credit only strictly past the halfway mark', () => {
+  const eq = (r, t, want) => { if (skipXpFactor(r, t) !== want) throw new Error(`remaining ${r}/${t}: expected ${want}, got ${skipXpFactor(r, t)}`); };
+  eq(100, 100, 0);   // 0% done
+  eq(60, 100, 0);    // 40% done
+  eq(50, 100, 0);    // exactly half is NOT "over half"
+  eq(49, 100, 0.5);  // just past half
+  eq(0, 100, 0.5);   // ran to the end via skip
+});
 
 // Mock localStorage for Node environment
 const store = {};

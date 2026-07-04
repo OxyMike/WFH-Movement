@@ -140,3 +140,12 @@ export function previousWorkday(dateStr, workDays) {
   }
   return null;
 }
+
+export function nextWorkdayName(dateStr, workDays) {
+  const d = new Date(dateStr + 'T12:00:00');
+  for (let i = 0; i < 14; i++) {
+    d.setDate(d.getDate() + 1);
+    if (workDays.includes(d.getDay())) return d.toLocaleDateString('en-US', { weekday: 'long' });
+  }
+  return null;
+}

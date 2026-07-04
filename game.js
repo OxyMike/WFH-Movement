@@ -15,6 +15,11 @@ export const LEVELS = [
   { threshold: 3200, title: 'Desk Escapist' }
 ];
 
+// Skipping mid-quest earns half XP, but only strictly past the halfway mark; nothing before.
+export function skipXpFactor(remaining, total) {
+  return (total - remaining) / total > 0.5 ? 0.5 : 0;
+}
+
 export function levelForXp(xp) {
   let level = 1;
   for (let i = 0; i < LEVELS.length; i++) {

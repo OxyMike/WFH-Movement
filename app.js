@@ -1,10 +1,10 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday } from './storage.js';
-import { suggestExercise } from './rotation.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName } from './storage.js';
+import { suggestExercise, easierQuest } from './rotation.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
-import { awardBreak, awardQuestBonus, getProgress, getUnlocks } from './game.js';
+import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
 import { getSittingMinutes, recordDaySummary, getWeekStats, getAreaBalance } from './insights.js';
 import { getFigure } from './figures.js';
@@ -341,6 +341,7 @@ function startQuest(quest) {
   liveStepIdx = -1;
   livePaused = false;
   document.getElementById('btn-live-pause').textContent = 'Pause';
+  document.getElementById('btn-live-easier').classList.toggle('hidden', !easierQuest(quest));
   if (snoozeTimeout) { clearTimeout(snoozeTimeout); snoozeTimeout = null; }
   document.body.classList.add('break-active');
   document.getElementById('btn-snooze-quest').classList.add('hidden');
@@ -376,29 +377,35 @@ function renderLiveStep() {
 }
 
 document.getElementById('btn-live-pause').addEventListener('click', function () {
-  if (!liveQuest) return;
+  if (!liveQuest) { startSuggestedQuest(); return; } // resting: this button reads "Start"
   if (!livePaused) { activeTimer.stop(); livePaused = true; this.textContent = 'Resume'; }
   else { livePaused = false; this.textContent = 'Pause'; runLiveTimer(liveRemaining); }
 });
 document.getElementById('btn-live-skip').addEventListener('click', () => {
   if (!liveQuest) return;
   if (activeTimer) activeTimer.stop();
-  completeQuest();
+  completeQuest(skipXpFactor(liveRemaining, liveQuest.duration * 60)); // half XP if past halfway, else none
+});
+document.getElementById('btn-live-easier').addEventListener('click', () => {
+  if (!liveQuest) return;
+  const easier = easierQuest(liveQuest);
+  if (easier) startQuest(easier);
 });
 
-function completeQuest() {
+function completeQuest(xpFactor = 1) {
   const quest = liveQuest;
   liveQuest = null;
   document.body.classList.remove('break-active');
-  document.getElementById('btn-live-pause').textContent = 'Pause';
-  sound(659, 300); setTimeout(() => sound(784, 400), 350);
 
-  logBreak(quest.id, quest.targetArea, quest.tier);
-  recordDaySummary({ date: todayDateString(), minutes: quest.duration, targetArea: quest.targetArea });
-  const result = awardBreak(quest.xp);
-  showXpToast(`+${result.xpGained} XP${result.leveledUp ? ` · Level ${result.level}: ${result.title}` : ''}`);
-  if (result.leveledUp) setTimeout(() => sound(880, 400), 750);
-  awardNewQuestCompletions();
+  if (xpFactor > 0) {
+    sound(659, 300); setTimeout(() => sound(784, 400), 350);
+    logBreak(quest.id, quest.targetArea, quest.tier);
+    recordDaySummary({ date: todayDateString(), minutes: quest.duration * xpFactor, targetArea: quest.targetArea });
+    const result = awardBreak(Math.round(quest.xp * xpFactor));
+    showXpToast(`+${result.xpGained} XP${xpFactor < 1 ? ' (partial)' : ''}${result.leveledUp ? ` · Level ${result.level}: ${result.title}` : ''}`);
+    if (result.leveledUp) setTimeout(() => sound(880, 400), 750);
+    awardNewQuestCompletions();
+  }
 
   suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
   showTab('today');
@@ -418,6 +425,7 @@ function restingHeaderText() {
 function renderRestingRail() {
   if (liveQuest) return;
   document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
+  document.getElementById('btn-live-pause').textContent = 'Start';
   if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
   const step = suggestedQuest.steps[0];
   const ill = document.getElementById('live-quest-illustration-container');
@@ -488,7 +496,14 @@ function renderDailyQuests() {
   container.innerHTML = '';
   const settings = getSettings();
   const quests = getTodaysQuests(todayDateString(), settings);
-  if (quests.length === 0) return;
+  if (quests.length === 0) {
+    const day = nextWorkdayName(todayDateString(), settings.workDays);
+    const note = document.createElement('p');
+    note.className = 'daily-quests-rest-note';
+    note.textContent = day ? `Rest day, earned. New quests arrive ${day}.` : 'Rest day, earned.';
+    container.appendChild(note);
+    return;
+  }
 
   const record = getTodayRecord();
   const evals = evaluateQuests(record, quests, settings);
