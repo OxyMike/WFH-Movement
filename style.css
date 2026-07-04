@@ -2064,6 +2064,10 @@ input:checked + .toggle-slider:before {
 .hidden { display: none !important; }
 
 body { overflow: auto; height: auto; min-height: 100vh; }
+/* body is a flex container in the base design; these wrappers must stretch
+   to fill it or the workspace shrink-wraps and strands dead space */
+#app-shell { flex: 1 1 auto; min-width: 0; }
+#view-landing { flex: 1 1 auto; min-width: 0; }
 .app-container { height: 100vh; }
 
 /* Landing */
