@@ -4,7 +4,7 @@ import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAl
 import { suggestExercise, easierQuest } from './rotation.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
-import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor } from './game.js';
+import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor, shouldAwardGoal } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
 import { getSittingMinutes, recordDaySummary, getWeekStats, getAreaBalance } from './insights.js';
 import { getFigure } from './figures.js';
@@ -405,6 +405,7 @@ function completeQuest(xpFactor = 1) {
     showXpToast(`+${result.xpGained} XP${xpFactor < 1 ? ' (partial)' : ''}${result.leveledUp ? ` · Level ${result.level}: ${result.title}` : ''}`);
     if (result.leveledUp) setTimeout(() => sound(880, 400), 750);
     awardNewQuestCompletions();
+    awardDailyGoal();
   }
 
   suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
@@ -536,6 +537,17 @@ function awardNewQuestCompletions() {
     showXpToast(`Quest complete: ${q.title} +${q.bonusXp} XP${r.leveledUp ? ` · Level ${r.level}!` : ''}`);
   });
   record.questsDone = [...done];
+  saveState({ ...(getState() || {}), today: record });
+}
+
+function awardDailyGoal() {
+  const goal = getSettings().dailyGoal;
+  const record = getTodayRecord();
+  if (!shouldAwardGoal(record, goal)) return;
+  const r = awardQuestBonus(15);
+  showXpToast(`Goal met. ${goal} breaks today. Your body thanks you.`
+    + (r.leveledUp ? ` · Level ${r.level}!` : ''));
+  record.goalAwarded = true;
   saveState({ ...(getState() || {}), today: record });
 }
 
