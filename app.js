@@ -274,6 +274,7 @@ function renderToday() {
   if (!suggestedQuest) suggestedQuest = suggestExercise(record.lastTargetArea, null, null);
   renderPrimaryQuest();
   renderDailyQuests();
+  renderGoalRing();
   tickToday();
 }
 
@@ -283,6 +284,16 @@ function renderPrimaryQuest() {
   document.getElementById('primary-quest-time').textContent = `${suggestedQuest.duration} min`;
   document.getElementById('primary-quest-xp').textContent = `+${suggestedQuest.xp} XP`;
   document.getElementById('primary-quest-insight').textContent = suggestedQuest.desc;
+}
+
+function renderGoalRing() {
+  const goal = getSettings().dailyGoal;
+  const done = (getTodayRecord().completedBreaks || []).length;
+  const CIRC = 188; // 2 * PI * r, r=30
+  const pct = Math.min(1, done / goal);
+  document.getElementById('goal-ring-progress').style.strokeDashoffset = String(CIRC * (1 - pct));
+  document.getElementById('goal-ring-count').textContent = `${Math.min(done, goal)} / ${goal}`;
+  document.getElementById('goal-ring-container').classList.toggle('met', done >= goal);
 }
 
 document.getElementById('btn-reroll-quest').addEventListener('click', () => {
