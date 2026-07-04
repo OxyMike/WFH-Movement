@@ -1,377 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WFH Movement: Work For Health</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0e8574">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WFH Movement: timed movement breaks for people who work at a desk. Work For Health.">
+    <title>WFH Movement: Work For Health</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2E7D67">
 </head>
 <body>
-
-  <!-- VIEW: Landing (first visit) -->
-  <div id="view-landing" class="view">
-    <div class="container hero-section">
-      <h1 class="hero-title">WFH Movement</h1>
-      <p class="hero-subtitle">Your body wasn't built to sit all day. Two minutes an hour fixes more than you think.</p>
-      <button id="btn-start-setup-hero" class="btn btn-accent">Start moving</button>
-    </div>
-
-    <div class="container" style="padding-bottom: 3rem;">
-      <div class="card fact-card">
-        <h2 style="font-size: 1.35rem; margin-bottom: 1.25rem;">What one hour of sitting does</h2>
-        <ul style="list-style: none; line-height: 2;">
-          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🩸 Circulation drops by half, blood pools in your lower legs</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🔥 Your metabolism slides into energy-saving mode</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🧈 The enzyme that burns fat in your bloodstream switches off</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🍬 Your muscles stop clearing sugar from your blood</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 0.5rem;">🦴 Pressure on your spinal discs climbs higher than standing</li>
-        </ul>
-        <details style="margin-top: 1.5rem;">
-          <summary class="details-summary">See what long-term sitting does</summary>
-          <div class="sitting-info-grid">
-            <div class="sitting-info-card sitting-info-card-sage">
-              <h4 style="margin-bottom: 0.5rem; color: var(--color-primary-deep);">Heart</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
-                <li>54% higher heart attack risk</li>
-                <li>Stiffened arteries</li>
-                <li>Plaque buildup</li>
-              </ul>
-            </div>
-            <div class="sitting-info-card sitting-info-card-peach">
-              <h4 style="margin-bottom: 0.5rem; color: var(--color-accent-deep);">Metabolism</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
-                <li>Chronic high blood pressure</li>
-                <li>Midsection weight gain</li>
-                <li>Type 2 diabetes</li>
-              </ul>
-            </div>
-            <div class="sitting-info-card sitting-info-card-cream">
-              <h4 style="margin-bottom: 0.5rem; color: var(--color-text-heading);">Muscles and bones</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
-                <li>Gluteal muscle wasting</li>
-                <li>Bone mineral loss</li>
-                <li>Early disc degeneration</li>
-              </ul>
-            </div>
-            <div class="sitting-info-card sitting-info-card-sage">
-              <h4 style="margin-bottom: 0.5rem; color: var(--color-primary-deep);">Veins</h4>
-              <ul style="padding-left: 1.1rem; font-size: 0.9rem; list-style-type: disc;">
-                <li>Varicose veins</li>
-                <li>Deep vein blood clots</li>
-              </ul>
-            </div>
-          </div>
-          <p style="margin-top: 1.25rem; font-size: 0.95rem; line-height: 1.6; color: var(--color-text-body);">Your evening workout can't undo it either. The damage happens hour by hour, so the fix has to happen hour by hour too.</p>
-        </details>
+    <div id="view-landing" class="landing hidden">
+      <div class="landing-hero">
+        <div class="logo-container"><div class="logo-icon">W</div><div class="logo-text">WFH Movement</div></div>
+        <h1 class="landing-title">Your body wasn't built to sit all day.</h1>
+        <p class="landing-subtitle">Two minutes an hour fixes more than you think. Work For Health.</p>
+        <button class="btn-primary landing-cta" id="btn-start-setup-hero">Start moving</button>
       </div>
-
-      <div class="card mt-6 text-center">
-        <h2 style="font-size: 1.35rem; margin-bottom: 1.5rem;">How it works</h2>
-        <div class="how-it-works-grid">
-          <div class="how-it-works-step">
-            <div class="how-it-works-icon">9️⃣</div>
-            <div class="how-it-works-title">Set your hours</div>
-            <p class="text-muted" style="font-size: 0.9rem;">Tell us when your workday runs</p>
-          </div>
-          <div class="how-it-works-step">
-            <div class="how-it-works-icon">👋</div>
-            <div class="how-it-works-title">Get gentle nudges</div>
-            <p class="text-muted" style="font-size: 0.9rem;">A friendly reminder, never a nag</p>
-          </div>
-          <div class="how-it-works-step">
-            <div class="how-it-works-icon">🤸</div>
-            <div class="how-it-works-title">Move for 2 minutes</div>
-            <p class="text-muted" style="font-size: 0.9rem;">PT-picked moves that undo the chair</p>
-          </div>
+      <div class="landing-science">
+        <div class="fd-card">
+          <h2 class="card-title">What one hour of sitting does</h2>
+          <ul class="landing-facts">
+            <li>🩸 Circulation drops by half, blood pools in your lower legs</li>
+            <li>🔥 Your metabolism slides into energy-saving mode</li>
+            <li>🧈 The enzyme that burns fat in your bloodstream switches off</li>
+            <li>🍬 Your muscles stop clearing sugar from your blood</li>
+            <li>🦴 Pressure on your spinal discs climbs higher than standing</li>
+          </ul>
         </div>
-        <button id="btn-start-setup-bottom" class="btn btn-accent mt-6">Start moving</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- VIEW: Onboarding -->
-  <div id="view-onboarding" class="view">
-    <div class="container text-center" style="padding: 4rem 0 3rem;">
-      <h1 style="font-size: 2.25rem; font-weight: 800; color: var(--color-primary); margin-bottom: 0.5rem;">Let's set you up</h1>
-      <p class="text-muted" style="margin-bottom: 2.5rem; font-size: 1.1rem;">Three quick questions and you're moving</p>
-      <div class="card" style="max-width: 480px; margin: 0 auto; text-align: left;">
-        <form id="onboarding-form">
-
-          <div style="margin-bottom: 1.25rem;">
-            <label for="work-start">When does your workday start?</label>
-            <input type="time" id="work-start" value="08:00" class="input">
-          </div>
-
-          <div style="margin-bottom: 1.25rem;">
-            <label for="work-end">And when does it wrap up?</label>
-            <input type="time" id="work-end" value="17:00" class="input">
-          </div>
-
-          <div style="margin-bottom: 1.25rem;">
-            <label for="reminder-mode">How should we nudge you?</label>
-            <select id="reminder-mode" class="input">
-              <option value="interval">Every X minutes - recommended</option>
-              <option value="fixed">At specific times I choose</option>
-            </select>
-          </div>
-
-          <div id="interval-options" style="margin-bottom: 1.25rem;">
-            <label for="interval-minutes">Remind me every</label>
-            <select id="interval-minutes" class="input">
-              <option value="30">30 minutes</option>
-              <option value="45" selected>45 minutes</option>
-              <option value="60">60 minutes</option>
-              <option value="90">90 minutes</option>
-            </select>
-          </div>
-
-          <div id="fixed-options" class="hidden" style="margin-bottom: 1.25rem;">
-            <label>Break times</label>
-            <div id="fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
-            <div class="flex gap-4" style="align-items: center;">
-              <input type="time" id="fixed-time-input" class="input" style="flex: 1;">
-              <button type="button" id="add-fixed-time" class="btn btn-accent btn-sm">Add time</button>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 2rem;">
-            <label for="default-break">How long is a good break for you?</label>
-            <select id="default-break" class="input">
-              <option value="quick">Quick - 90 seconds</option>
-              <option value="full" selected>Full - 5 minutes</option>
-            </select>
-          </div>
-
-          <button type="button" id="btn-complete-onboarding" class="btn btn-primary btn-full">Start moving</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- VIEW: Dashboard -->
-  <div id="view-dashboard" class="view">
-    <header>
-      <div class="container flex items-center justify-between" style="padding: 1rem 0;">
-        <span style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--color-primary);">WFH Movement</span>
-        <button id="btn-open-settings" class="btn btn-ghost btn-sm">Settings</button>
-      </div>
-    </header>
-
-    <div class="container" style="padding-bottom: 3rem;">
-      <h1 id="dashboard-greeting">Good morning, let's keep you moving</h1>
-
-      <div id="dashboard-idle">
-        <div class="card text-center">
-          <p class="text-muted" style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Next nudge in</p>
-          <div id="next-break-countdown">--:--</div>
-          <p id="next-break-label" class="text-muted" style="margin-top: 0.25rem; font-weight: 600;">Setting up your schedule...</p>
-
-          <div class="stats-grid">
-            <div class="stat-box">
-              <div id="stat-today" class="stat-value">0</div>
-              <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">breaks today</p>
-            </div>
-            <div class="stat-box">
-              <div style="display: flex; align-items: baseline; gap: 0.25rem; justify-content: center;">
-                <span style="font-size: 1.25rem;">🔥</span>
-                <span id="stat-streak" class="stat-value">0</span>
-                <span id="shield-chip" class="hidden" title="Streak shield: covers one missed workday">🛡️</span>
-              </div>
-              <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">day streak</p>
-            </div>
-          </div>
-
-          <p id="sitting-line" class="text-muted hidden" style="font-size: 0.9rem; margin-top: 0.75rem; font-weight: 600;"></p>
-
-          <div class="xp-widget">
-            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
-              <span id="dash-level-title" style="font-weight: 800; font-family: var(--font-heading); color: var(--color-primary-deep);"></span>
-              <span id="dash-xp-label" class="text-muted" style="font-size: 0.85rem; font-weight: 700;"></span>
-            </div>
-            <div class="xp-bar-container">
-              <div id="dash-xp-bar-fill" style="width: 0%; height: 100%; transition: width 0.5s ease;"></div>
-            </div>
-          </div>
-
-          <button id="btn-take-break-now" class="btn btn-accent btn-full" style="margin-top: 1.5rem;">Take a break now</button>
+        <div class="landing-grid">
+          <div class="fd-card"><h4>Heart</h4><ul><li>54% higher heart attack risk</li><li>Stiffened arteries</li><li>Plaque buildup</li></ul></div>
+          <div class="fd-card"><h4>Metabolism</h4><ul><li>Chronic high blood pressure</li><li>Midsection weight gain</li><li>Type 2 diabetes</li></ul></div>
+          <div class="fd-card"><h4>Muscles and bones</h4><ul><li>Gluteal muscle wasting</li><li>Bone mineral loss</li><li>Early disc degeneration</li></ul></div>
+          <div class="fd-card"><h4>Veins</h4><ul><li>Varicose veins</li><li>Deep vein blood clots</li></ul></div>
         </div>
-
-        <p class="text-center" style="margin-top: 2rem;">
-          <a id="link-why" href="#" class="dashboard-link" style="margin-right: 1.25rem;">Why breaks matter</a>
-          <a id="link-progress" href="#" class="dashboard-link">See your progress</a>
-        </p>
-        <div id="dashboard-why" class="hidden card mt-4" style="text-align: left; line-height: 1.6; border: 1px solid var(--color-border);">
-          <h3 style="margin-bottom: 0.75rem; color: var(--color-text-heading); font-size: 1.1rem;">Why breaks matter</h3>
-          <p style="font-size: 0.95rem; color: var(--color-text-body);">Within one hour of sitting, your circulation drops by half, your metabolism slows, and your muscles stop clearing sugar from your blood. Your evening workout can't undo it. The fix is simple: two minutes of movement for every hour in the chair, and that's exactly what your nudges are for.</p>
-        </div>
-
-        <p id="shield-note" class="text-muted text-center hidden mt-4" style="font-size: 0.85rem; font-weight: 600;"></p>
-        <div id="quest-strip" class="hidden">
-          <h3>Today's quests</h3>
-          <div id="quest-cards"></div>
-        </div>
-      </div>
-
-      <div id="dashboard-active" class="hidden">
-        <div class="card text-center">
-          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--color-text-heading);">Focus Buff available</h2>
-          <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 1rem;">2 minutes of movement raises blood flow to your brain. Sharper thinking for the next hour.</p>
-
-          <button id="btn-tier-easy" class="btn btn-primary btn-full">🌱 Easy · 1 min · +10 XP</button>
-          <p id="choice-streak-note" class="text-muted hidden" style="font-size: 0.85rem; margin-top: -0.25rem; margin-bottom: 0.75rem; font-weight: 700; color: var(--color-accent-deep);"></p>
-          <button id="btn-tier-medium" class="btn btn-primary btn-full">🚶 Medium · 2 min · +20 XP</button>
-          <button id="btn-tier-hard" class="btn btn-accent btn-full">🔥 Hard · 3 min · +35 XP</button>
-
-          <a id="link-snooze" href="#" class="dashboard-link" style="margin-top: 1rem; display: inline-block;">Snooze 15 min</a>
+        <div class="fd-card">
+          <h2 class="card-title">Why your gym session is not enough</h2>
+          <p>Breaking up sitting every 30 to 60 minutes with even two minutes of light movement improves blood glucose and triglycerides, even when total daily activity is identical. Frequency beats intensity here. Small movements spread across your day are not a consolation prize. They are the thing itself.</p>
+          <button class="btn-primary" id="btn-start-setup-bottom" style="margin-top:16px;">Set up your reminders</button>
         </div>
       </div>
     </div>
-  </div>
+    <div id="app-shell" class="hidden">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">W</div>
+                <div class="logo-text">WFH Movement</div>
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li><button class="nav-item active" data-tab="today">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        Today
+                    </button></li>
+                    <li><button class="nav-item" data-tab="quests">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        Quests
+                    </button></li>
+                    <li><button class="nav-item nav-item-soon" data-tab="calendar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        Calendar
+                    </button></li>
+                    <li><button class="nav-item nav-item-soon" data-tab="team">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        Team
+                    </button></li>
+                    <li><button class="nav-item" data-tab="rewards">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        Rewards
+                    </button></li>
+                    <li><button class="nav-item" data-tab="progress">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        Progress
+                    </button></li>
+                    <li><button class="nav-item" data-tab="settings">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        Settings
+                    </button></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar" id="sidebar-avatar">M</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebar-username">Maya</div>
+                        <div class="user-role" id="sidebar-level-title">Premium Worker</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-  <!-- VIEW: Timer -->
-  <div id="view-timer" class="view">
-    <h2 id="timer-exercise-name"></h2>
-    <p id="timer-exercise-area"></p>
+        <!-- Main Workspace -->
+        <div class="main-wrapper">
+            <!-- Top bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h2 class="page-title" id="current-view-title">Today's Quest Board</h2>
+                </div>
+                <div class="top-bar-right">
+                    <div class="header-status-item streak-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                        <span id="streak-counter-value">9d streak</span>
+                    </div>
+                    <button class="audio-toggle-btn" id="audio-mute-btn" title="Toggle audio cues">
+                        <svg id="audio-icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        <svg id="audio-icon-muted" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    </button>
+                </div>
+            </header>
 
-    <div class="timer-container">
-      <svg class="timer-svg" viewBox="0 0 280 280" width="220" height="220">
-        <circle class="timer-circle-bg" cx="140" cy="140" r="120" fill="none" stroke-width="14"/>
-        <circle id="timer-ring" class="timer-circle-ring" cx="140" cy="140" r="120" fill="none" stroke-width="14"
-          stroke-linecap="round" stroke-dasharray="753.98" stroke-dashoffset="0"
-          transform="rotate(-90 140 140)" style="transition: stroke-dashoffset 1s linear;"/>
-      </svg>
-      <div id="timer-countdown" class="timer-text">5:00</div>
-    </div>
+            <!-- Content Area Split -->
+            <div class="content-body">
+                <!-- Center Screen -->
+                <main class="center-content">
+                    
+                    <!-- Tab: TODAY -->
+                    <section class="view-section active-view" id="view-today">
+                        <div class="view-header">
+                            <h1 class="view-greeting" id="dashboard-greeting">Good morning, Maya</h1>
+                            <p class="view-subtitle" id="dashboard-sitting-duration">Sitting 74 min. Time for a quick posture tune-up.</p>
+                            <div class="dashboard-quote-container" id="dashboard-quote-container">
+                                <span class="dashboard-quote-text" id="dashboard-quote-text">"Sustainable momentum is better than constant speed. Breathe."</span>
+                                <div class="quote-controls">
+                                    <button class="quote-control-btn" id="btn-quote-shuffle" title="Shuffle quote">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-    <p id="timer-cue"></p>
+                        <div class="fd-card sitting-status-card">
+                          <div class="sitting-status-left">
+                            <div class="sitting-title">Time seated since your last break</div>
+                            <div class="sitting-timer" id="today-seated-timer">–</div>
+                            <div class="sitting-badge" id="next-break-line">Next break soon</div>
+                          </div>
+                        </div>
 
-    <div id="timer-complete-flash" class="hidden">
-      <div>Nice work 🎉</div>
-      <div id="reward-xp"></div>
-      <div id="reward-buff" style="font-size: 1.1rem; color: rgba(255,255,255,0.9); font-weight: 700;">Focus Buff applied</div>
-      <div class="reward-bar-container" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
-        <div id="reward-bar-fill" style="width: 0%; height: 100%; background: var(--color-card); border-radius: 999px; transition: width 0.8s ease;"></div>
-      </div>
-      <div id="reward-levelup" class="hidden" style="font-size: 1.35rem; font-weight: 800; color: var(--color-panel-peach);"></div>
-    </div>
+                        <!-- Current Proposed Quest -->
+                        <div class="fd-card primary-quest-card" id="primary-suggested-card">
+                            <div class="quest-header-block">
+                                <div class="quest-meta">
+                                    <span class="quest-tag">Up next</span>
+                                    <h3 class="quest-title-text" id="primary-quest-title">Posture Reset</h3>
+                                    <p class="quest-desc" id="primary-quest-description">Neck + shoulder release to offset desk stiffness.</p>
+                                </div>
+                                <div class="quest-duration-badge">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    <span id="primary-quest-time">4 min</span>
+                                </div>
+                            </div>
+                            <!-- Today specific context note -->
+                            <div class="educational-insight-box">
+                                <span class="insight-icon">💡</span>
+                                <div class="insight-content">
+                                    <div class="insight-title">Why this reset helps</div>
+                                    <div class="insight-text" id="primary-quest-insight">Shoulder rolls and neck stretches counter the forward lean of keyboard posture and improve back blood circulation.</div>
+                                </div>
+                            </div>
+                            <div class="quest-action-row">
+                                <span class="xp-indicator" id="primary-quest-xp">+80 XP</span>
+                                <div class="quest-buttons">
+                                    <button class="btn-secondary hidden" id="btn-snooze-quest">Snooze 15 min</button>
+                                    <button class="btn-secondary" id="btn-reroll-quest">Reroll</button>
+                                    <button class="btn-primary" id="btn-start-quest">Start Quest</button>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="timer-btn-row">
-      <button id="btn-swap-on-timer" class="btn btn-ghost timer-btn">Show me a different one</button>
-      <button id="btn-skip-timer" class="btn btn-ghost timer-btn">Skip</button>
-    </div>
-  </div>
+                        <!-- Daily Quests Grid -->
+                        <div class="quests-board-section">
+                            <h3 class="rail-section-title">Today's Daily Quests</h3>
+                            <div class="daily-quests-grid" id="daily-quests-board-container">
+                                <!-- Cards injected by JS -->
+                            </div>
+                        </div>
+                    </section>
 
-  <!-- VIEW: Progress -->
-  <div id="view-progress" class="view">
-    <div class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
-      <button id="btn-back-dashboard" class="btn btn-ghost btn-sm" style="margin-bottom: 1.5rem;">Back</button>
-      <h1>Your progress</h1>
+                    <!-- Tab: QUESTS -->
+                    <section class="view-section" id="view-quests">
+                        <div class="view-header">
+                            <h1 class="view-greeting">Quests Library</h1>
+                            <p class="view-subtitle">Select and swap individual movements or packs targeted for desk-safe exercise.</p>
+                        </div>
+                        <div class="quests-filter-row">
+                            <div class="filter-pills" id="quests-library-filters">
+                                <button class="filter-pill active" data-filter="all">All</button>
+                                <button class="filter-pill" data-filter="mobility">Mobility</button>
+                                <button class="filter-pill" data-filter="stretch">Stretch</button>
+                                <button class="filter-pill" data-filter="strength">Strength</button>
+                                <button class="filter-pill" data-filter="quiet">Quiet</button>
+                            </div>
+                        </div>
+                        <div class="library-grid" id="quests-library-container">
+                            <!-- Injected by JS -->
+                        </div>
+                    </section>
 
-      <div class="card">
-        <h3>This week</h3>
-        <div class="flex gap-4" style="justify-content: space-around; text-align: center; margin-top: 1rem;">
-          <div>
-            <div id="prog-minutes" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">0</div>
-            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">minutes moved</p>
-          </div>
-          <div>
-            <div id="prog-streak" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-accent); line-height: 1.1;">0</div>
-            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">day streak</p>
-          </div>
-          <div>
-            <div id="prog-best" style="font-size: 2.25rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary); line-height: 1.1;">0</div>
-            <p class="text-muted" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem;">best streak</p>
-          </div>
+                    <!-- Tab: CALENDAR -->
+                    <section class="view-section" id="view-calendar">
+                      <div class="view-header">
+                        <h1 class="view-greeting">Calendar</h1>
+                        <p class="view-subtitle">Coming soon.</p>
+                      </div>
+                      <div class="fd-card coming-soon-card">
+                        <div class="coming-soon-icon">📅</div>
+                        <p>Meeting-aware breaks are on the way: your gaps between calls will become movement opportunities, scheduled for you.</p>
+                      </div>
+                    </section>
+                    <section class="view-section" id="view-team">
+                      <div class="view-header">
+                        <h1 class="view-greeting">Team</h1>
+                        <p class="view-subtitle">Coming soon.</p>
+                      </div>
+                      <div class="fd-card coming-soon-card">
+                        <div class="coming-soon-icon">👋</div>
+                        <p>Move together: shared streaks and privacy-safe encouragement for your desk crew. Not here yet, but planned.</p>
+                      </div>
+                    </section>
+
+                    <!-- Tab: REWARDS -->
+                    <section class="view-section" id="view-rewards">
+                        <div class="view-header">
+                            <h1 class="view-greeting">Rewards & Achievements</h1>
+                            <p class="view-subtitle">Level up through consistent desk wellness and unlock additional posture exercises, badge collections, and custom themes.</p>
+                        </div>
+                        <div class="rewards-overview">
+                            <div class="fd-card level-card-large">
+                                <div class="level-circle-large" id="rewards-level-val">12</div>
+                                <h3 style="font-size:18px; font-weight:700;">Level 12</h3>
+                                <p id="rewards-level-title" style="font-size:12px; color:var(--text-muted); margin-top:4px;">"The Body Defender"</p>
+                            </div>
+                            <div class="fd-card rewards-showcase-card">
+                                <div class="card-title">Unlocked Movement Packs & Themes</div>
+                                <div class="unlocks-grid" id="rewards-unlocks-container">
+                                    <!-- Injected dynamically by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tab: PROGRESS -->
+                    <section class="view-section" id="view-progress">
+                        <div class="view-header">
+                            <h1 class="view-greeting">Insights & Statistics</h1>
+                            <p class="view-subtitle">Verify your structural health trends. Breaking standing streaks builds long-term mobility habits.</p>
+                        </div>
+                        <div class="progress-grid-top">
+                            <div class="fd-card progress-stat-card">
+                                <span class="progress-stat-value" id="stats-total-resets">24</span>
+                                <span class="progress-stat-label">Total Resets</span>
+                            </div>
+                            <div class="fd-card progress-stat-card">
+                                <span class="progress-stat-value" id="stats-total-minutes">96m</span>
+                                <span class="progress-stat-label">Minutes Moved</span>
+                            </div>
+                            <div class="fd-card progress-stat-card">
+                                <span class="progress-stat-value" id="stats-current-streak">18</span>
+                                <span class="progress-stat-label">Current Streak</span>
+                            </div>
+                            <div class="fd-card progress-stat-card">
+                                <span class="progress-stat-value" id="stats-adherence">94%</span>
+                                <span class="progress-stat-label">Adherence Rate</span>
+                            </div>
+                        </div>
+                        
+                        <div class="fd-card">
+                            <div class="card-title">Body-Area Movement Balance</div>
+                            <div class="body-coverage-showcase">
+                                <div class="body-svg-container">
+                                    <!-- Minimal 2D body model for coverage visualization -->
+                                    <svg viewBox="0 0 100 200" style="width:100%; height:100%;">
+                                        <!-- Head/Neck -->
+                                        <path class="body-muscle" id="muscle-neck" d="M45,25 C45,15 55,15 55,25 Z M47,25 L53,25 L51,35 L49,35 Z"></path>
+                                        <!-- Shoulders/Upper Back -->
+                                        <path class="body-muscle" id="muscle-shoulders" d="M30,40 C35,37 65,37 70,40 L65,55 L35,55 Z"></path>
+                                        <!-- Lower Back/Core -->
+                                        <path class="body-muscle" id="muscle-core" d="M36,58 L64,58 L60,95 L40,95 Z"></path>
+                                        <!-- Wrists/Hands -->
+                                        <path class="body-muscle" id="muscle-wrists" d="M22,80 L28,80 L25,100 Z M72,80 L78,80 L75,100 Z"></path>
+                                        <!-- Lower Body (Thighs/Calves) -->
+                                        <path class="body-muscle" id="muscle-legs" d="M40,98 L48,98 L46,150 L38,150 Z M52,98 L60,98 L62,150 L54,150 Z"></path>
+                                    </svg>
+                                </div>
+                                <div class="body-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color-box" style="background-color: var(--primary);"></div>
+                                        <span id="legend-active-areas">Highly Protected (Neck, Shoulders, Wrists)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color-box" style="background-color: rgba(32, 34, 37, 0.06); border: 1px solid var(--border-color);"></div>
+                                        <span id="legend-focus-areas">Requires Focus (Core, Lower Body)</span>
+                                    </div>
+                                    <p style="font-size:12px; color:var(--text-muted); margin-top:12px; line-height:1.5;">
+                                        <strong>Sedentary Impact Insight:</strong> Prolonged sitting tightens hip flexors and shuts off gluteal muscles (lower body). WFH Movement recommends prioritizing lower body and core resets tomorrow.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tab: SETTINGS -->
+                    <section class="view-section" id="view-settings">
+                        <div class="view-header">
+                          <h1 class="view-greeting">Settings</h1>
+                          <p class="view-subtitle">Your name, your hours, your reminders.</p>
+                        </div>
+                        <div class="fd-card">
+                          <div class="settings-list">
+                            <div class="settings-item">
+                              <div class="settings-label">Your name</div>
+                              <div class="settings-description">How the dashboard greets you.</div>
+                              <div class="settings-input-row"><input type="text" id="settings-name-input" class="settings-select" style="width:200px;" placeholder="Your name"></div>
+                            </div>
+                            <div class="settings-item">
+                              <div class="settings-label">Work hours</div>
+                              <div class="settings-description">Reminders only fire inside this window.</div>
+                              <div class="settings-input-row">
+                                <input type="time" id="settings-work-start" class="settings-select">
+                                <span>to</span>
+                                <input type="time" id="settings-work-end" class="settings-select">
+                              </div>
+                            </div>
+                            <div class="settings-item">
+                              <div class="settings-label">Workdays</div>
+                              <div class="settings-description">Streaks only count days you actually work.</div>
+                              <div class="settings-input-row workdays-row">
+                                <label><input type="checkbox" id="settings-wd-0">Sun</label>
+                                <label><input type="checkbox" id="settings-wd-1">Mon</label>
+                                <label><input type="checkbox" id="settings-wd-2">Tue</label>
+                                <label><input type="checkbox" id="settings-wd-3">Wed</label>
+                                <label><input type="checkbox" id="settings-wd-4">Thu</label>
+                                <label><input type="checkbox" id="settings-wd-5">Fri</label>
+                                <label><input type="checkbox" id="settings-wd-6">Sat</label>
+                              </div>
+                            </div>
+                            <div class="settings-item">
+                              <div class="settings-label">Reminder style</div>
+                              <div class="settings-description">A steady rhythm, or exact times you choose.</div>
+                              <div class="settings-input-row">
+                                <select class="settings-select" id="settings-reminder-mode">
+                                  <option value="interval">Every so often</option>
+                                  <option value="fixed">Fixed times</option>
+                                </select>
+                                <select class="settings-select" id="settings-interval-minutes">
+                                  <option value="30">30 minutes</option>
+                                  <option value="45">45 minutes</option>
+                                  <option value="60">60 minutes</option>
+                                  <option value="90">90 minutes</option>
+                                </select>
+                              </div>
+                              <div id="settings-fixed-options" class="hidden">
+                                <div class="settings-input-row">
+                                  <input type="time" id="settings-fixed-time-input" class="settings-select">
+                                  <button class="btn-secondary" id="settings-add-fixed-time">Add</button>
+                                </div>
+                                <div id="settings-fixed-times-list" class="chips-row"></div>
+                              </div>
+                            </div>
+                            <div class="settings-item">
+                              <div class="settings-label">Sound</div>
+                              <div class="settings-description">Chimes at the halfway point and when a break completes.</div>
+                              <div class="settings-input-row">
+                                <label class="shield-toggle"><input type="checkbox" id="settings-sound-toggle" checked><span class="toggle-slider"></span></label>
+                              </div>
+                            </div>
+                            <div class="settings-item">
+                              <button class="btn-primary" id="btn-save-settings">Save settings</button>
+                            </div>
+                            <div class="settings-item">
+                              <div class="settings-label">Start over</div>
+                              <div class="settings-description">Deletes your history, streaks, and settings on this device. There is no undo.</div>
+                              <div class="settings-input-row"><button class="btn-danger" id="btn-reset-database">Reset all data</button></div>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+
+                </main>
+
+                <!-- Right Side Panel -->
+                <aside class="right-panel">
+                    
+                    <!-- Live Reset Quest Widget -->
+                    <div id="live-quest-widget">
+                        <h4 class="rail-section-title" id="live-quest-widget-header">Live Desk Quest</h4>
+                        <div class="fd-card" style="border-color: var(--coral);">
+                            <div class="live-session-container">
+                                
+                                <!-- Audio / visual micro-animated container -->
+                                <div id="live-quest-illustration-container" class="animate-shoulders">
+                                    <!-- Dynamic movement SVGs injected here. Default Shoulder Rolls -->
+                                    <svg class="exercise-svg" viewBox="0 0 100 60">
+                                        <!-- Torso -->
+                                        <path d="M20 50 C20 40, 80 40, 80 50 L75 60 L25 60 Z" fill="rgba(46, 125, 103, 0.2)" stroke="var(--primary)" stroke-width="2"></path>
+                                        <!-- Neck & Head -->
+                                        <g class="head-node">
+                                            <rect x="47" y="22" width="6" height="12" fill="var(--text-color)"></rect>
+                                            <circle cx="50" cy="18" r="10" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="2"></circle>
+                                        </g>
+                                        <!-- Shoulder joints (left & right) -->
+                                        <circle class="shoulder-joint" cx="28" cy="42" r="5" fill="var(--coral)"></circle>
+                                        <circle class="shoulder-joint" cx="72" cy="42" r="5" fill="var(--coral)"></circle>
+                                    </svg>
+                                </div>
+
+                                <div class="timer-svg-container">
+                                    <svg class="timer-svg" width="140" height="140">
+                                        <circle class="timer-bg-circle" cx="70" cy="70" r="60"></circle>
+                                        <circle class="timer-progress-circle" id="timer-progress-circle" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="0"></circle>
+                                    </svg>
+                                    <div class="timer-text-container">
+                                        <span class="timer-countdown" id="live-timer-countdown">04:00</span>
+                                        <span class="timer-label">Remaining</span>
+                                    </div>
+                                </div>
+
+                                <div class="live-quest-info">
+                                    <div class="live-quest-title" id="live-quest-movement-title">Shoulder Rolls</div>
+                                    <div class="live-quest-step" id="live-quest-movement-desc">Roll shoulders backward slowly. Breathe deeply.</div>
+                                </div>
+
+                                <!-- Progress indicators -->
+                                <div class="step-dots" id="live-quest-dots">
+                                    <div class="step-dot active"></div>
+                                    <div class="step-dot"></div>
+                                    <div class="step-dot"></div>
+                                    <div class="step-dot"></div>
+                                </div>
+
+                                <div class="live-controls">
+                                    <button class="btn-primary" id="btn-live-pause">Pause</button>
+                                    <button class="btn-secondary" id="btn-live-skip">Skip</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level Progression widget -->
+                    <div>
+                        <h4 class="rail-section-title">Personal Progress</h4>
+                        <div class="fd-card level-reward-container">
+                            <div class="level-row">
+                                <span class="level-text" id="level-display-label">Level 12</span>
+                                <span class="xp-total" id="xp-display-label">450 / 1000 XP</span>
+                            </div>
+                            <div class="xp-progress-bar">
+                                <div class="xp-progress-fill" id="xp-progress-fill-bar" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Streak Shield widget -->
+                    <div class="streak-shield-card" id="shield-card">
+                      <div class="shield-text-col">
+                        <span class="shield-title">Streak Shield</span>
+                        <span class="shield-desc" id="shield-desc-text">Earn one with a 5-day streak</span>
+                      </div>
+                      <span class="shield-emoji">🛡️</span>
+                    </div>
+
+                </aside>
+            </div>
         </div>
-        <div id="prog-bars" class="flex mt-6" style="align-items: flex-end; gap: 0.4rem; height: 70px; justify-content: space-between;"></div>
-      </div>
 
-      <div class="card mt-6">
-        <h3>Body-area balance, last 7 days</h3>
-        <div id="prog-areas" class="flex gap-4" style="flex-wrap: wrap; margin-top: 1rem;"></div>
-        <p id="prog-nudge" class="text-muted"></p>
-      </div>
-    </div>
-  </div>
+        <!-- Onboarding Wizard Overlay -->
+        <div class="onboarding-overlay" id="onboarding-wizard">
+            <div class="onboarding-card">
+                
+                <div class="onboarding-slide active-slide" id="obs-1">
+                  <div class="onboarding-header">
+                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                    <h2 class="onboarding-title">First, your name</h2>
+                    <p class="onboarding-desc">So the app greets a person, not a user.</p>
+                  </div>
+                  <div class="onboarding-body">
+                    <input type="text" id="ob-name-input" class="settings-select" placeholder="Your name" style="max-width:280px;">
+                  </div>
+                </div>
+                <div class="onboarding-slide" id="obs-2">
+                  <div class="onboarding-header">
+                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                    <h2 class="onboarding-title">Your work hours</h2>
+                    <p class="onboarding-desc">Reminders stay inside this window and rest when you do.</p>
+                  </div>
+                  <div class="onboarding-body">
+                    <div class="settings-input-row">
+                      <input type="time" id="ob-work-start" class="settings-select" value="09:00">
+                      <span>to</span>
+                      <input type="time" id="ob-work-end" class="settings-select" value="17:00">
+                    </div>
+                    <div class="settings-input-row workdays-row">
+                      <label><input type="checkbox" id="ob-wd-0">Sun</label>
+                      <label><input type="checkbox" id="ob-wd-1" checked>Mon</label>
+                      <label><input type="checkbox" id="ob-wd-2" checked>Tue</label>
+                      <label><input type="checkbox" id="ob-wd-3" checked>Wed</label>
+                      <label><input type="checkbox" id="ob-wd-4" checked>Thu</label>
+                      <label><input type="checkbox" id="ob-wd-5" checked>Fri</label>
+                      <label><input type="checkbox" id="ob-wd-6">Sat</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="onboarding-slide" id="obs-3">
+                  <div class="onboarding-header">
+                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                    <h2 class="onboarding-title">How should reminders arrive?</h2>
+                    <p class="onboarding-desc">A steady rhythm works for most people. You can change this anytime.</p>
+                  </div>
+                  <div class="onboarding-body">
+                    <div class="settings-input-row">
+                      <select class="settings-select" id="ob-reminder-mode">
+                        <option value="interval">Every so often</option>
+                        <option value="fixed">Fixed times</option>
+                      </select>
+                      <select class="settings-select" id="ob-interval-minutes">
+                        <option value="30">30 minutes</option>
+                        <option value="45" selected>45 minutes</option>
+                        <option value="60">60 minutes</option>
+                        <option value="90">90 minutes</option>
+                      </select>
+                    </div>
+                    <div id="ob-fixed-options" class="hidden">
+                      <div class="settings-input-row">
+                        <input type="time" id="ob-fixed-time-input" class="settings-select">
+                        <button class="btn-secondary" id="ob-add-fixed-time">Add</button>
+                      </div>
+                      <div id="ob-fixed-times-list" class="chips-row"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="onboarding-slide" id="obs-4">
+                  <div class="onboarding-header">
+                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                    <h2 class="onboarding-title">Why movement gaps matter</h2>
+                    <p class="onboarding-desc">Small breaks trigger real biology.</p>
+                  </div>
+                  <div class="onboarding-body">
+                    <div class="educational-insight-box">
+                      <span class="insight-icon">🩺</span>
+                      <div class="insight-content">
+                        <div class="insight-title">Sitting is the problem, not you</div>
+                        <div class="insight-text">After 20 minutes of stillness, circulation slows and your postural muscles switch off. A morning workout does not undo an afternoon of sitting. Frequency is what your body is asking for.</div>
+                      </div>
+                    </div>
+                    <div class="educational-insight-box">
+                      <span class="insight-icon">🔔</span>
+                      <div class="insight-content">
+                        <div class="insight-title">One permission, worth granting</div>
+                        <div class="insight-text">Allow notifications and your reminders arrive even when this tab is buried. Prefer not to? The dashboard countdown works fine without them.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-  <!-- MODAL: Settings -->
-  <div id="modal-settings" class="hidden">
-    <div class="card">
-      <div class="flex items-center justify-between" style="margin-bottom: 2rem;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--color-text-heading);">Settings</h2>
-        <button id="btn-close-settings" class="btn btn-ghost btn-sm">Close</button>
-      </div>
+                <div class="onboarding-controls">
+                  <button class="btn-secondary" id="btn-ob-back">Back</button>
+                  <button class="btn-primary" id="btn-ob-next">Next</button>
+                  <button class="btn-primary hidden" id="btn-ob-finish">Start moving</button>
+                </div>
 
-      <div style="margin-bottom: 1.25rem;">
-        <label for="s-work-start">Work day starts</label>
-        <input type="time" id="s-work-start" class="input">
-      </div>
-
-      <div style="margin-bottom: 1.25rem;">
-        <label for="s-work-end">Work day ends</label>
-        <input type="time" id="s-work-end" class="input">
-      </div>
-
-      <div style="margin-bottom: 1.25rem;">
-        <label for="s-reminder-mode">Reminder style</label>
-        <select id="s-reminder-mode" class="input">
-          <option value="interval">Every X minutes - recommended</option>
-          <option value="fixed">At specific times I choose</option>
-        </select>
-      </div>
-
-      <div id="s-interval-options" style="margin-bottom: 1.25rem;">
-        <label for="s-interval-minutes">Remind me every</label>
-        <select id="s-interval-minutes" class="input">
-          <option value="30">30 minutes</option>
-          <option value="45">45 minutes</option>
-          <option value="60">60 minutes</option>
-          <option value="90">90 minutes</option>
-        </select>
-      </div>
-
-      <div id="s-fixed-options" class="hidden" style="margin-bottom: 1.25rem;">
-        <label>Break times</label>
-        <div id="s-fixed-times-list" style="margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
-        <div class="flex gap-4" style="align-items: center;">
-          <input type="time" id="s-fixed-time-input" class="input" style="flex: 1;">
-          <button type="button" id="s-add-fixed-time" class="btn btn-accent btn-sm">Add time</button>
+            </div>
         </div>
-      </div>
-
-      <div style="margin-bottom: 1.5rem;">
-        <label for="s-default-break">Default break length</label>
-        <select id="s-default-break" class="input">
-          <option value="quick">Quick - 90 seconds</option>
-          <option value="full">Full - 5 minutes</option>
-        </select>
-      </div>
-
-      <div style="margin-bottom: 2rem;">
-        <label>Your workdays</label>
-        <div id="s-workdays">
-          <label><input type="checkbox" id="s-wd-0"> Sun</label>
-          <label><input type="checkbox" id="s-wd-1"> Mon</label>
-          <label><input type="checkbox" id="s-wd-2"> Tue</label>
-          <label><input type="checkbox" id="s-wd-3"> Wed</label>
-          <label><input type="checkbox" id="s-wd-4"> Thu</label>
-          <label><input type="checkbox" id="s-wd-5"> Fri</label>
-          <label><input type="checkbox" id="s-wd-6"> Sat</label>
-        </div>
-      </div>
-
-      <button id="btn-save-settings" class="btn btn-primary btn-full" style="margin-bottom: 0.75rem;">Save settings</button>
-      <button id="btn-reset-data" class="btn btn-full" style="background: var(--color-panel-red-bg); color: var(--color-panel-red-text); border: 1px solid var(--color-panel-red-border);">Reset all data</button>
     </div>
-  </div>
+    </div>
 
-  <div id="xp-toast" class="hidden"></div>
-
-  <script type="module" src="app.js"></script>
+    <div id="xp-toast" class="xp-toast hidden"></div>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
