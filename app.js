@@ -2,7 +2,7 @@
 import { EXERCISES } from './exercises.js';
 import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday } from './storage.js';
 import { suggestExercise } from './rotation.js';
-import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
+import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
 import { awardBreak, awardQuestBonus, getProgress, getUnlocks } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
@@ -17,10 +17,6 @@ let reminderEngine = null;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 function todayDateString() {
   return localDateString();
@@ -100,6 +96,7 @@ document.querySelectorAll('#quests-library-filters .filter-pill').forEach(pill =
 function renderRewards() {
   const p = getProgress();
   document.getElementById('rewards-level-val').textContent = p.level;
+  document.getElementById('rewards-level-heading').textContent = `Level ${p.level}`;
   document.getElementById('rewards-level-title').textContent = `"${p.title}"`;
   document.getElementById('rewards-unlocks-container').innerHTML = getUnlocks().map(pack => `
     <div class="unlock-item${pack.unlocked ? ' unlocked' : ''}">
@@ -343,6 +340,8 @@ function startQuest(quest) {
   liveQuest = quest;
   liveStepIdx = -1;
   livePaused = false;
+  document.getElementById('btn-live-pause').textContent = 'Pause';
+  if (snoozeTimeout) { clearTimeout(snoozeTimeout); snoozeTimeout = null; }
   document.body.classList.add('break-active');
   document.getElementById('btn-snooze-quest').classList.add('hidden');
   document.getElementById('live-quest-widget').classList.remove('hidden');
