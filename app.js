@@ -1,17 +1,15 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString } from './storage.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday } from './storage.js';
 import { suggestExercise } from './rotation.js';
 import { startReminderEngine, isWithinWorkWindow, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
-import { awardBreak, awardQuestBonus, getProgress } from './game.js';
+import { awardBreak, awardQuestBonus, getProgress, getUnlocks } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
 import { getSittingMinutes, recordDaySummary, getWeekStats, getAreaBalance } from './insights.js';
 import { getFigure } from './figures.js';
 
 // Module-level state
-let currentExercise = null;
-let currentTier = null;
 let snoozeTimeout = null;
 let activeTimer = null;
 let reminderEngine = null;
@@ -59,14 +57,175 @@ document.querySelectorAll('.nav-item[data-tab]').forEach(btn =>
   btn.addEventListener('click', () => showTab(btn.dataset.tab)));
 
 // ---------------------------------------------------------------------------
-// Stubs -- Task 9 fills these in
+// Quests library
 // ---------------------------------------------------------------------------
 
-function renderLibrary() { /* Task 8/9 fills this in */ }
-function renderRewards() { /* Task 8/9 fills this in */ }
-function renderProgress() { /* Task 8/9 fills this in */ }
-function renderSettings() { /* Task 8/9 fills this in */ }
-function updateTopBar() { /* Task 8/9 fills this in */ }
+let libraryFilter = 'all';
+
+function renderLibrary() {
+  const grid = document.getElementById('quests-library-container');
+  const list = EXERCISES.filter(e => libraryFilter === 'all' || e.category === libraryFilter);
+  grid.innerHTML = list.map(e => `
+    <div class="fd-card library-card">
+      <div class="quest-meta">
+        <span class="quest-tag">${e.category} · ${e.tier}</span>
+        <h3 class="quest-title-text">${e.name}</h3>
+        <p class="quest-desc">${e.desc}</p>
+      </div>
+      <div class="quest-action-row">
+        <span class="xp-indicator">+${e.xp} XP · ${e.duration} min</span>
+        <button class="btn-primary" data-start-quest="${e.id}">Start</button>
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('[data-start-quest]').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const quest = EXERCISES.find(e => e.id === btn.dataset.startQuest);
+      showTab('today');
+      startQuest(quest);
+    }));
+}
+
+document.querySelectorAll('#quests-library-filters .filter-pill').forEach(pill =>
+  pill.addEventListener('click', () => {
+    libraryFilter = pill.dataset.filter;
+    document.querySelectorAll('#quests-library-filters .filter-pill')
+      .forEach(p => p.classList.toggle('active', p === pill));
+    renderLibrary();
+  }));
+
+// ---------------------------------------------------------------------------
+// Rewards
+// ---------------------------------------------------------------------------
+
+function renderRewards() {
+  const p = getProgress();
+  document.getElementById('rewards-level-val').textContent = p.level;
+  document.getElementById('rewards-level-title').textContent = `"${p.title}"`;
+  document.getElementById('rewards-unlocks-container').innerHTML = getUnlocks().map(pack => `
+    <div class="unlock-item${pack.unlocked ? ' unlocked' : ''}">
+      <div class="unlock-icon">${pack.unlocked ? '✅' : '🔒'}</div>
+      <div class="unlock-details">
+        <span class="unlock-name">${pack.label}</span>
+        <span class="unlock-level-req${pack.unlocked ? ' unlocked-status' : ''}">${pack.unlocked
+          ? `${pack.quests.length} quests: ${pack.quests.join(', ')}`
+          : `Unlocks at level ${pack.level} · ${pack.quests.length} quests inside`}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+
+function renderProgress() {
+  const now = new Date();
+  const stats = getWeekStats(now);
+  const streak = getStreak();
+  document.getElementById('stats-total-resets').textContent = streak.totalBreaks;
+  document.getElementById('stats-total-minutes').textContent = `${stats.minutesMoved}m`;
+  document.getElementById('stats-current-streak').textContent = stats.streak;
+
+  // Adherence: workdays in the last 7 days with at least one break
+  const workDays = getSettings().workDays;
+  const wd = stats.days.filter(d => isWorkday(d.date, workDays));
+  const adherence = wd.length === 0 ? 0 : Math.round(100 * wd.filter(d => d.count > 0).length / wd.length);
+  document.getElementById('stats-adherence').textContent = `${adherence}%`;
+
+  const balance = getAreaBalance(now);
+  const active = balance.filter(b => b.count > 0).map(b => b.area);
+  for (const { area } of balance) {
+    document.getElementById('muscle-' + area)
+      .classList.toggle('active-coverage', active.includes(area));
+  }
+  const label = a => ({ neck: 'Neck', shoulders: 'Shoulders', core: 'Core', wrists: 'Wrists', legs: 'Legs' }[a]);
+  document.getElementById('legend-active-areas').textContent =
+    active.length ? `Covered this week: ${active.map(label).join(', ')}` : 'Nothing covered yet this week';
+  const idle = balance.filter(b => b.count === 0).map(b => label(b.area));
+  document.getElementById('legend-focus-areas').textContent =
+    idle.length ? `Waiting for attention: ${idle.join(', ')}` : 'Every zone covered. Full-body week.';
+}
+
+// ---------------------------------------------------------------------------
+// Settings
+// ---------------------------------------------------------------------------
+
+let settingsFixedTimes = [];
+
+function renderSettings() {
+  const s = getSettings();
+  document.getElementById('settings-name-input').value = s.userName || '';
+  document.getElementById('settings-work-start').value = s.workStart;
+  document.getElementById('settings-work-end').value = s.workEnd;
+  for (let d = 0; d < 7; d++)
+    document.getElementById('settings-wd-' + d).checked = (s.workDays || [1,2,3,4,5]).includes(d);
+  document.getElementById('settings-reminder-mode').value = s.reminderMode;
+  document.getElementById('settings-interval-minutes').value = String(s.intervalMinutes);
+  document.getElementById('settings-sound-toggle').checked = !s.muted;
+  settingsFixedTimes = [];
+  const list = document.getElementById('settings-fixed-times-list');
+  list.innerHTML = '';
+  (s.fixedTimes || []).forEach(t => addTimeChip(t, list, settingsFixedTimes));
+  toggleReminderInputs(s.reminderMode);
+}
+
+function toggleReminderInputs(mode) {
+  document.getElementById('settings-interval-minutes').classList.toggle('hidden', mode === 'fixed');
+  document.getElementById('settings-fixed-options').classList.toggle('hidden', mode === 'interval');
+}
+document.getElementById('settings-reminder-mode').addEventListener('change', function () { toggleReminderInputs(this.value); });
+document.getElementById('settings-add-fixed-time').addEventListener('click', () => {
+  const input = document.getElementById('settings-fixed-time-input');
+  addTimeChip(input.value, document.getElementById('settings-fixed-times-list'), settingsFixedTimes);
+  input.value = '';
+});
+
+document.getElementById('btn-save-settings').addEventListener('click', () => {
+  saveSettings({
+    userName: document.getElementById('settings-name-input').value.trim(),
+    workStart: document.getElementById('settings-work-start').value,
+    workEnd: document.getElementById('settings-work-end').value,
+    workDays: [0,1,2,3,4,5,6].filter(d => document.getElementById('settings-wd-' + d).checked),
+    reminderMode: document.getElementById('settings-reminder-mode').value,
+    intervalMinutes: parseInt(document.getElementById('settings-interval-minutes').value, 10),
+    fixedTimes: [...settingsFixedTimes],
+    muted: !document.getElementById('settings-sound-toggle').checked
+  });
+  if (reminderEngine) reminderEngine.stop();
+  reminderEngine = startReminderEngine(onReminderFires);
+  showXpToast('Settings saved');
+  updateTopBar();
+  showTab('today');
+});
+
+document.getElementById('btn-reset-database').addEventListener('click', () => {
+  if (window.confirm('Reset all data? This deletes your streak, XP, and history on this device. There is no undo.')) {
+    resetAll();
+    window.location.reload();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Top bar and sidebar identity
+// ---------------------------------------------------------------------------
+
+function updateTopBar() {
+  const s = getSettings();
+  const streak = getStreak().streak;
+  document.getElementById('streak-counter-value').textContent =
+    streak === 1 ? '1 day streak' : `${streak} day streak`;
+  document.getElementById('audio-icon-muted').style.display = s.muted ? '' : 'none';
+  document.getElementById('audio-icon-unmuted').style.display = s.muted ? 'none' : '';
+  const name = s.userName || 'You';
+  document.getElementById('sidebar-username').textContent = name;
+  document.getElementById('sidebar-avatar').textContent = name.charAt(0).toUpperCase();
+  document.getElementById('sidebar-level-title').textContent = getProgress().title;
+}
+
+document.getElementById('audio-mute-btn').addEventListener('click', () => {
+  const s = getSettings();
+  saveSettings({ ...s, muted: !s.muted });
+  updateTopBar();
+});
 
 // ---------------------------------------------------------------------------
 // Quotes
@@ -483,8 +642,8 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js').catch(() => {});
   navigator.serviceWorker.addEventListener('message', (event) => {
     const data = event.data || {};
-    // Task 9 rewires these against the new quest/timer flow.
-    if (data.type === 'START_TIER') { /* no-op until Task 9 */ }
-    if (data.type === 'SHOW_CHOICE') { /* no-op until Task 9 */ }
+    if (data.type === 'START_SUGGESTED') startSuggestedQuest();
+    if (data.type === 'SNOOZE') snoozeReminder();
+    if (data.type === 'SHOW_CHOICE') onReminderFires();
   });
 }
