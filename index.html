@@ -466,105 +466,105 @@
                 </aside>
             </div>
         </div>
-
-        <!-- Onboarding Wizard Overlay -->
-        <div class="onboarding-overlay" id="onboarding-wizard">
-            <div class="onboarding-card">
-                
-                <div class="onboarding-slide active-slide" id="obs-1">
-                  <div class="onboarding-header">
-                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
-                    <h2 class="onboarding-title">First, your name</h2>
-                    <p class="onboarding-desc">So the app greets a person, not a user.</p>
-                  </div>
-                  <div class="onboarding-body">
-                    <input type="text" id="ob-name-input" class="settings-select" placeholder="Your name" style="max-width:280px;">
-                  </div>
-                </div>
-                <div class="onboarding-slide" id="obs-2">
-                  <div class="onboarding-header">
-                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
-                    <h2 class="onboarding-title">Your work hours</h2>
-                    <p class="onboarding-desc">Reminders stay inside this window and rest when you do.</p>
-                  </div>
-                  <div class="onboarding-body">
-                    <div class="settings-input-row">
-                      <input type="time" id="ob-work-start" class="settings-select" value="09:00">
-                      <span>to</span>
-                      <input type="time" id="ob-work-end" class="settings-select" value="17:00">
-                    </div>
-                    <div class="settings-input-row workdays-row">
-                      <label><input type="checkbox" id="ob-wd-0">Sun</label>
-                      <label><input type="checkbox" id="ob-wd-1" checked>Mon</label>
-                      <label><input type="checkbox" id="ob-wd-2" checked>Tue</label>
-                      <label><input type="checkbox" id="ob-wd-3" checked>Wed</label>
-                      <label><input type="checkbox" id="ob-wd-4" checked>Thu</label>
-                      <label><input type="checkbox" id="ob-wd-5" checked>Fri</label>
-                      <label><input type="checkbox" id="ob-wd-6">Sat</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="onboarding-slide" id="obs-3">
-                  <div class="onboarding-header">
-                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
-                    <h2 class="onboarding-title">How should reminders arrive?</h2>
-                    <p class="onboarding-desc">A steady rhythm works for most people. You can change this anytime.</p>
-                  </div>
-                  <div class="onboarding-body">
-                    <div class="settings-input-row">
-                      <select class="settings-select" id="ob-reminder-mode">
-                        <option value="interval">Every so often</option>
-                        <option value="fixed">Fixed times</option>
-                      </select>
-                      <select class="settings-select" id="ob-interval-minutes">
-                        <option value="30">30 minutes</option>
-                        <option value="45" selected>45 minutes</option>
-                        <option value="60">60 minutes</option>
-                        <option value="90">90 minutes</option>
-                      </select>
-                    </div>
-                    <div id="ob-fixed-options" class="hidden">
-                      <div class="settings-input-row">
-                        <input type="time" id="ob-fixed-time-input" class="settings-select">
-                        <button class="btn-secondary" id="ob-add-fixed-time">Add</button>
-                      </div>
-                      <div id="ob-fixed-times-list" class="chips-row"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="onboarding-slide" id="obs-4">
-                  <div class="onboarding-header">
-                    <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
-                    <h2 class="onboarding-title">Why movement gaps matter</h2>
-                    <p class="onboarding-desc">Small breaks trigger real biology.</p>
-                  </div>
-                  <div class="onboarding-body">
-                    <div class="educational-insight-box">
-                      <span class="insight-icon">🩺</span>
-                      <div class="insight-content">
-                        <div class="insight-title">Sitting is the problem, not you</div>
-                        <div class="insight-text">After 20 minutes of stillness, circulation slows and your postural muscles switch off. A morning workout does not undo an afternoon of sitting. Frequency is what your body is asking for.</div>
-                      </div>
-                    </div>
-                    <div class="educational-insight-box">
-                      <span class="insight-icon">🔔</span>
-                      <div class="insight-content">
-                        <div class="insight-title">One permission, worth granting</div>
-                        <div class="insight-text">Allow notifications and your reminders arrive even when this tab is buried. Prefer not to? The dashboard countdown works fine without them.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="onboarding-controls">
-                  <button class="btn-secondary" id="btn-ob-back">Back</button>
-                  <button class="btn-primary" id="btn-ob-next">Next</button>
-                  <button class="btn-primary hidden" id="btn-ob-finish">Start moving</button>
-                </div>
-
-            </div>
-        </div>
     </div>
+    </div>
+
+    <!-- Onboarding Wizard Overlay -->
+    <div class="onboarding-overlay" id="onboarding-wizard">
+        <div class="onboarding-card">
+
+            <div class="onboarding-slide active-slide" id="obs-1">
+              <div class="onboarding-header">
+                <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                <h2 class="onboarding-title">First, your name</h2>
+                <p class="onboarding-desc">So the app greets a person, not a user.</p>
+              </div>
+              <div class="onboarding-body">
+                <input type="text" id="ob-name-input" class="settings-select" placeholder="Your name" style="max-width:280px;">
+              </div>
+            </div>
+            <div class="onboarding-slide" id="obs-2">
+              <div class="onboarding-header">
+                <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                <h2 class="onboarding-title">Your work hours</h2>
+                <p class="onboarding-desc">Reminders stay inside this window and rest when you do.</p>
+              </div>
+              <div class="onboarding-body">
+                <div class="settings-input-row">
+                  <input type="time" id="ob-work-start" class="settings-select" value="09:00">
+                  <span>to</span>
+                  <input type="time" id="ob-work-end" class="settings-select" value="17:00">
+                </div>
+                <div class="settings-input-row workdays-row">
+                  <label><input type="checkbox" id="ob-wd-0">Sun</label>
+                  <label><input type="checkbox" id="ob-wd-1" checked>Mon</label>
+                  <label><input type="checkbox" id="ob-wd-2" checked>Tue</label>
+                  <label><input type="checkbox" id="ob-wd-3" checked>Wed</label>
+                  <label><input type="checkbox" id="ob-wd-4" checked>Thu</label>
+                  <label><input type="checkbox" id="ob-wd-5" checked>Fri</label>
+                  <label><input type="checkbox" id="ob-wd-6">Sat</label>
+                </div>
+              </div>
+            </div>
+            <div class="onboarding-slide" id="obs-3">
+              <div class="onboarding-header">
+                <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                <h2 class="onboarding-title">How should reminders arrive?</h2>
+                <p class="onboarding-desc">A steady rhythm works for most people. You can change this anytime.</p>
+              </div>
+              <div class="onboarding-body">
+                <div class="settings-input-row">
+                  <select class="settings-select" id="ob-reminder-mode">
+                    <option value="interval">Every so often</option>
+                    <option value="fixed">Fixed times</option>
+                  </select>
+                  <select class="settings-select" id="ob-interval-minutes">
+                    <option value="30">30 minutes</option>
+                    <option value="45" selected>45 minutes</option>
+                    <option value="60">60 minutes</option>
+                    <option value="90">90 minutes</option>
+                  </select>
+                </div>
+                <div id="ob-fixed-options" class="hidden">
+                  <div class="settings-input-row">
+                    <input type="time" id="ob-fixed-time-input" class="settings-select">
+                    <button class="btn-secondary" id="ob-add-fixed-time">Add</button>
+                  </div>
+                  <div id="ob-fixed-times-list" class="chips-row"></div>
+                </div>
+              </div>
+            </div>
+            <div class="onboarding-slide" id="obs-4">
+              <div class="onboarding-header">
+                <div class="onboarding-logo"><div class="logo-icon">W</div><span>WFH Movement</span></div>
+                <h2 class="onboarding-title">Why movement gaps matter</h2>
+                <p class="onboarding-desc">Small breaks trigger real biology.</p>
+              </div>
+              <div class="onboarding-body">
+                <div class="educational-insight-box">
+                  <span class="insight-icon">🩺</span>
+                  <div class="insight-content">
+                    <div class="insight-title">Sitting is the problem, not you</div>
+                    <div class="insight-text">After 20 minutes of stillness, circulation slows and your postural muscles switch off. A morning workout does not undo an afternoon of sitting. Frequency is what your body is asking for.</div>
+                  </div>
+                </div>
+                <div class="educational-insight-box">
+                  <span class="insight-icon">🔔</span>
+                  <div class="insight-content">
+                    <div class="insight-title">One permission, worth granting</div>
+                    <div class="insight-text">Allow notifications and your reminders arrive even when this tab is buried. Prefer not to? The dashboard countdown works fine without them.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="onboarding-controls">
+              <button class="btn-secondary" id="btn-ob-back">Back</button>
+              <button class="btn-primary" id="btn-ob-next">Next</button>
+              <button class="btn-primary hidden" id="btn-ob-finish">Start moving</button>
+            </div>
+
+        </div>
     </div>
 
     <div id="xp-toast" class="xp-toast hidden"></div>
