@@ -14,10 +14,10 @@ export const QUEST_TEMPLATES = [
     progress: d => countBy(d, b => b.targetArea === 'wrists') },
   { id: 'neck', title: 'Unknot your neck', bonusXp: 15, target: 1,
     progress: d => countBy(d, b => b.targetArea === 'neck') },
-  { id: 'hips', title: 'Wake up your hips', bonusXp: 15, target: 1,
-    progress: d => countBy(d, b => b.targetArea === 'hips') },
-  { id: 'spine', title: 'Straighten the desk slump', bonusXp: 15, target: 1,
-    progress: d => countBy(d, b => b.targetArea === 'spine') },
+  { id: 'legs', title: 'Wake up your legs', bonusXp: 15, target: 1,
+    progress: d => countBy(d, b => b.targetArea === 'legs') },
+  { id: 'core', title: 'Straighten the desk slump', bonusXp: 15, target: 1,
+    progress: d => countBy(d, b => b.targetArea === 'core') },
   { id: 'hard-tier', title: 'Bring the heat', bonusXp: 25, target: 1,
     progress: d => countBy(d, b => b.tier === 'hard') },
   { id: 'easy-tier', title: 'Gentle does it', bonusXp: 10, target: 1,
@@ -42,7 +42,7 @@ export const QUEST_TEMPLATES = [
     progress: d => countBy(d, b => b.completedAt && new Date(b.completedAt).getHours() >= 15) }
 ];
 
-const EASY_SATISFIABLE = new Set(['take-2', 'wrists', 'neck', 'hips', 'spine', 'easy-tier', 'early-mover', 'strong-finish']);
+const EASY_SATISFIABLE = new Set(['take-2', 'wrists', 'neck', 'legs', 'core', 'easy-tier', 'early-mover', 'strong-finish']);
 
 function seedFromDate(dateStr) {
   let h = 0;

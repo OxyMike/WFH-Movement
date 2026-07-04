@@ -2,7 +2,7 @@ import { test, run } from './run.js';
 import { QUEST_TEMPLATES, getTodaysQuests, evaluateQuests } from '../quests.js';
 
 const SETTINGS = { workDays: [1, 2, 3, 4, 5], workStart: '08:00', workEnd: '17:00' };
-const EASY_IDS = ['take-2', 'wrists', 'neck', 'hips', 'spine', 'easy-tier', 'early-mover', 'strong-finish'];
+const EASY_IDS = ['take-2', 'wrists', 'neck', 'legs', 'core', 'easy-tier', 'early-mover', 'strong-finish'];
 
 test('pool has 12 templates with unique ids', () => {
   if (QUEST_TEMPLATES.length !== 12) throw new Error('expected 12 templates');
@@ -32,7 +32,7 @@ test('non-workday yields no quests', () => {
 test('evaluateQuests computes progress and completion', () => {
   const day = { date: '2026-07-06', completedBreaks: [
     { exerciseId: 'chin-tucks', targetArea: 'neck', tier: 'easy', completedAt: '2026-07-06T09:30:00.000Z' },
-    { exerciseId: 'bodyweight-squats', targetArea: 'hips', tier: 'hard', completedAt: '2026-07-06T15:45:00.000Z' }
+    { exerciseId: 'bodyweight-squats', targetArea: 'legs', tier: 'hard', completedAt: '2026-07-06T15:45:00.000Z' }
   ]};
   const byId = id => QUEST_TEMPLATES.find(q => q.id === id);
   const evals = evaluateQuests(day, [byId('take-3'), byId('hard-tier'), byId('mix-it-up')], SETTINGS);
@@ -46,11 +46,11 @@ test('long-sit quest checks a 75 minute gap between breaks', () => {
   const byId = id => QUEST_TEMPLATES.find(q => q.id === id);
   const met = { date: '2026-07-06', completedBreaks: [
     { targetArea: 'neck', tier: 'easy', completedAt: '2026-07-06T09:00:00.000Z' },
-    { targetArea: 'hips', tier: 'easy', completedAt: '2026-07-06T10:30:00.000Z' } // 90 min later
+    { targetArea: 'legs', tier: 'easy', completedAt: '2026-07-06T10:30:00.000Z' } // 90 min later
   ]};
   const unmet = { date: '2026-07-06', completedBreaks: [
     { targetArea: 'neck', tier: 'easy', completedAt: '2026-07-06T09:00:00.000Z' },
-    { targetArea: 'hips', tier: 'easy', completedAt: '2026-07-06T09:30:00.000Z' }
+    { targetArea: 'legs', tier: 'easy', completedAt: '2026-07-06T09:30:00.000Z' }
   ]};
   if (!evaluateQuests(met, [byId('long-sit')], SETTINGS)[0].completed) throw new Error('90 min gap should satisfy long-sit');
   if (evaluateQuests(unmet, [byId('long-sit')], SETTINGS)[0].completed) throw new Error('30 min gap should not');
