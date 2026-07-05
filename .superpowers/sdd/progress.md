@@ -60,3 +60,22 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Final whole-branch review (fable): 'With fixes' -- Rewards hardcoded Level 12 heading (Important) + pause label, snooze clear, icon caching, dead code. Fix diff applied by interrupted subagent, controller-verified line by line, committed below. Riders logged: legs-figure tag, formatTime 4:00 vs 04:00, deploy-transition figure flash, manifest bg color, hard-tier content balance, quote reverts on renderToday, snooze-vs-cadence semantics, XP pacing vs 3200 curve
 - [x] Post-review: wizard short-viewport scroll fix from user-started background session, controller-verified and committed (overflow-y auto + margin auto pattern)
 - [x] Post-gate: wide-viewport dead-space fix (f138de2, #app-shell flex stretch) and short-viewport wizard scroll fix (8e6e4dd) both preview-verified
+
+
+## Daily Goal (plan: docs/superpowers/plans/2026-07-04-daily-goal.md)
+
+- [x] Task 1: dailyGoal default + shouldAwardGoal predicate + test (commits 9b60e0e..52b51eb, review clean — Minor: game.js:29 "once per day" comment describes caller intent not this fn; no goal=0 test, YAGNI)
+- [x] Task 2: awardDailyGoal wiring in completeQuest (commits 52b51eb..738d657, review clean — controller-relevant: no unit test by design, browser verification deferred; clobber risk verified non-issue)
+- [x] Task 3: goal progress ring on Today (commits 738d657..f31ec45, review clean — IDs verified match; Minor: CSS 2-space vs 4-space indent, cosmetic)
+- [x] Task 4: adjustable daily-goal setting select (commits f31ec45..1ac6b24, review clean — id verified across markup/populate/save; full suite 78 assertions pass)
+- [x] Final whole-branch review (sonnet; fable unavailable): READY TO MERGE — Yes. No Critical/Important. Named risks verified: today-record write ordering non-clobbering; backward-compat structural (DEFAULT_SETTINGS spread gives old state dailyGoal=4, undefined goalAwarded reads falsy). 4 minors all cosmetic/pre-existing (game.js comment, no goal=0 test, CSS 2-vs-4 indent, no <label for> matches house style) — none blocking. Controller browser-verified ring 2/4 & 4/4+glow, settings persist 4→3. Award toast not exercised live (4-min timer) — same showXpToast path as existing awards + unit-tested predicate.
+- [x] Ship prep: SW cache v8->v9 (commit below) — required for installed users to receive the feature; plan gap caught at finish.
+
+
+## Stiffness Scan (plan: docs/superpowers/plans/2026-07-04-stiffness-scan.md, branch: stiffness-scan)
+
+- [x] Task 1: preferredAreas in suggestExercise (7039d3d..317d5e9, review clean)
+- [x] Task 2: persist stiffAreas on today record (317d5e9..31823f0, review clean)
+- [x] Task 3: scan panel UI + wiring (31823f0..a3b61a8, review clean; browser-verified: toggle, highlight, Done->neck quest & save, reopen pre-select; 7 call sites biased; CSS vars --primary/--border-color confirmed)
+- [x] Task 4: ship - SW cache bump v9->v10 (a3b61a8..c92f430, review clean; 83 assertions pass)
+- [x] Final whole-branch review (sonnet): READY TO MERGE. No Critical/Important. 2 Minors both no-fix (saveStiffAreas in-place matches logBreak house style; static scan listeners fine). All 7 suggestExercise call sites biased; backward-compat proven; browser-verified. 83 assertions pass.
