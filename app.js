@@ -1,6 +1,6 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName } from './storage.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveStiffAreas } from './storage.js';
 import { suggestExercise, easierQuest } from './rotation.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
@@ -273,7 +273,7 @@ function renderToday() {
     mins !== null ? `Sitting ${mins} min since your last break.` : 'Your chair misses you already. Good.';
   document.getElementById('today-seated-timer').textContent = mins !== null ? `${mins} min` : 'Fresh start';
 
-  if (!suggestedQuest) suggestedQuest = suggestExercise(record.lastTargetArea, null, null);
+  if (!suggestedQuest) suggestedQuest = suggestExercise(record.lastTargetArea, null, null, record.stiffAreas);
   renderPrimaryQuest();
   renderDailyQuests();
   renderGoalRing();
@@ -299,22 +299,43 @@ function renderGoalRing() {
 }
 
 document.getElementById('btn-reroll-quest').addEventListener('click', () => {
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null, getTodayRecord().stiffAreas);
   renderPrimaryQuest();
 });
 document.getElementById('btn-start-quest').addEventListener('click', () => startQuest(suggestedQuest));
 
 function startSuggestedQuest() {
-  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
   startQuest(suggestedQuest);
 }
+
+// Stiffness scan
+document.getElementById('btn-open-scan').addEventListener('click', () => {
+  const panel = document.getElementById('scan-panel');
+  panel.classList.toggle('hidden');
+  if (!panel.classList.contains('hidden')) {
+    const stiff = getTodayRecord().stiffAreas || [];
+    document.querySelectorAll('.scan-zone').forEach(b =>
+      b.classList.toggle('selected', stiff.includes(b.dataset.zone)));
+  }
+});
+document.querySelectorAll('.scan-zone').forEach(b =>
+  b.addEventListener('click', () => b.classList.toggle('selected')));
+document.getElementById('btn-scan-done').addEventListener('click', () => {
+  const areas = [...document.querySelectorAll('.scan-zone.selected')].map(b => b.dataset.zone);
+  saveStiffAreas(areas);
+  document.getElementById('scan-panel').classList.add('hidden');
+  const record = getTodayRecord();
+  suggestedQuest = suggestExercise(record.lastTargetArea, null, null, areas);
+  renderPrimaryQuest();
+});
 
 // ---------------------------------------------------------------------------
 // Reminder path and snooze
 // ---------------------------------------------------------------------------
 
 function onReminderFires() {
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
   showTab('today');
   const card = document.getElementById('primary-suggested-card');
   card.classList.remove('quest-pulse');
@@ -421,7 +442,7 @@ function completeQuest(xpFactor = 1) {
     awardDailyGoal();
   }
 
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
   showTab('today');
   updateRail();
   updateTopBar();
@@ -440,7 +461,7 @@ function renderRestingRail() {
   if (liveQuest) return;
   document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
   document.getElementById('btn-live-pause').textContent = 'Start';
-  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null);
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
   const step = suggestedQuest.steps[0];
   const ill = document.getElementById('live-quest-illustration-container');
   ill.innerHTML = getFigure(step.svg);

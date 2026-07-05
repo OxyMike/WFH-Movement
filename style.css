@@ -568,6 +568,11 @@ a {
     background-color: rgba(32, 34, 37, 0.08);
 }
 
+.scan-panel { margin-top: 12px; }
+.scan-zones { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+.scan-zone { padding: 10px 16px; border-radius: 999px; border: 2px solid var(--border-color); background: transparent; font-size: 1rem; cursor: pointer; }
+.scan-zone.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
 .btn-coral {
     background-color: var(--coral);
     color: #FFFFFF;

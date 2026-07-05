@@ -149,6 +149,22 @@
                           </div>
                         </div>
 
+                        <!-- Stiffness scan -->
+                        <div class="fd-card stiffness-scan-card">
+                            <button class="btn-secondary" id="btn-open-scan">Feeling stiff?</button>
+                            <div class="scan-panel hidden" id="scan-panel">
+                                <p class="scan-prompt">Tap wherever it feels tight:</p>
+                                <div class="scan-zones">
+                                    <button class="scan-zone" data-zone="neck">Neck</button>
+                                    <button class="scan-zone" data-zone="shoulders">Shoulders</button>
+                                    <button class="scan-zone" data-zone="core">Core</button>
+                                    <button class="scan-zone" data-zone="wrists">Wrists</button>
+                                    <button class="scan-zone" data-zone="legs">Legs</button>
+                                </div>
+                                <button class="btn-primary" id="btn-scan-done">Done</button>
+                            </div>
+                        </div>
+
                         <!-- Current Proposed Quest -->
                         <div class="fd-card primary-quest-card" id="primary-suggested-card">
                             <div class="quest-header-block">
