@@ -1,9 +1,13 @@
 // rotation.js
 import { EXERCISES } from './exercises.js';
 
-export function suggestExercise(lastTargetArea, excludeId, tier) {
+export function suggestExercise(lastTargetArea, excludeId, tier, preferredAreas) {
   const inTier = tier ? EXERCISES.filter(e => e.tier === tier) : EXERCISES;
   let pool = inTier.filter(e => e.targetArea !== lastTargetArea && e.id !== excludeId);
+  if (preferredAreas && preferredAreas.length) {
+    const preferred = pool.filter(e => preferredAreas.includes(e.targetArea));
+    if (preferred.length) pool = preferred;
+  }
   if (pool.length === 0) pool = inTier.filter(e => e.id !== excludeId);
   if (pool.length === 0) pool = inTier;
   if (pool.length === 0) pool = EXERCISES;
