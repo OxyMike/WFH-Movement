@@ -49,9 +49,16 @@ export function getTodayRecord() {
   const state = getState();
   const today = todayString();
   if (!state || !state.today || state.today.date !== today) {
-    return { date: today, completedBreaks: [], lastTargetArea: null };
+    return { date: today, completedBreaks: [], lastTargetArea: null, stiffAreas: [] };
   }
   return state.today;
+}
+
+export function saveStiffAreas(areas) {
+  const state = getState() ?? {};
+  const today = getTodayRecord();
+  today.stiffAreas = areas;
+  saveState({ ...state, today });
 }
 
 export function logBreak(exerciseId, targetArea, tier) {
