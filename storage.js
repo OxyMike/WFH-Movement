@@ -11,7 +11,8 @@ const DEFAULT_SETTINGS = {
   workDays: [1, 2, 3, 4, 5],
   dailyGoal: 4,
   volume: 0.5,
-  soundInstrument: 'standard'
+  soundInstrument: 'standard',
+  theme: 'sage'
 };
 
 // Local calendar date, not UTC: an evening break must count toward the

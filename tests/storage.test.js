@@ -58,6 +58,7 @@ test('getSettings returns defaults when nothing saved', () => {
   assertEqual(s.defaultBreakLength, 'full', 'Default defaultBreakLength');
   assertEqual(s.volume, 0.5, 'Default volume');
   assertEqual(s.soundInstrument, 'standard', 'Default soundInstrument');
+  assertEqual(s.theme, 'sage', 'Default theme');
 });
 
 test('saveSettings and getSettings round-trip', () => {
