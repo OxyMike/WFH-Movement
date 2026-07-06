@@ -162,6 +162,13 @@ function renderSettings() {
   document.getElementById('settings-daily-goal').value = String(s.dailyGoal);
   document.getElementById('settings-sound-toggle').checked = !s.muted;
   document.getElementById('settings-sound-instrument').value = s.soundInstrument;
+  document.querySelectorAll('.theme-swatch-card').forEach(card => {
+    const isActive = card.getAttribute('data-theme') === s.theme;
+    const circle = card.querySelector('.theme-circle');
+    const check = card.querySelector('.checkmark-overlay');
+    circle.style.border = isActive ? '3px solid var(--primary)' : '1.5px solid var(--border-color)';
+    check.style.display = isActive ? 'block' : 'none';
+  });
   settingsFixedTimes = [];
   const list = document.getElementById('settings-fixed-times-list');
   list.innerHTML = '';
@@ -178,6 +185,19 @@ document.getElementById('settings-sound-instrument').addEventListener('change', 
   const s = getSettings();
   if (!s.muted) playTone(659.25, 300, 0.3 * s.volume, e.target.value);
 });
+document.querySelectorAll('.theme-swatch-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const theme = card.getAttribute('data-theme');
+    saveSettings({ ...getSettings(), theme });
+    document.documentElement.className = document.documentElement.className
+      .split(' ')
+      .filter(c => !c.startsWith('theme-'))
+      .join(' ');
+    if (theme !== 'sage') document.documentElement.classList.add('theme-' + theme);
+    renderSettings();
+    sound(659.25, 300);
+  });
+});
 document.getElementById('settings-add-fixed-time').addEventListener('click', () => {
   const input = document.getElementById('settings-fixed-time-input');
   addTimeChip(input.value, document.getElementById('settings-fixed-times-list'), settingsFixedTimes);
@@ -187,6 +207,7 @@ document.getElementById('settings-add-fixed-time').addEventListener('click', () 
 document.getElementById('btn-save-settings').addEventListener('click', () => {
   saveSettings({
     volume: getSettings().volume,
+    theme: getSettings().theme,
     userName: document.getElementById('settings-name-input').value.trim(),
     workStart: document.getElementById('settings-work-start').value,
     workEnd: document.getElementById('settings-work-end').value,
