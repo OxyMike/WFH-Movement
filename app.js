@@ -1,7 +1,8 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveStiffAreas } from './storage.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveBodyStiffness } from './storage.js';
 import { suggestExercise, easierQuest } from './rotation.js';
+import { tightestZone, preferredAreasFrom, coachingFor } from './coaching.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
 import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor, shouldAwardGoal } from './game.js';
@@ -273,15 +274,18 @@ function renderToday() {
     mins !== null ? `Sitting ${mins} min since your last break.` : 'Your chair misses you already. Good.';
   document.getElementById('today-seated-timer').textContent = mins !== null ? `${mins} min` : 'Fresh start';
 
-  if (!suggestedQuest) suggestedQuest = suggestExercise(record.lastTargetArea, null, null, record.stiffAreas);
-  renderPrimaryQuest();
+  renderStiffnessCheckGroup();
+  recalcCoaching();
   renderDailyQuests();
   renderGoalRing();
   tickToday();
 }
 
 function renderPrimaryQuest() {
-  document.getElementById('primary-quest-title').textContent = suggestedQuest.name;
+  const critical = tightestZone(getTodayRecord().bodyStiffness) !== null;
+  document.getElementById('primary-quest-title').innerHTML = critical
+    ? `${suggestedQuest.name} <span class="quest-critical-badge">Critical Body Defense</span>`
+    : suggestedQuest.name;
   document.getElementById('primary-quest-description').textContent = suggestedQuest.desc;
   document.getElementById('primary-quest-time').textContent = `${suggestedQuest.duration} min`;
   document.getElementById('primary-quest-xp').textContent = `+${suggestedQuest.xp} XP`;
@@ -299,43 +303,95 @@ function renderGoalRing() {
 }
 
 document.getElementById('btn-reroll-quest').addEventListener('click', () => {
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null, getTodayRecord().stiffAreas);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
   renderPrimaryQuest();
 });
 document.getElementById('btn-start-quest').addEventListener('click', () => startQuest(suggestedQuest));
 
 function startSuggestedQuest() {
-  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
   startQuest(suggestedQuest);
 }
 
-// Stiffness scan
-document.getElementById('btn-open-scan').addEventListener('click', () => {
-  const panel = document.getElementById('scan-panel');
-  panel.classList.toggle('hidden');
-  if (!panel.classList.contains('hidden')) {
-    const stiff = getTodayRecord().stiffAreas || [];
-    document.querySelectorAll('.scan-zone').forEach(b =>
-      b.classList.toggle('selected', stiff.includes(b.dataset.zone)));
+// Active Body Stiffness Scan + adaptive coaching
+const STIFF_PARTS = [
+  { key: 'neck', label: '🦒 Neck' },
+  { key: 'shoulders', label: '🤷 Shoulders' },
+  { key: 'back', label: '🧘 Back' },
+  { key: 'wrists', label: '🖐️ Wrists' },
+  { key: 'legs', label: '🦵 Legs' }
+];
+const STIFF_LEVELS = [
+  { val: 0, label: 'None', cls: 'active-none' },
+  { val: 1, label: 'Mild', cls: 'active-mild' },
+  { val: 2, label: 'Tight', cls: 'active-tight' }
+];
+
+function renderStiffnessCheckGroup() {
+  const container = document.getElementById('stiffness-check-group');
+  if (!container) return;
+  const stiffness = getTodayRecord().bodyStiffness || {};
+  container.innerHTML = '';
+  for (const part of STIFF_PARTS) {
+    const current = stiffness[part.key] || 0;
+    const row = document.createElement('div');
+    row.className = 'stiffness-chip-row';
+    const label = document.createElement('span');
+    label.className = 'stiffness-chip-label';
+    label.textContent = part.label;
+    const group = document.createElement('div');
+    group.className = 'stiffness-btn-group';
+    for (const lvl of STIFF_LEVELS) {
+      const btn = document.createElement('button');
+      btn.className = 'stiffness-btn' + (current === lvl.val ? ' ' + lvl.cls : '');
+      btn.textContent = lvl.label;
+      btn.addEventListener('click', () => {
+        saveBodyStiffness(part.key, lvl.val);
+        renderStiffnessCheckGroup();
+        recalcCoaching();
+        playTone('next');
+      });
+      group.appendChild(btn);
+    }
+    row.appendChild(label);
+    row.appendChild(group);
+    container.appendChild(row);
   }
-});
-document.querySelectorAll('.scan-zone').forEach(b =>
-  b.addEventListener('click', () => b.classList.toggle('selected')));
-document.getElementById('btn-scan-done').addEventListener('click', () => {
-  const areas = [...document.querySelectorAll('.scan-zone.selected')].map(b => b.dataset.zone);
-  saveStiffAreas(areas);
-  document.getElementById('scan-panel').classList.add('hidden');
+}
+
+function recalcCoaching() {
   const record = getTodayRecord();
-  suggestedQuest = suggestExercise(record.lastTargetArea, null, null, areas);
+  suggestedQuest = suggestExercise(record.lastTargetArea, null, null, preferredAreasFrom(record.bodyStiffness));
   renderPrimaryQuest();
-});
+  const coaching = coachingFor(tightestZone(record.bodyStiffness));
+  const head = document.getElementById('coach-insight-headline');
+  const body = document.getElementById('coach-insight-body');
+  const bullets = document.getElementById('coach-defense-bullets');
+  if (head) head.textContent = coaching.headline;
+  if (body) body.textContent = coaching.body;
+  if (bullets) {
+    bullets.innerHTML = '';
+    for (const b of coaching.bullets) {
+      const div = document.createElement('div');
+      div.className = 'coach-bullet';
+      const dot = document.createElement('span');
+      dot.className = 'coach-bullet-dot' + (b.critical ? '' : ' normal');
+      const text = document.createElement('span');
+      text.className = 'coach-bullet-text';
+      text.textContent = b.text;
+      div.appendChild(dot);
+      div.appendChild(text);
+      bullets.appendChild(div);
+    }
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Reminder path and snooze
 // ---------------------------------------------------------------------------
 
 function onReminderFires() {
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
   showTab('today');
   const card = document.getElementById('primary-suggested-card');
   card.classList.remove('quest-pulse');
@@ -442,7 +498,7 @@ function completeQuest(xpFactor = 1) {
     awardDailyGoal();
   }
 
-  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
+  suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
   showTab('today');
   updateRail();
   updateTopBar();
@@ -461,7 +517,7 @@ function renderRestingRail() {
   if (liveQuest) return;
   document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
   document.getElementById('btn-live-pause').textContent = 'Start';
-  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, getTodayRecord().stiffAreas);
+  if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
   const step = suggestedQuest.steps[0];
   const ill = document.getElementById('live-quest-illustration-container');
   ill.innerHTML = getFigure(step.svg);

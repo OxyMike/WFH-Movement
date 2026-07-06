@@ -149,27 +149,23 @@
                           </div>
                         </div>
 
-                        <!-- Stiffness scan -->
-                        <div class="fd-card stiffness-scan-card">
-                            <button class="btn-secondary" id="btn-open-scan">Feeling stiff?</button>
-                            <div class="scan-panel hidden" id="scan-panel">
-                                <p class="scan-prompt">Tap wherever it feels tight:</p>
-                                <div class="scan-zones">
-                                    <button class="scan-zone" data-zone="neck">Neck</button>
-                                    <button class="scan-zone" data-zone="shoulders">Shoulders</button>
-                                    <button class="scan-zone" data-zone="core">Core</button>
-                                    <button class="scan-zone" data-zone="wrists">Wrists</button>
-                                    <button class="scan-zone" data-zone="legs">Legs</button>
+                        <!-- Active Body Stiffness Scan -->
+                        <div class="fd-card sitting-status-card" id="stiffness-scan-card" style="background-color: var(--navy); color:#FFFFFF; flex-direction: column; align-items: stretch; gap: 16px; padding: 20px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                                <div class="sitting-status-left">
+                                    <div class="sitting-title">Active Body Stiffness Scan</div>
+                                    <div class="sitting-timer" style="font-size:18px; font-weight:600; margin-top:2px;">Check current posture tightness zones</div>
                                 </div>
-                                <button class="btn-primary" id="btn-scan-done">Done</button>
+                                <div class="sitting-badge" style="background-color: var(--coral-light); border-color: var(--coral); color:#FF8F7A;">Live Coaching Active</div>
                             </div>
+                            <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;" id="stiffness-check-group"></div>
                         </div>
 
                         <!-- Current Proposed Quest -->
                         <div class="fd-card primary-quest-card" id="primary-suggested-card">
                             <div class="quest-header-block">
                                 <div class="quest-meta">
-                                    <span class="quest-tag">Up next</span>
+                                    <span class="quest-tag">Adherence recommendation</span>
                                     <h3 class="quest-title-text" id="primary-quest-title">Neck and Shoulder Release</h3>
                                     <p class="quest-desc" id="primary-quest-description">A few slow movements to loosen the stiffness that builds up at a desk.</p>
                                 </div>
@@ -182,7 +178,7 @@
                             <div class="educational-insight-box">
                                 <span class="insight-icon">💡</span>
                                 <div class="insight-content">
-                                    <div class="insight-title">Why this one helps</div>
+                                    <div class="insight-title">Why this reset helps</div>
                                     <div class="insight-text" id="primary-quest-insight">Shoulder rolls and neck stretches undo the forward lean of keyboard posture and get blood moving through your upper back.</div>
                                 </div>
                             </div>
@@ -201,6 +197,21 @@
                             <h3 class="rail-section-title">Today's Quests</h3>
                             <div class="daily-quests-grid" id="daily-quests-board-container">
                                 <!-- Cards injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Body Defense Insights -->
+                        <div class="timeline-container">
+                            <h3 class="rail-section-title">Body Defense Insights & Recommendations</h3>
+                            <div class="fd-card" style="display:flex; flex-direction:column; gap:16px;">
+                                <div style="display:flex; align-items:center; gap:16px;">
+                                    <div style="font-size:36px; background-color: var(--primary-light); width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;">🧠</div>
+                                    <div>
+                                        <h4 style="font-weight:600; font-size:14.5px; color: var(--primary);" id="coach-insight-headline">Coaching Focus: Posture Recovery</h4>
+                                        <p style="color:var(--text-muted); font-size:12.5px; margin-top:2px;" id="coach-insight-body">No active stiffness logged. Proposing standard mobility flows to protect your body against silent strain build-up.</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--border-color); padding-top:14px;" id="coach-defense-bullets"></div>
                             </div>
                         </div>
                     </section>
