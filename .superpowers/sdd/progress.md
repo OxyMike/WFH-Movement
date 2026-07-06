@@ -97,3 +97,8 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 1: easierQuestWithXpCut (commits c5cdffd..d0f1e0a, review clean; 17 tests pass, Live-Easier confirmed untouched)
 - [x] Task 2: wire resting-state Easier button (commits d0f1e0a..1eb7ac8, review clean; controller browser-verified live: 5min/100XP -> 2.5min/50XP -> 1.25min/25XP on repeated clicks, both cards sync, Start carries eased quest into live timer correctly, no console errors)
 - [x] Final whole-branch review (opus): READY TO MERGE. No Critical/Important. 1 Minor no-fix (easierQuest-family runs twice per resting-Easier click, handler + toggle re-render; pure/cheap, no action). Confirmed: easierQuestWithXpCut confined to resting branch only, no XP double-count through completeQuest, no eased-object leak into suggestExercise/reroll/coaching paths (all reassign fresh). Controller browser-verified live end-to-end.
+
+
+## Theme Switcher (plan: docs/superpowers/plans/2026-07-06-theme-switcher.md, branch: main)
+
+- [x] Task 1: theme setting default (commits 0618b11..f72c3e9, review clean)
