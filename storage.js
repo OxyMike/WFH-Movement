@@ -49,15 +49,15 @@ export function getTodayRecord() {
   const state = getState();
   const today = todayString();
   if (!state || !state.today || state.today.date !== today) {
-    return { date: today, completedBreaks: [], lastTargetArea: null, stiffAreas: [] };
+    return { date: today, completedBreaks: [], lastTargetArea: null, bodyStiffness: { neck: 0, shoulders: 0, back: 0, wrists: 0, legs: 0 } };
   }
   return state.today;
 }
 
-export function saveStiffAreas(areas) {
+export function saveBodyStiffness(zone, level) {
   const state = getState() ?? {};
   const today = getTodayRecord();
-  today.stiffAreas = areas;
+  today.bodyStiffness = { ...(today.bodyStiffness || {}), [zone]: level };
   saveState({ ...state, today });
 }
 
