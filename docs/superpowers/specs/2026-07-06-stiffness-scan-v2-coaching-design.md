@@ -13,26 +13,26 @@ Replace the tap-on/off scan with an always-visible **Active Body Stiffness Scan*
 ## Scope
 
 - **In:** severity model, always-on scan card, coaching engine, recommendation card restyle, Body Defense Insights panel, per-zone copy, styling.
-- **Out / preserved:** the daily-goal progress ring stays on Today (scan card stacks with it, per user). No XP economy change (see below). No new dependencies.
+- **Out / preserved:** the daily-goal progress ring stays on Today (sits above the scan card — see Decision 2). No XP economy change (see below). No new dependencies.
 
 ## Decisions (settled with user)
 
 1. **Tight outranks Mild.** The recommendation targets the *tightest* zone; Mild only matters if nothing is Tight.
-2. **Scan card stacks with the goal-ring card** — the ring is not removed.
-3. **"Back" label → `core` targetArea.** The exercise library has no back-tagged quest; production's five zones stay `neck, shoulders, core, wrists, legs`. The scan shows "Back" but selects `core` quests and stores under key `core`.
+2. **Goal ring above the scan card.** The daily-goal ring (in the seated-timer card) stays and sits *above* the scan, so the scan card sits directly above the recommendation card it drives (mockup keeps scan → recommendation adjacent). Layout order on Today: seated-timer + goal ring → scan card → recommendation card → daily quests → Body Defense Insights.
+3. **Rename `core` → `back` across production (five zones).** No separate core zone — users report "back," not "core." Production's five zones become `neck, shoulders, back, wrists, legs`. This is a real key rename, not a display relabel (see §9). All six currently `core`-tagged exercises retag to `back` (they are all trunk work).
 4. **Badge only, no XP bonus.** The "Critical Body Defense" badge is visual; the recommended quest grants its own normal XP. No +100 bonus (avoids inflating the economy already flagged for rebalance).
 
 ## 1. Data model
 
-- Per-day field on the today record: `bodyStiffness` = `{ neck, shoulders, core, wrists, legs }`, each `0` (None) / `1` (Mild) / `2` (Tight). Defaults all-`0` on a fresh day (resets daily, matching the "current posture" semantic).
-- Replaces the shipped `stiffAreas: []` array. No migration needed — it was per-day and two days live; a fresh day yields the new shape. `getTodayRecord()` returns `bodyStiffness: {neck:0,shoulders:0,core:0,wrists:0,legs:0}` on a fresh day; drop `stiffAreas`.
+- Per-day field on the today record: `bodyStiffness` = `{ neck, shoulders, back, wrists, legs }`, each `0` (None) / `1` (Mild) / `2` (Tight). Defaults all-`0` on a fresh day (resets daily, matching the "current posture" semantic).
+- Replaces the shipped `stiffAreas: []` array. No migration needed — it was per-day and two days live; a fresh day yields the new shape. `getTodayRecord()` returns `bodyStiffness: {neck:0,shoulders:0,back:0,wrists:0,legs:0}` on a fresh day; drop `stiffAreas`.
 - `saveBodyStiffness(zone, level)` persists one zone's level onto today's record (replaces `saveStiffAreas`).
 
 ## 2. Coaching engine — new module `coaching.js`
 
 Pure, unit-testable. No DOM, no storage.
 
-- `tightestZone(bodyStiffness)` → the zone key with the highest level, or `null` if all `0`. Tie-break order: `neck → shoulders → core → wrists → legs` (mockup order with back→core).
+- `tightestZone(bodyStiffness)` → the zone key with the highest level, or `null` if all `0`. Tie-break order: `neck → shoulders → back → wrists → legs`.
 - `preferredAreasFrom(bodyStiffness)` → array of zone keys with level `> 0` (used to bias non-primary suggestions all day). Empty when nothing logged.
 - `coachingFor(zone)` → `{ headline, body, bullets }` where `bullets` is `[{text, critical}]`. Copy is verbatim from the mockup (Appendix A). `zone === null` returns the generic "Posture Recovery" copy.
 - The primary quest for a tight zone is chosen with the existing `suggestExercise(lastTargetArea, excludeId, tier, preferredAreas)` using `preferredAreas = [tightestZone]`. No hardcoded quest ids — the picker already biases by targetArea.
@@ -40,7 +40,7 @@ Pure, unit-testable. No DOM, no storage.
 ## 3. Scan card (index.html + app.js)
 
 - Replaces the shipped scan markup. Navy `fd-card` with header ("Active Body Stiffness Scan" / "Check current posture tightness zones") and a "Live Coaching Active" badge, plus `<div id="stiffness-check-group">`.
-- `renderStiffnessCheckGroup()` (app.js) injects five `.stiffness-chip-row`s. Rows and labels (emoji verbatim): `🦒 Neck`, `🤷 Shoulders`, `🧘 Back` (key `core`), `🖐️ Wrists`, `🦵 Legs`. Each row has three `.stiffness-btn` (None/Mild/Tight); the current level gets `active-none`/`active-mild`/`active-tight`.
+- `renderStiffnessCheckGroup()` (app.js) injects five `.stiffness-chip-row`s. Rows and labels (emoji verbatim): `🦒 Neck`, `🤷 Shoulders`, `🧘 Back` (key `back`), `🖐️ Wrists`, `🦵 Legs`. Each row has three `.stiffness-btn` (None/Mild/Tight); the current level gets `active-none`/`active-mild`/`active-tight`.
 - Clicking a level button: `saveBodyStiffness(zone, level)` → `renderStiffnessCheckGroup()` → `recalcCoaching()` → play the existing "next" tone. Tap-only, no Done button (live).
 
 ## 4. Recommendation card + Body Defense Insights (index.html + app.js)
@@ -64,7 +64,7 @@ Port these classes verbatim from the mockup (Appendix B): `.stiffness-chip-row`,
 `coaching.js` is the testable core (node asserts, existing harness):
 - `tightestZone`: returns highest-level zone; tie-break favors earlier in order; `null` when all zero.
 - `tightestZone`: a single Tight (2) outranks any number of Mild (1).
-- `preferredAreasFrom`: returns only zones with level > 0; `[]` when all zero; maps nothing extra (keys already `core`).
+- `preferredAreasFrom`: returns only zones with level > 0; `[]` when all zero.
 - `coachingFor`: returns the correct headline for each zone and the generic copy for `null`.
 - `suggestExercise` bias is already covered by the v1 tests; no change to rotation.js.
 
@@ -73,6 +73,19 @@ Scan/coach DOM wiring: controller browser-verification (toggle sets level + colo
 ## 8. Ship
 
 - Bump service worker cache **v10 → v11**; add `/coaching.js` to the precache `ASSETS` list.
+
+## 9. `core` → `back` rename (blast radius)
+
+A real key rename, done once so the whole app speaks "back":
+
+- **exercises.js** — retag the 6 `targetArea: "core"` quests to `"back"` (Spine Twist, Seated Plank, Deep Belly Breath, Seated Spinal Twists, Standing Side Bends, The Desk Plank). Leave anatomical words in `name`/`desc` (e.g. "Core Engagement") untouched — they describe the movement, not the zone.
+- **insights.js** — `AREAS`: `core` → `back`. `LEGACY_AREAS`: change `spine: 'core'` → `spine: 'back'` and add `core: 'back'` so historical `dayLog` entries logged under `core` still normalize on read.
+- **app.js** — the zone→label map (`core: 'Core'` → `back: 'Back'`); the body-map coverage loop already iterates `getAreaBalance()`, so it picks up `back` automatically given the element id below.
+- **index.html** — Progress body-map: `id="muscle-core"` → `id="muscle-back"`; update the visible legend/insight text that says "Core" to "Back".
+- **quests.js** — the daily quest `{ id: 'core', … targetArea === 'core' }` → `back` (id and predicate); update the `EASY_SATISFIABLE` set entry `core` → `back`.
+- **Tests** — `exercises.test.js` (AREAS set + the id→area map entries currently `'core'`), `insights.test.js` (legacy-map test), `quests.test.js` (`EASY_IDS`), `rotation.test.js` (sample `targetArea: 'core'` and the avoid-area assertions) all `core` → `back`.
+
+Historical `completedBreaks` tagged `core` will no longer count toward the `back` daily quest — accepted (two days of data, cosmetic to daily-quest progress only).
 
 ---
 
@@ -87,7 +100,7 @@ Scan/coach DOM wiring: controller browser-verification (toggle sets level + colo
 
 **shoulders** — headline `Coaching Focus: Chest & Shoulder Opening`; body `Shoulder strain logged. Engaging chest and shoulder opening stretches to counter slouched posture.`; bullets: `Keep your shoulders pulled down and back while you sit to maintain scapular activation.` / `Doorway stretches open the front body and release respiratory restrictions.`
 
-**core (labeled "Back")** — headline `Coaching Focus: Thoracic Spinal Twist`; body `Lumbar pressure logged. Activating rotational extensions hydrates spinal discs to prevent bulging.`; bullets: `Use a lumbar support cushion or a rolled-up towel behind your lower back to maintain proper posture.` / `Rotational spine movement unloads deep back stabilizers and improves ribcage expansion.`
+**back** — headline `Coaching Focus: Thoracic Spinal Twist`; body `Lumbar pressure logged. Activating rotational extensions hydrates spinal discs to prevent bulging.`; bullets: `Use a lumbar support cushion or a rolled-up towel behind your lower back to maintain proper posture.` / `Rotational spine movement unloads deep back stabilizers and improves ribcage expansion.`
 
 **wrists** — headline `Coaching Focus: Extremity Tendon Stretch`; body `Wrist fatigue or finger numbness logged. Extending wrist flexors offsets sustained typing shear stress.`; bullets: `Keep frequently used items within easy reach on your desk to avoid excessive reaching and twisting.` / `Stretching your wrist back pulls on tight tendons, preventing carpal channel pressure build-up.`
 
