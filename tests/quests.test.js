@@ -2,7 +2,7 @@ import { test, run } from './run.js';
 import { QUEST_TEMPLATES, getTodaysQuests, evaluateQuests } from '../quests.js';
 
 const SETTINGS = { workDays: [1, 2, 3, 4, 5], workStart: '08:00', workEnd: '17:00' };
-const EASY_IDS = ['take-2', 'wrists', 'neck', 'legs', 'core', 'easy-tier', 'early-mover', 'strong-finish'];
+const EASY_IDS = ['take-2', 'wrists', 'neck', 'legs', 'back', 'easy-tier', 'early-mover', 'strong-finish'];
 
 test('pool has 12 templates with unique ids', () => {
   if (QUEST_TEMPLATES.length !== 12) throw new Error('expected 12 templates');

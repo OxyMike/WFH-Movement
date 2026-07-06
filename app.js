@@ -134,7 +134,7 @@ function renderProgress() {
     document.getElementById('muscle-' + area)
       .classList.toggle('active-coverage', active.includes(area));
   }
-  const label = a => ({ neck: 'Neck', shoulders: 'Shoulders', core: 'Core', wrists: 'Wrists', legs: 'Legs' }[a]);
+  const label = a => ({ neck: 'Neck', shoulders: 'Shoulders', back: 'Back', wrists: 'Wrists', legs: 'Legs' }[a]);
   document.getElementById('legend-active-areas').textContent =
     active.length ? `Covered this week: ${active.map(label).join(', ')}` : 'Nothing covered yet this week';
   const idle = balance.filter(b => b.count === 0).map(b => label(b.area));

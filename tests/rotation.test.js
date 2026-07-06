@@ -23,7 +23,7 @@ test('easierQuest preserves identity and reward, only time changes', () => {
 });
 
 test('easierQuest never mutates the input quest', () => {
-  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 2,
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 2,
     steps: [{ title: 'a', duration: 60 }, { title: 'b', duration: 60 }] };
   const snapshot = JSON.stringify(q);
   easierQuest(q);
@@ -31,14 +31,14 @@ test('easierQuest never mutates the input quest', () => {
 });
 
 test('easierQuest floors step length so a step never drops below 10s', () => {
-  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 58 / 60,
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 58 / 60,
     steps: [{ title: 'a', duration: 30 }, { title: 'b', duration: 14 }, { title: 'c', duration: 14 }] };
   const easy = easierQuest(q);
   assert(easy.steps.every(s => s.duration >= 10), 'no step below the 10s floor');
 });
 
 test('easierQuest returns null when the quest is already too short to halve', () => {
-  const tiny = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'core', duration: 20 / 60,
+  const tiny = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 20 / 60,
     steps: [{ title: 'a', duration: 10 }, { title: 'b', duration: 10 }] };
   assertEqual(easierQuest(tiny), null);
 });
@@ -57,7 +57,7 @@ test('suggestExercise avoids the last target area when other areas are available
 });
 
 test('suggestExercise falls back gracefully when area filtering leaves nothing', () => {
-  const result = suggestExercise('core', null);
+  const result = suggestExercise('back', null);
   assert(result !== null && result !== undefined, 'Should always return an exercise');
 });
 
@@ -70,10 +70,10 @@ test('suggestExercise excludes the given exerciseId (swap mechanic)', () => {
 });
 
 test('suggestExercise satisfies both area and excludeId constraints together', () => {
-  const excluded = EXERCISES.find(e => e.targetArea === 'core');
+  const excluded = EXERCISES.find(e => e.targetArea === 'back');
   for (let i = 0; i < 50; i++) {
-    const result = suggestExercise('core', excluded.id);
-    assert(result.targetArea !== 'core', 'Should avoid core area');
+    const result = suggestExercise('back', excluded.id);
+    assert(result.targetArea !== 'back', 'Should avoid back area');
     assert(result.id !== excluded.id, 'Should avoid excluded exercise');
   }
 });

@@ -3,7 +3,7 @@ import { EXERCISES } from '../exercises.js';
 import { FIGURES } from '../figures.js';
 
 const CATEGORIES = new Set(['mobility', 'stretch', 'strength', 'quiet']);
-const AREAS = new Set(['neck', 'shoulders', 'core', 'wrists', 'legs']);
+const AREAS = new Set(['neck', 'shoulders', 'back', 'wrists', 'legs']);
 const TIERS = new Set(['easy', 'medium', 'hard']);
 
 test('28 quests, unique ids', () => {
@@ -41,15 +41,15 @@ test('every step names an existing figure', () => {
 
 test('spec target-area assignments hold', () => {
   const expect = {
-    'posture-reset': 'shoulders', 'wrist-stretch': 'wrists', 'back-twist': 'core',
-    'calf-raises': 'legs', 'seated-plank': 'core', 'eye-focus': 'neck',
-    'shoulder-rolls': 'shoulders', 'deep-breaths': 'core', 'seated-spinal-twist': 'core',
+    'posture-reset': 'shoulders', 'wrist-stretch': 'wrists', 'back-twist': 'back',
+    'calf-raises': 'legs', 'seated-plank': 'back', 'eye-focus': 'neck',
+    'shoulder-rolls': 'shoulders', 'deep-breaths': 'back', 'seated-spinal-twist': 'back',
     'figure-4-stretch': 'legs', 'chin-tucks': 'neck', 'wrist-extensor': 'wrists',
     'glute-squeezes': 'legs', 'scapular-retractions': 'shoulders', 'doorway-stretch': 'shoulders',
-    'side-bends': 'core', 'hip-flexor-stretch': 'legs', 'hamstring-sweeps': 'legs',
+    'side-bends': 'back', 'hip-flexor-stretch': 'legs', 'hamstring-sweeps': 'legs',
     'sit-to-stand': 'legs', 'standing-calf-raises': 'legs', 'air-squats': 'legs',
     'leg-extensions': 'legs', 'desk-pushups': 'shoulders', 'stair-climbing': 'legs',
-    'desk-plank': 'core', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs'
+    'desk-plank': 'back', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs'
   };
   for (const [id, area] of Object.entries(expect)) {
     const e = EXERCISES.find(x => x.id === id);

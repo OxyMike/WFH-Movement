@@ -43,13 +43,13 @@ test('getAreaBalance lists all five areas with counts', () => {
   if (bal.find(a => a.area === 'legs').count !== 0) throw new Error('legs should be 0');
 });
 
-test('legacy areas map on read: hips->legs, spine->core', () => {
+test('legacy areas map on read: hips->legs, spine->back', () => {
   resetAll();
   recordDaySummary({ date: '2026-07-01', minutes: 2, targetArea: 'hips' });
   recordDaySummary({ date: '2026-07-01', minutes: 5, targetArea: 'spine' });
   const balance = getAreaBalance(new Date('2026-07-02T12:00:00'));
   const get = a => balance.find(b => b.area === a).count;
-  if (get('legs') !== 1 || get('core') !== 1) throw new Error('legacy mapping failed');
+  if (get('legs') !== 1 || get('back') !== 1) throw new Error('legacy mapping failed');
 });
 
 test('getSittingMinutes measures since last break within work hours', () => {

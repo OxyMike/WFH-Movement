@@ -1,8 +1,8 @@
 // insights.js -- derived stats: week totals, area balance, sitting timer
 import { getState, saveState, localDateString } from './storage.js';
 
-const AREAS = ['neck', 'shoulders', 'core', 'wrists', 'legs'];
-const LEGACY_AREAS = { hips: 'legs', spine: 'core', cardio: 'legs' };
+const AREAS = ['neck', 'shoulders', 'back', 'wrists', 'legs'];
+const LEGACY_AREAS = { hips: 'legs', spine: 'back', cardio: 'legs', core: 'back' };
 
 function normalizeArea(area) {
   return LEGACY_AREAS[area] || area;

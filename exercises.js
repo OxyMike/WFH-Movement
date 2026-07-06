@@ -81,7 +81,7 @@ export const EXERCISES = [
     "tier": "easy",
     "xp": 100,
     "duration": 5,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Seated twist to mobilize ribcage and stretch spine muscles.",
     "steps": [
       {
@@ -140,7 +140,7 @@ export const EXERCISES = [
     "tier": "medium",
     "xp": 80,
     "duration": 4,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Isometric core holds to counteract hip flexion fatigue.",
     "steps": [
       {
@@ -225,7 +225,7 @@ export const EXERCISES = [
     "tier": "easy",
     "xp": 50,
     "duration": 3,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Relaxing diaphragm breath loops to lower heart rate.",
     "steps": [
       {
@@ -251,7 +251,7 @@ export const EXERCISES = [
     "tier": "easy",
     "xp": 40,
     "duration": 1,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Restores rotational thoracic spine mobility and hydrates vertebral discs.",
     "steps": [
       {
@@ -412,7 +412,7 @@ export const EXERCISES = [
     "tier": "medium",
     "xp": 45,
     "duration": 2,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Lengthens obliques and lateral QL lumbar muscles to relieve back strain.",
     "steps": [
       {
@@ -604,7 +604,7 @@ export const EXERCISES = [
     "tier": "medium",
     "xp": 55,
     "duration": 1,
-    "targetArea": "core",
+    "targetArea": "back",
     "desc": "Isometrically engages core muscles that go slack in computer chairs.",
     "steps": [
       {
