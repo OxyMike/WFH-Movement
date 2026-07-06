@@ -79,3 +79,14 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 - [x] Task 3: scan panel UI + wiring (31823f0..a3b61a8, review clean; browser-verified: toggle, highlight, Done->neck quest & save, reopen pre-select; 7 call sites biased; CSS vars --primary/--border-color confirmed)
 - [x] Task 4: ship - SW cache bump v9->v10 (a3b61a8..c92f430, review clean; 83 assertions pass)
 - [x] Final whole-branch review (sonnet): READY TO MERGE. No Critical/Important. 2 Minors both no-fix (saveStiffAreas in-place matches logBreak house style; static scan listeners fine). All 7 suggestExercise call sites biased; backward-compat proven; browser-verified. 83 assertions pass.
+
+
+## Stiffness Scan v2 + Coaching (plan: docs/superpowers/plans/2026-07-06-stiffness-scan-v2-coaching.md, branch: stiffness-scan-v2)
+
+- [x] Task 1: rename core->back (0f7844d..2c9eae9, review clean; 98 tests pass, no stray zone keys, legacy core->back migration in insights)
+- [x] Task 2: coaching.js engine (2c9eae9..d265f39, review clean; copy verbatim, 5 tests pass)
+- [x] Task 3: bodyStiffness on today record (d265f39..355e498, review clean; saveBodyStiffness replaces saveStiffAreas, 2 tests pass)
+- [x] Task 4: component CSS (355e498..3eafd2b, review clean; v1 scan rules removed, 13 v2 rules verbatim, braces balanced)
+- [x] Task 5: scan card + coaching wiring + insights panel (3eafd2b..2c52d51, review clean; grep-clean no stiffAreas, 6 call sites biased, browser-verified: 5 emoji rows None/Mild/Tight, Tight>Mild drives rec+badge+thoracic copy, None resets to generic, no console errors)
+- [x] Task 6: ship - SW v10->v11 (2c52d51..b1c2710, review clean; coaching.js precached, 37 tests pass)
+- [x] Final whole-branch review (sonnet): READY TO MERGE. No Critical/Important. 2 Minors both leave-as-is (chip innerHTML rebuild fine at 5 rows; dead null-guards harmless). Rename complete (only core in anatomical desc + LEGACY_AREAS), historical dayLog normalizes, 6 call sites biased, badge innerHTML safe (library names), 37 tests pass. Browser-verified by controller.
