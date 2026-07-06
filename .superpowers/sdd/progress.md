@@ -102,3 +102,4 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 ## Theme Switcher (plan: docs/superpowers/plans/2026-07-06-theme-switcher.md, branch: main)
 
 - [x] Task 1: theme setting default (commits 0618b11..f72c3e9, review clean)
+- [x] Task 2: tokenize 12 surface backgrounds (commits 76309ed..ae0691c, review clean; controller-verified: zero remaining hardcoded #FFFFFF backgrounds, 94 tests pass, pixel-identical live screenshot, .sidebar resolves rgb(255,255,255) via var())
