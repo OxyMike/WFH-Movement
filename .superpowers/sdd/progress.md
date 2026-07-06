@@ -103,3 +103,4 @@ Plan: docs/superpowers/plans/2026-06-30-wfh-movement.md
 
 - [x] Task 1: theme setting default (commits 0618b11..f72c3e9, review clean)
 - [x] Task 2: tokenize 12 surface backgrounds (commits 76309ed..ae0691c, review clean; controller-verified: zero remaining hardcoded #FFFFFF backgrounds, 94 tests pass, pixel-identical live screenshot, .sidebar resolves rgb(255,255,255) via var())
+- [x] Task 3: midnight/charcoal/sunset CSS blocks (commits c0223e8..1f54e19, review clean; all 42 values verified char-for-char, no sage block, html.theme-* confirmed. Minor carried: implementer report misstated its own test count (92/15 files) vs controller-verified true 94/14 files unaffected -- report-reliability only, code unaffected)
