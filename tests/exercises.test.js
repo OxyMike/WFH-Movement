@@ -6,9 +6,9 @@ const CATEGORIES = new Set(['mobility', 'stretch', 'strength', 'quiet']);
 const AREAS = new Set(['neck', 'shoulders', 'back', 'wrists', 'legs']);
 const TIERS = new Set(['easy', 'medium', 'hard']);
 
-test('28 quests, unique ids', () => {
-  assertEqual(EXERCISES.length, 28);
-  assertEqual(new Set(EXERCISES.map(e => e.id)).size, 28);
+test('35 quests, unique ids', () => {
+  assertEqual(EXERCISES.length, 35);
+  assertEqual(new Set(EXERCISES.map(e => e.id)).size, 35);
 });
 
 test('every quest has valid category, area, tier, xp, duration, desc', () => {
@@ -49,7 +49,9 @@ test('spec target-area assignments hold', () => {
     'side-bends': 'back', 'hip-flexor-stretch': 'legs', 'hamstring-sweeps': 'legs',
     'sit-to-stand': 'legs', 'standing-calf-raises': 'legs', 'air-squats': 'legs',
     'leg-extensions': 'legs', 'desk-pushups': 'shoulders', 'stair-climbing': 'legs',
-    'desk-plank': 'back', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs'
+    'desk-plank': 'back', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs',
+    'brugger-relief': 'shoulders', 'couch-stretch': 'legs', 'clamshell-exercise': 'legs',
+    'ceiling-reach': 'back', 'micro-stroll': 'legs', 'back-extension': 'back', 'cardio-burst': 'legs'
   };
   for (const [id, area] of Object.entries(expect)) {
     const e = EXERCISES.find(x => x.id === id);

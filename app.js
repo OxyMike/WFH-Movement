@@ -9,6 +9,7 @@ import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor, sho
 import { getTodaysQuests, evaluateQuests } from './quests.js';
 import { getSittingMinutes, recordDaySummary, getWeekStats, getAreaBalance } from './insights.js';
 import { getFigure } from './figures.js';
+import { WFH_HEALTH_FACTS } from './facts.js';
 
 // Module-level state
 let snoozeTimeout = null;
@@ -160,6 +161,7 @@ function renderSettings() {
   document.getElementById('settings-interval-minutes').value = String(s.intervalMinutes);
   document.getElementById('settings-daily-goal').value = String(s.dailyGoal);
   document.getElementById('settings-sound-toggle').checked = !s.muted;
+  document.getElementById('settings-sound-instrument').value = s.soundInstrument;
   settingsFixedTimes = [];
   const list = document.getElementById('settings-fixed-times-list');
   list.innerHTML = '';
@@ -172,6 +174,10 @@ function toggleReminderInputs(mode) {
   document.getElementById('settings-fixed-options').classList.toggle('hidden', mode === 'interval');
 }
 document.getElementById('settings-reminder-mode').addEventListener('change', function () { toggleReminderInputs(this.value); });
+document.getElementById('settings-sound-instrument').addEventListener('change', (e) => {
+  const s = getSettings();
+  if (!s.muted) playTone(659.25, 300, 0.3 * s.volume, e.target.value);
+});
 document.getElementById('settings-add-fixed-time').addEventListener('click', () => {
   const input = document.getElementById('settings-fixed-time-input');
   addTimeChip(input.value, document.getElementById('settings-fixed-times-list'), settingsFixedTimes);
@@ -180,6 +186,7 @@ document.getElementById('settings-add-fixed-time').addEventListener('click', () 
 
 document.getElementById('btn-save-settings').addEventListener('click', () => {
   saveSettings({
+    volume: getSettings().volume,
     userName: document.getElementById('settings-name-input').value.trim(),
     workStart: document.getElementById('settings-work-start').value,
     workEnd: document.getElementById('settings-work-end').value,
@@ -188,7 +195,8 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
     intervalMinutes: parseInt(document.getElementById('settings-interval-minutes').value, 10),
     dailyGoal: parseInt(document.getElementById('settings-daily-goal').value, 10),
     fixedTimes: [...settingsFixedTimes],
-    muted: !document.getElementById('settings-sound-toggle').checked
+    muted: !document.getElementById('settings-sound-toggle').checked,
+    soundInstrument: document.getElementById('settings-sound-instrument').value
   });
   if (reminderEngine) reminderEngine.stop();
   reminderEngine = startReminderEngine(onReminderFires);
@@ -215,6 +223,7 @@ function updateTopBar() {
     streak === 1 ? '1 day streak' : `${streak} day streak`;
   document.getElementById('audio-icon-muted').style.display = s.muted ? '' : 'none';
   document.getElementById('audio-icon-unmuted').style.display = s.muted ? 'none' : '';
+  document.getElementById('audio-volume-slider').value = s.volume;
   const name = s.userName || 'You';
   document.getElementById('sidebar-username').textContent = name;
   document.getElementById('sidebar-avatar').textContent = name.charAt(0).toUpperCase();
@@ -225,6 +234,13 @@ document.getElementById('audio-mute-btn').addEventListener('click', () => {
   const s = getSettings();
   saveSettings({ ...s, muted: !s.muted });
   updateTopBar();
+});
+
+document.getElementById('audio-volume-slider').addEventListener('input', (e) => {
+  saveSettings({ ...getSettings(), volume: parseFloat(e.target.value) });
+});
+document.getElementById('audio-volume-slider').addEventListener('change', () => {
+  if (!getSettings().muted) sound(880, 60);
 });
 
 // ---------------------------------------------------------------------------
@@ -412,9 +428,12 @@ function snoozeReminder() {
 // ---------------------------------------------------------------------------
 
 let liveQuest = null, liveRemaining = 0, livePaused = false, liveStepIdx = -1;
+let lastTickSecond = null;
 
-function sound(freq, ms) {
-  if (!getSettings().muted) playTone(freq, ms);
+function sound(freq, ms, gainLevel) {
+  const s = getSettings();
+  if (s.muted) return;
+  playTone(freq, ms, (gainLevel ?? 0.3) * s.volume, s.soundInstrument);
 }
 
 function stepAtElapsed(quest, elapsed) {
@@ -449,8 +468,17 @@ function runLiveTimer(seconds) {
     const CIRC = 377; // 2 * PI * r, r=60 from the svg
     document.getElementById('timer-progress-circle').style.strokeDashoffset =
       String(CIRC * (1 - remaining / total));
-    const idx = stepAtElapsed(liveQuest, total - remaining);
-    if (idx !== liveStepIdx) { liveStepIdx = idx; renderLiveStep(); if (idx > 0) sound(523, 150); }
+    const elapsed = total - remaining;
+    const idx = stepAtElapsed(liveQuest, elapsed);
+    if (idx !== liveStepIdx) { liveStepIdx = idx; lastTickSecond = null; renderLiveStep(); if (idx > 0) sound(523, 150); }
+    // Soft metronome tick, once per second, only on the final 5 seconds of each step
+    let stepEnd = 0;
+    for (let i = 0; i <= idx; i++) stepEnd += liveQuest.steps[i].duration;
+    const stepLeft = stepEnd - elapsed;
+    if (stepLeft > 0 && stepLeft <= 5 && stepLeft !== lastTickSecond) {
+      lastTickSecond = stepLeft;
+      sound(880, 50, 0.08);
+    }
   }, completeQuest);
 }
 
@@ -761,6 +789,24 @@ if (isFirstVisit()) {
   startApp();
   if (bootParam === 'start') startSuggestedQuest();
 }
+
+// ---------------------------------------------------------------------------
+// WFH health fact card (Today view)
+// ---------------------------------------------------------------------------
+
+function initHealthFacts() {
+  const textEl = document.getElementById('trivia-text');
+  if (!textEl) return;
+  let idx = Math.floor(Math.random() * WFH_HEALTH_FACTS.length);
+  textEl.innerHTML = WFH_HEALTH_FACTS[idx];
+  const cycleBtn = document.getElementById('btn-trivia-cycle');
+  if (cycleBtn) cycleBtn.addEventListener('click', () => {
+    idx = (idx + 1) % WFH_HEALTH_FACTS.length;
+    textEl.innerHTML = WFH_HEALTH_FACTS[idx];
+    sound(523, 150);
+  });
+}
+initHealthFacts();
 
 // ---------------------------------------------------------------------------
 // Service worker

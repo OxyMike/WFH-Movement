@@ -276,6 +276,108 @@ export const FIGURES = {
                 <path d="M52 22 C60 20, 74 24, 72 42 C70 50, 56 48, 52 40 Z" fill="rgba(243, 107, 84, 0.2)" stroke="var(--coral)" stroke-width="2"></path>
             </g>
         </svg>
+    `,
+  brugger: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <path d="M30 40 H55 M42 40 V52 M48 40 V52" stroke="var(--text-muted)" stroke-width="2"></path>
+        <g class="brugger-chest">
+            <circle cx="50" cy="14" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+            <line x1="50" y1="20" x2="50" y2="40" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="50" y1="40" x2="65" y2="40" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="65" y1="40" x2="65" y2="52" stroke="var(--text-color)" stroke-width="2.5" stroke-linecap="round"></line>
+            <path class="brugger-arms" d="M50 22 L38 28 L32 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path class="brugger-arms" d="M50 22 L62 28 L68 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </svg>
+    `,
+  couch_stretch: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <line x1="20" y1="10" x2="20" y2="52" stroke="var(--text-muted)" stroke-width="2.5"></line>
+        <g class="couch-hips">
+            <circle cx="48" cy="15" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+            <line x1="48" y1="21" x2="48" y2="40" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="48" y1="40" x2="32" y2="48" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="32" y1="48" x2="20" y2="48" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"></line>
+            <polyline points="48 40 60 40 60 52" fill="none" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+        </g>
+    </svg>
+    `,
+  clamshell: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <line x1="15" y1="45" x2="85" y2="45" stroke="var(--text-muted)" stroke-width="2"></line>
+        <g class="clam-body">
+            <circle cx="28" cy="30" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+            <line x1="34" y1="34" x2="55" y2="34" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+            <polyline points="55 34 68 42 62 42" fill="none" stroke="var(--text-muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <g class="clam-top-thigh">
+                <line x1="55" y1="34" x2="68" y2="28" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></line>
+                <line x1="68" y1="28" x2="62" y2="38" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"></line>
+            </g>
+        </g>
+    </svg>
+    `,
+  ceiling_reach: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <path d="M35 44 H65 M45 44 V52 M55 44 V52" stroke="var(--text-muted)" stroke-width="2"></path>
+        <circle cx="50" cy="22" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+        <line x1="50" y1="28" x2="50" y2="44" stroke="var(--coral)" stroke-width="3"></line>
+        <line x1="50" y1="44" x2="60" y2="44" stroke="var(--text-color)" stroke-width="3"></line>
+        <line x1="60" y1="44" x2="60" y2="52" stroke="var(--text-color)" stroke-width="2.5"></line>
+        <g class="reach-arms">
+            <line x1="48" y1="29" x2="48" y2="10" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"></line>
+            <line x1="52" y1="29" x2="52" y2="10" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"></line>
+        </g>
+    </svg>
+    `,
+  stroll: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <line x1="15" y1="52" x2="85" y2="52" stroke="var(--text-muted)" stroke-width="2"></line>
+        <circle cx="50" cy="14" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+        <line x1="50" y1="20" x2="50" y2="38" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+        <g class="stroll-leg-l">
+            <line x1="50" y1="38" x2="42" y2="46" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="42" y1="46" x2="48" y2="52" stroke="var(--text-color)" stroke-width="2.5" stroke-linecap="round"></line>
+        </g>
+        <g class="stroll-leg-r">
+            <line x1="50" y1="38" x2="58" y2="46" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+            <line x1="58" y1="46" x2="52" y2="52" stroke="var(--text-color)" stroke-width="2.5" stroke-linecap="round"></line>
+        </g>
+    </svg>
+    `,
+  back_extension: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <line x1="15" y1="52" x2="85" y2="52" stroke="var(--text-muted)" stroke-width="2"></line>
+        <g class="back-ext-body">
+            <line x1="48" y1="52" x2="50" y2="38" stroke="var(--text-muted)" stroke-width="2.5" stroke-linecap="round"></line>
+            <line x1="52" y1="52" x2="50" y2="38" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+            <g class="ext-torso">
+                <path d="M50 38 Q45 28 47 20" fill="none" stroke="var(--coral)" stroke-width="3.5" stroke-linecap="round"></path>
+                <circle cx="46" cy="13" r="5.5" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+                <polyline points="47 20 54 27 52 34" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </g>
+        </g>
+    </svg>
+    `,
+  cardio_burst: `
+    <svg class="exercise-svg" viewBox="0 0 100 60">
+        <path d="M20 52 H40 V42 H60 V32 H80" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"></path>
+        <g class="cardio-body">
+            <circle cx="45" cy="14" r="6" fill="#FFE5D9" stroke="var(--text-color)" stroke-width="1.5"></circle>
+            <line x1="45" y1="20" x2="47" y2="36" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"></line>
+            <g class="cardio-leg-l">
+                <line x1="47" y1="36" x2="38" y2="38" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></line>
+                <line x1="38" y1="38" x2="40" y2="52" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"></line>
+            </g>
+            <g class="cardio-leg-r">
+                <line x1="47" y1="36" x2="58" y2="40" stroke="var(--text-color)" stroke-width="3" stroke-linecap="round"></line>
+                <line x1="58" y1="40" x2="58" y2="52" stroke="var(--text-color)" stroke-width="2.5" stroke-linecap="round"></line>
+            </g>
+            <g class="cardio-arms">
+                <path d="M45 22 L36 28 L40 34" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M45 22 L54 26 L50 32" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </svg>
     `
 };
 

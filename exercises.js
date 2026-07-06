@@ -672,5 +672,152 @@ export const EXERCISES = [
         "svg": "march"
       }
     ]
+  },
+  {
+    "id": "brugger-relief",
+    "name": "Brügger's Relief Position",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "shoulders",
+    "desc": "Seated postural reset that opens the chest and engages upper back to offset desk slouching.",
+    "steps": [
+      {
+        "title": "Brügger's Posture Reset",
+        "desc": "Sit on chair edge, knees wide, rotate palms outwards, chin tucked, pinch shoulder blades. Hold and breathe.",
+        "duration": 60,
+        "animation": "animate-brugger",
+        "svg": "brugger"
+      }
+    ]
+  },
+  {
+    "id": "couch-stretch",
+    "name": "The Couch Stretch",
+    "category": "stretch",
+    "tier": "medium",
+    "xp": 60,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Deep kneeling mobilization targeting front of hips and thighs to restore hip extension.",
+    "steps": [
+      {
+        "title": "Couch Stretch (Left Side)",
+        "desc": "Left knee in floor corner, step right foot forward at 90°, squeeze left glute, torso vertical.",
+        "duration": 60,
+        "animation": "animate-couch",
+        "svg": "couch_stretch"
+      },
+      {
+        "title": "Couch Stretch (Right Side)",
+        "desc": "Right knee in floor corner, step left foot forward at 90°, squeeze right glute, torso vertical.",
+        "duration": 60,
+        "animation": "animate-couch",
+        "svg": "couch_stretch"
+      }
+    ]
+  },
+  {
+    "id": "clamshell-exercise",
+    "name": "The Clamshell",
+    "category": "strength",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "legs",
+    "desc": "Side-lying leg lift that isolates and activates glutes to prevent back overcompensation.",
+    "steps": [
+      {
+        "title": "Clamshell (Left Side)",
+        "desc": "Lie on right side, knees bent. Keep feet together, raise top knee like a clam opening.",
+        "duration": 30,
+        "animation": "animate-clamshell",
+        "svg": "clamshell"
+      },
+      {
+        "title": "Clamshell (Right Side)",
+        "desc": "Lie on left side, knees bent. Keep feet together, raise top knee like a clam opening.",
+        "duration": 30,
+        "animation": "animate-clamshell",
+        "svg": "clamshell"
+      }
+    ]
+  },
+  {
+    "id": "ceiling-reach",
+    "name": "Seated Ceiling Reach",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 35,
+    "duration": 1,
+    "targetArea": "back",
+    "desc": "Extends spine upwards to relieve compression and upper body fatigue.",
+    "steps": [
+      {
+        "title": "Seated Ceiling Reach",
+        "desc": "Extend arms straight overhead, interlock fingers, reach to expand spine. Breathe.",
+        "duration": 60,
+        "animation": "animate-reach",
+        "svg": "ceiling_reach"
+      }
+    ]
+  },
+  {
+    "id": "micro-stroll",
+    "name": "5-Minute Micro-Stroll",
+    "category": "mobility",
+    "tier": "easy",
+    "xp": 75,
+    "duration": 5,
+    "targetArea": "legs",
+    "desc": "Light walking breaks every 30 minutes to optimize circulation and blood sugar.",
+    "steps": [
+      {
+        "title": "5-Minute Walking Break",
+        "desc": "Walk briskly or pace around to clear blood sugars and muscle enzymes.",
+        "duration": 300,
+        "animation": "animate-stroll",
+        "svg": "stroll"
+      }
+    ]
+  },
+  {
+    "id": "back-extension",
+    "name": "Back Extension",
+    "category": "strength",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 1,
+    "targetArea": "back",
+    "desc": "A standing backward bend that engages the glutes and reverses sitting strain.",
+    "steps": [
+      {
+        "title": "Back Extension",
+        "desc": "Stand with hands on hips/lower back, slowly bend backward pushing hips forward, squeeze glutes. Repeat slowly.",
+        "duration": 60,
+        "animation": "animate-back-ext",
+        "svg": "back_extension"
+      }
+    ]
+  },
+  {
+    "id": "cardio-burst",
+    "name": "Mini Cardio Burst",
+    "category": "strength",
+    "tier": "medium",
+    "xp": 70,
+    "duration": 2,
+    "targetArea": "legs",
+    "desc": "Continuous vigorous marching or stair climbs to spike metabolism and circulation.",
+    "steps": [
+      {
+        "title": "Mini Cardio Burst",
+        "desc": "March vigorously in place or climb a flight of stairs to boost vascular velocity.",
+        "duration": 120,
+        "animation": "animate-cardio",
+        "svg": "cardio_burst"
+      }
+    ]
   }
 ];

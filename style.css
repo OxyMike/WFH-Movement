@@ -289,6 +289,40 @@ a {
     color: var(--text-color);
 }
 
+.audio-control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#audio-volume-slider {
+    width: 60px;
+    height: 4px;
+    -webkit-appearance: none;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+#audio-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    cursor: pointer;
+}
+
+#audio-volume-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    cursor: pointer;
+    border: none;
+}
+
 /* Primary Workspace Split */
 .content-body {
     flex-grow: 1;
@@ -2194,3 +2228,48 @@ body { overflow: auto; height: auto; min-height: 100vh; }
   body.break-active .center-content, body.break-active .top-bar, body.break-active .sidebar { display: none; }
   body.break-active .right-panel { width: 100%; border: none; }
 }
+
+/* --- Antigravity integration: new movement animations --- */
+/* Brügger's Relief Position */
+.animate-brugger .brugger-chest { animation: chestOpen 3s infinite ease-in-out; transform-origin: 50px 40px; }
+.animate-brugger .brugger-arms { animation: armRetract 3s infinite ease-in-out; transform-origin: 50px 22px; }
+@keyframes chestOpen { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.05) scaleY(1.02); } }
+@keyframes armRetract { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(8deg); } }
+
+/* Couch Stretch pelvic tilt */
+.animate-couch .couch-hips { animation: pelvicTilt 3s infinite ease-in-out; transform-origin: 32px 48px; }
+@keyframes pelvicTilt { 0%, 100% { transform: rotate(0deg) translate(0, 0); } 50% { transform: rotate(-4deg) translate(2px, -1px); } }
+
+/* Clamshell top-knee rotation */
+.animate-clamshell .clam-top-thigh { animation: clamshellOpen 2.5s infinite ease-in-out; transform-origin: 55px 34px; }
+@keyframes clamshellOpen { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } }
+
+/* Seated Ceiling Reach arm extension */
+.animate-reach .reach-arms { animation: armExtend 2s infinite ease-in-out; transform-origin: 50px 29px; }
+@keyframes armExtend { 0%, 100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(1.15) translateY(-2px); } }
+
+/* Micro-stroll legs */
+.animate-stroll .stroll-leg-l { animation: strollLegsLeft 1.2s infinite ease-in-out; transform-origin: 50px 38px; }
+.animate-stroll .stroll-leg-r { animation: strollLegsRight 1.2s infinite ease-in-out; transform-origin: 50px 38px; }
+@keyframes strollLegsLeft { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+@keyframes strollLegsRight { 0%, 100% { transform: rotate(15deg); } 50% { transform: rotate(-15deg); } }
+
+/* Standing Back Extension arch */
+.animate-back-ext .ext-torso { animation: backArch 3s infinite ease-in-out; transform-origin: 50px 38px; }
+@keyframes backArch { 0%, 100% { transform: rotate(0deg) translate(0, 0); } 50% { transform: rotate(-15deg) translate(3px, -1px); } }
+
+/* Mini Cardio Burst marching/climbing */
+.animate-cardio .cardio-body { animation: cardioBounce 0.6s infinite ease-in-out; }
+.animate-cardio .cardio-leg-l { animation: climbLegLeft 0.6s infinite ease-in-out; transform-origin: 47px 36px; }
+.animate-cardio .cardio-leg-r { animation: climbLegRight 0.6s infinite ease-in-out; transform-origin: 47px 36px; }
+.animate-cardio .cardio-arms { animation: armPump 0.6s infinite ease-in-out; transform-origin: 45px 22px; }
+@keyframes cardioBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes climbLegLeft { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(20deg); } }
+@keyframes climbLegRight { 0%, 100% { transform: rotate(20deg); } 50% { transform: rotate(-20deg); } }
+@keyframes armPump { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+
+/* WFH health fact card */
+.fact-source { font-size: 11.5px; color: var(--text-muted); display: inline-block; margin-top: 4px; }
+.fact-source a { color: var(--primary); text-decoration: underline; }
+#btn-trivia-cycle { transition: color 0.2s, background-color 0.2s; }
+#btn-trivia-cycle:hover { color: var(--coral); background-color: rgba(243, 107, 84, 0.08); }

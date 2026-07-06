@@ -26,16 +26,48 @@ export function startTimer(durationSeconds, onTick, onComplete) {
   return { stop: () => { done = true; clearInterval(id); } };
 }
 
-export function playTone(frequency = 440, durationMs = 200) {
+export function playTone(frequency = 440, durationMs = 200, gainLevel = 0.3, instrument = 'standard') {
   if (typeof AudioContext === 'undefined' && typeof webkitAudioContext === 'undefined') return;
   const ctx = new (AudioContext || webkitAudioContext)();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.frequency.value = frequency;
-  gain.gain.setValueAtTime(0.3, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + durationMs / 1000);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + durationMs / 1000);
+  const durationSec = durationMs / 1000;
+  const now = ctx.currentTime;
+
+  if (instrument === 'woodblock') {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(frequency * 1.5, now);
+    osc.frequency.exponentialRampToValueAtTime(frequency * 0.75, now + 0.04);
+    gain.gain.setValueAtTime(gainLevel, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.08);
+  } else if (instrument === 'crystal') {
+    const overtones = [1.0, 2.0, 3.01, 4.04];
+    const weights = [1, 0.5, 0.25, 0.13];
+    overtones.forEach((h, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency * 1.6 * h, now);
+      gain.gain.setValueAtTime(gainLevel * weights[idx], now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec * (1.2 - idx * 0.2));
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + durationSec * 1.5);
+    });
+  } else {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = frequency;
+    gain.gain.setValueAtTime(gainLevel, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec);
+    osc.start(now);
+    osc.stop(now + durationSec);
+  }
 }

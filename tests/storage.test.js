@@ -56,6 +56,8 @@ test('getSettings returns defaults when nothing saved', () => {
   assertEqual(s.reminderMode, 'interval', 'Default reminderMode');
   assertEqual(s.intervalMinutes, 45, 'Default intervalMinutes');
   assertEqual(s.defaultBreakLength, 'full', 'Default defaultBreakLength');
+  assertEqual(s.volume, 0.5, 'Default volume');
+  assertEqual(s.soundInstrument, 'standard', 'Default soundInstrument');
 });
 
 test('saveSettings and getSettings round-trip', () => {

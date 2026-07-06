@@ -9,7 +9,9 @@ const DEFAULT_SETTINGS = {
   fixedTimes: [],
   defaultBreakLength: 'full',
   workDays: [1, 2, 3, 4, 5],
-  dailyGoal: 4
+  dailyGoal: 4,
+  volume: 0.5,
+  soundInstrument: 'standard'
 };
 
 // Local calendar date, not UTC: an evening break must count toward the
