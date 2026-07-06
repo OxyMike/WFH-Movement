@@ -1,7 +1,7 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
 import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveBodyStiffness } from './storage.js';
-import { suggestExercise, easierQuest } from './rotation.js';
+import { suggestExercise, easierQuest, easierQuestWithXpCut } from './rotation.js';
 import { tightestZone, preferredAreasFrom, coachingFor } from './coaching.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
 import { startTimer, playTone, formatTime } from './timer.js';
@@ -477,7 +477,15 @@ document.getElementById('btn-live-skip').addEventListener('click', () => {
   completeQuest(skipXpFactor(liveRemaining, liveQuest.duration * 60)); // half XP if past halfway, else none
 });
 document.getElementById('btn-live-easier').addEventListener('click', () => {
-  if (!liveQuest) return;
+  if (!liveQuest) {
+    const easier = easierQuestWithXpCut(suggestedQuest);
+    if (!easier) return;
+    suggestedQuest = easier;
+    renderRestingRail();
+    renderPrimaryQuest();
+    sound(523, 150);
+    return;
+  }
   const easier = easierQuest(liveQuest);
   if (easier) startQuest(easier);
 });
@@ -518,6 +526,7 @@ function renderRestingRail() {
   document.getElementById('live-quest-widget-header').textContent = restingHeaderText();
   document.getElementById('btn-live-pause').textContent = 'Start';
   if (!suggestedQuest) suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, null, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
+  document.getElementById('btn-live-easier').classList.toggle('hidden', !easierQuest(suggestedQuest));
   const step = suggestedQuest.steps[0];
   const ill = document.getElementById('live-quest-illustration-container');
   ill.innerHTML = getFigure(step.svg);
