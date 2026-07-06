@@ -35,7 +35,24 @@ Add, defaulting to today's actual values (Sage Green requires no override block 
 --bg-input: #FFFFFF;
 ```
 
-Every hardcoded `background-color: #FFFFFF` in style.css (currently 27 occurrences, across `.sidebar`, `.top-bar`, `.fd-card`, `.right-panel`, the onboarding card, and form inputs) is replaced with the matching `var(--bg-*)` token. Each selector maps to exactly one token based on what surface it renders (sidebar → `--bg-sidebar`, top bar → `--bg-header`, cards → `--bg-card`, right rail → `--bg-right-panel`, onboarding wizard card → `--bg-onboarding-card`, text/time/select inputs → `--bg-input`).
+Every hardcoded `background-color: #FFFFFF` in style.css (12 occurrences — confirmed by direct grep; an earlier draft of this spec miscounted this as 27 by including `color: #FFFFFF` text/icon declarations, which are intentionally left alone since they're white-on-colored-accent text, not themed surfaces) is replaced with the matching `var(--bg-*)` token:
+
+| Selector | Line | Token |
+|---|---|---|
+| `.sidebar` | 69 | `--bg-sidebar` |
+| `.top-bar` | 195 | `--bg-header` |
+| `.search-input:focus` | 240 | `--bg-input` |
+| `.right-panel` | 342 | `--bg-right-panel` |
+| `.fd-card` | 382 | `--bg-card` |
+| `.timeline-preset-btn` | 730 | `--bg-card` |
+| `.timeline-hours` | 749 | `--bg-card` |
+| `.onboarding-card` | 1105 | `--bg-onboarding-card` |
+| `.filter-pill` | 1277 | `--bg-card` |
+| `.cheer-btn` | 1410 | `--bg-card` |
+| `.settings-select` | 1644 | `--bg-input` |
+| `.btn-danger` | 1656 | `--bg-input` |
+
+Pills/chips/containers (`.timeline-preset-btn`, `.timeline-hours`, `.filter-pill`, `.cheer-btn`) map to `--bg-card` as the general "light surface" token. Bordered form-control-like elements (`.search-input:focus`, `.settings-select`, `.btn-danger`) map to `--bg-input`.
 
 ### Theme override blocks
 
