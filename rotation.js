@@ -26,3 +26,13 @@ export function easierQuest(quest) {
   if (total >= currentTotal || total < MIN_QUEST_SECONDS) return null;
   return { ...quest, steps, duration: total / 60 };
 }
+
+// Like easierQuest, but also docks XP proportionally to the time cut.
+// Used only for the pre-start (resting) Easier path; the live path keeps
+// full XP by design (see the 'reward is not docked' test above).
+export function easierQuestWithXpCut(quest) {
+  const easy = easierQuest(quest);
+  if (!easy) return null;
+  const ratio = easy.duration / quest.duration;
+  return { ...easy, xp: Math.max(1, Math.round(quest.xp * ratio)) };
+}

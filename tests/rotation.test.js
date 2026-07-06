@@ -1,6 +1,6 @@
 // tests/rotation.test.js
 import { test, assert, assertEqual, summary } from './run.js';
-import { suggestExercise, easierQuest } from '../rotation.js';
+import { suggestExercise, easierQuest, easierQuestWithXpCut } from '../rotation.js';
 import { EXERCISES } from '../exercises.js';
 
 test('easierQuest halves total time and keeps duration in sync with step seconds', () => {
@@ -41,6 +41,35 @@ test('easierQuest returns null when the quest is already too short to halve', ()
   const tiny = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 20 / 60,
     steps: [{ title: 'a', duration: 10 }, { title: 'b', duration: 10 }] };
   assertEqual(easierQuest(tiny), null);
+});
+
+test('easierQuestWithXpCut docks xp by the exact duration ratio', () => {
+  const q = EXERCISES.find(e => e.id === 'posture-reset'); // 4 min, xp 80
+  const easy = easierQuestWithXpCut(q);
+  const ratio = easy.duration / q.duration;
+  assertEqual(easy.xp, Math.round(q.xp * ratio), 'xp must scale with the exact time ratio');
+  assert(easy.xp < q.xp, 'xp must strictly decrease');
+});
+
+test('easierQuestWithXpCut floors xp at 1', () => {
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 1, targetArea: 'back', duration: 2,
+    steps: [{ title: 'a', duration: 60 }, { title: 'b', duration: 60 }] };
+  const easy = easierQuestWithXpCut(q);
+  assert(easy.xp >= 1, 'xp must never drop to 0');
+});
+
+test('easierQuestWithXpCut returns null exactly when easierQuest does', () => {
+  const tiny = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 20 / 60,
+    steps: [{ title: 'a', duration: 10 }, { title: 'b', duration: 10 }] };
+  assertEqual(easierQuestWithXpCut(tiny), null);
+});
+
+test('easierQuestWithXpCut never mutates the input quest', () => {
+  const q = { id: 'x', name: 'X', tier: 'easy', xp: 10, targetArea: 'back', duration: 2,
+    steps: [{ title: 'a', duration: 60 }, { title: 'b', duration: 60 }] };
+  const snapshot = JSON.stringify(q);
+  easierQuestWithXpCut(q);
+  assertEqual(JSON.stringify(q), snapshot, 'input must be untouched');
 });
 
 test('suggestExercise returns a valid exercise', () => {
