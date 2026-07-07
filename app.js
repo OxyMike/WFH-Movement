@@ -169,6 +169,11 @@ function renderSettings() {
     circle.style.border = isActive ? '3px solid var(--primary)' : '1.5px solid var(--border-color)';
     check.style.display = isActive ? 'block' : 'none';
   });
+  const currentInitial = (s.userName || 'You').charAt(0).toUpperCase();
+  document.getElementById('avatar-letter-pill').textContent = currentInitial;
+  document.querySelectorAll('.avatar-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-avatar') === s.avatar);
+  });
   settingsFixedTimes = [];
   const list = document.getElementById('settings-fixed-times-list');
   list.innerHTML = '';
@@ -198,6 +203,15 @@ document.querySelectorAll('.theme-swatch-card').forEach(card => {
     sound(659.25, 300);
   });
 });
+document.querySelectorAll('.avatar-pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const avatar = btn.getAttribute('data-avatar');
+    saveSettings({ ...getSettings(), avatar });
+    updateTopBar();
+    renderSettings();
+    sound(659.25, 300);
+  });
+});
 document.getElementById('settings-add-fixed-time').addEventListener('click', () => {
   const input = document.getElementById('settings-fixed-time-input');
   addTimeChip(input.value, document.getElementById('settings-fixed-times-list'), settingsFixedTimes);
@@ -208,6 +222,7 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
   saveSettings({
     volume: getSettings().volume,
     theme: getSettings().theme,
+    avatar: getSettings().avatar,
     userName: document.getElementById('settings-name-input').value.trim(),
     workStart: document.getElementById('settings-work-start').value,
     workEnd: document.getElementById('settings-work-end').value,
@@ -247,7 +262,9 @@ function updateTopBar() {
   document.getElementById('audio-volume-slider').value = s.volume;
   const name = s.userName || 'You';
   document.getElementById('sidebar-username').textContent = name;
-  document.getElementById('sidebar-avatar').textContent = name.charAt(0).toUpperCase();
+  const avatarEl = document.getElementById('sidebar-avatar');
+  avatarEl.textContent = s.avatar || name.charAt(0).toUpperCase();
+  avatarEl.style.fontSize = s.avatar ? '16px' : '';
   document.getElementById('sidebar-level-title').textContent = getProgress().title;
 }
 
