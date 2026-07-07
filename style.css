@@ -2331,3 +2331,34 @@ body { overflow: auto; height: auto; min-height: 100vh; }
 .fact-source a { color: var(--primary); text-decoration: underline; }
 #btn-trivia-cycle { transition: color 0.2s, background-color 0.2s; }
 #btn-trivia-cycle:hover { color: var(--coral); background-color: rgba(243, 107, 84, 0.08); }
+
+/* Avatar picker */
+.avatar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.avatar-pill-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-color);
+    background-color: transparent;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+}
+
+.avatar-pill-btn:hover {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.avatar-pill-btn.active {
+    border: 2.5px solid var(--primary);
+    background-color: var(--primary-light);
+}
