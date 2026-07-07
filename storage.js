@@ -12,7 +12,8 @@ const DEFAULT_SETTINGS = {
   dailyGoal: 4,
   volume: 0.5,
   soundInstrument: 'standard',
-  theme: 'sage'
+  theme: 'sage',
+  avatar: ''
 };
 
 // Local calendar date, not UTC: an evening break must count toward the
