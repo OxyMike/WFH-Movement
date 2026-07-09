@@ -378,6 +378,13 @@ export const FIGURES = {
             </g>
         </g>
     </svg>
+    `,
+  hydration: `
+    <svg class="exercise-svg" viewBox="0 0 100 60" style="overflow: visible;">
+        <path d="M38 15 L42 45 C42 47, 44 48, 46 48 H54 C56 48, 58 47, 58 45 L62 15 Z" fill="rgba(105, 183, 214, 0.12)" stroke="var(--sky)" stroke-width="2.5"></path>
+        <path class="water-level" d="M40 28 L42 45 C42 46, 43 47, 45 47 H55 C57 47, 58 46, 58 45 L60 28 Z" fill="rgba(105, 183, 214, 0.55)" stroke="none" style="transform-origin: 50% 100%;"></path>
+        <path class="water-drop" d="M50 10 C50 10, 47 14, 47 16 C47 17.6, 48.3 19, 50 19 C51.7 19, 53 17.6, 53 16 C53 14, 50 10, 50 10 Z" fill="var(--sky)" stroke="none"></path>
+    </svg>
     `
 };
 

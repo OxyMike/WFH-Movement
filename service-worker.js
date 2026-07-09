@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wfh-movement-v12';
+const CACHE_NAME = 'wfh-movement-v13';
 const ASSETS = [
   '/',
   '/index.html',
@@ -14,6 +14,8 @@ const ASSETS = [
   '/quests.js',
   '/insights.js',
   '/figures.js',
+  '/facts.js',
+  '/lifelog.js',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png'

@@ -819,5 +819,31 @@ export const EXERCISES = [
         "svg": "cardio_burst"
       }
     ]
+  },
+  {
+    "id": "hydration-break",
+    "name": "Hydration Break",
+    "category": "quiet",
+    "tier": "easy",
+    "xp": 40,
+    "duration": 2,
+    "targetArea": "wrists",
+    "desc": "Step away to refill your glass and rehydrate. Counts a cup toward your daily goal.",
+    "steps": [
+      {
+        "title": "Refill Cup",
+        "desc": "Step away from your desk to refill your glass or bottle with fresh water.",
+        "duration": 60,
+        "animation": "animate-hydration",
+        "svg": "hydration"
+      },
+      {
+        "title": "Drink & Breathe",
+        "desc": "Drink slowly and take deep, relaxed breaths. Stretch your wrists.",
+        "duration": 60,
+        "animation": "animate-hydration",
+        "svg": "hydration"
+      }
+    ]
   }
 ];

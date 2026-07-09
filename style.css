@@ -890,6 +890,271 @@ a {
     padding-bottom: 6px;
 }
 
+/* Today's Movement card (ring + grid lifelog) */
+.lifelog-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.lifelog-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.lifelog-sub {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin: 2px 0 0;
+}
+.lifelog-toggle-group {
+    display: flex;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-color);
+    border-radius: 6px;
+    padding: 3px;
+    gap: 2px;
+}
+.lifelog-toggle-btn {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.lifelog-toggle-btn.active {
+    color: var(--text-color);
+    background: var(--bg-card);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Ring view */
+.lifelog-ring-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 0 2px;
+}
+.lifelog-ring-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+.lifelog-ring-progress {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease;
+}
+.lifelog-card.met .lifelog-ring-progress {
+    stroke: var(--gold, #E8B84B);
+}
+.lifelog-ring-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.lifelog-ring-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.lifelog-ring-unit {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+.lifelog-ring-desc {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 14px 0 0;
+    text-align: center;
+}
+
+/* Grid view */
+.lifelog-legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+.lifelog-legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+.legend-active { background: var(--primary); }
+.legend-sedentary { background: var(--coral); }
+.legend-away { border: 1.5px dashed var(--border-color); }
+.lifelog-timeline-grid {
+    display: grid;
+    gap: 4px;
+    height: 24px;
+}
+.lifelog-block {
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lifelog-block.status-away {
+    border: 1.5px dashed var(--border-color);
+    background: transparent;
+}
+.lifelog-block.status-sedentary {
+    background: var(--coral);
+    opacity: 0.85;
+}
+.lifelog-block.status-active {
+    background: var(--primary);
+    box-shadow: 0 0 6px var(--primary-light);
+}
+.lifelog-block:hover {
+    transform: scaleY(1.25) scaleX(1.1);
+    z-index: 5;
+}
+.lifelog-block[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--bg-card);
+    color: var(--text-color);
+    border: 1.5px solid var(--border-color);
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.lifelog-block:hover[data-tooltip]::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.lifelog-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 6px;
+    padding: 0 2px;
+}
+
+/* Hydration exercise figure animation */
+.animate-hydration .water-drop {
+    animation: dropFall 2.4s infinite ease-in;
+    transform-origin: 50% 50%;
+}
+.animate-hydration .water-level {
+    animation: waterSway 3s infinite ease-in-out;
+}
+@keyframes dropFall {
+    0% { transform: translateY(-8px); opacity: 0; }
+    20% { opacity: 1; }
+    75% { transform: translateY(22px); opacity: 1; }
+    85% { transform: translateY(24px) scaleY(0.7); opacity: 0; }
+    100% { transform: translateY(-8px); opacity: 0; }
+}
+@keyframes waterSway {
+    0%, 100% { transform: rotate(0deg) scaleY(1); }
+    50% { transform: rotate(1.5deg) scaleY(1.03); }
+}
+
+/* Daily Hydration widget */
+.hydration-tracker-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+}
+.hydration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hydration-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.hydration-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hydration-stepper #water-progress-text {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-color);
+    min-width: 58px;
+    text-align: center;
+}
+.hydration-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card, transparent);
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+.hydration-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.hydration-btn:active {
+    transform: scale(0.92);
+}
+.water-cups-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 18px;
+}
+.water-cup {
+    display: inline-block;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.water-cup:not(.filled) {
+    opacity: 0.35;
+}
+.water-cup.filled {
+    transform: scale(1.08);
+}
+
 /* Circular Timer and Live Session */
 .live-session-container {
     display: flex;

@@ -10,6 +10,8 @@ const DEFAULT_SETTINGS = {
   defaultBreakLength: 'full',
   workDays: [1, 2, 3, 4, 5],
   dailyGoal: 4,
+  hydrationGoal: 8,
+  lifelogView: 'ring',
   volume: 0.5,
   soundInstrument: 'standard',
   theme: 'sage',
@@ -53,9 +55,20 @@ export function getTodayRecord() {
   const state = getState();
   const today = todayString();
   if (!state || !state.today || state.today.date !== today) {
-    return { date: today, completedBreaks: [], lastTargetArea: null, bodyStiffness: { neck: 0, shoulders: 0, back: 0, wrists: 0, legs: 0 } };
+    return { date: today, completedBreaks: [], lastTargetArea: null, waterCups: 0, bodyStiffness: { neck: 0, shoulders: 0, back: 0, wrists: 0, legs: 0 } };
   }
   return state.today;
+}
+
+export function getWaterCups() {
+  return getTodayRecord().waterCups || 0;
+}
+
+export function setWaterCups(n) {
+  const state = getState() ?? {};
+  const today = getTodayRecord();
+  today.waterCups = Math.max(0, Math.floor(n));
+  saveState({ ...state, today });
 }
 
 export function saveBodyStiffness(zone, level) {

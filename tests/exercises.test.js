@@ -6,9 +6,9 @@ const CATEGORIES = new Set(['mobility', 'stretch', 'strength', 'quiet']);
 const AREAS = new Set(['neck', 'shoulders', 'back', 'wrists', 'legs']);
 const TIERS = new Set(['easy', 'medium', 'hard']);
 
-test('35 quests, unique ids', () => {
-  assertEqual(EXERCISES.length, 35);
-  assertEqual(new Set(EXERCISES.map(e => e.id)).size, 35);
+test('36 quests, unique ids', () => {
+  assertEqual(EXERCISES.length, 36);
+  assertEqual(new Set(EXERCISES.map(e => e.id)).size, 36);
 });
 
 test('every quest has valid category, area, tier, xp, duration, desc', () => {
@@ -51,7 +51,8 @@ test('spec target-area assignments hold', () => {
     'leg-extensions': 'legs', 'desk-pushups': 'shoulders', 'stair-climbing': 'legs',
     'desk-plank': 'back', 'high-knees': 'legs', 'rebounding': 'legs', 'pacing': 'legs',
     'brugger-relief': 'shoulders', 'couch-stretch': 'legs', 'clamshell-exercise': 'legs',
-    'ceiling-reach': 'back', 'micro-stroll': 'legs', 'back-extension': 'back', 'cardio-burst': 'legs'
+    'ceiling-reach': 'back', 'micro-stroll': 'legs', 'back-extension': 'back', 'cardio-burst': 'legs',
+    'hydration-break': 'wrists'
   };
   for (const [id, area] of Object.entries(expect)) {
     const e = EXERCISES.find(x => x.id === id);

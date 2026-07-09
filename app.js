@@ -1,9 +1,10 @@
 // app.js -- entry point for WFH Movement
 import { EXERCISES } from './exercises.js';
-import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveBodyStiffness } from './storage.js';
+import { getSettings, saveSettings, getTodayRecord, logBreak, getStreak, resetAll, isFirstVisit, acknowledgeShieldUse, getState, saveState, localDateString, isWorkday, nextWorkdayName, saveBodyStiffness, getWaterCups, setWaterCups } from './storage.js';
 import { suggestExercise, easierQuest, easierQuestWithXpCut } from './rotation.js';
 import { tightestZone, preferredAreasFrom, coachingFor } from './coaching.js';
 import { startReminderEngine, getNextReminderMs } from './reminder.js';
+import { parseHM, lifelogStatuses } from './lifelog.js';
 import { startTimer, playTone, formatTime } from './timer.js';
 import { awardBreak, awardQuestBonus, getProgress, getUnlocks, skipXpFactor, shouldAwardGoal } from './game.js';
 import { getTodaysQuests, evaluateQuests } from './quests.js';
@@ -160,6 +161,7 @@ function renderSettings() {
   document.getElementById('settings-reminder-mode').value = s.reminderMode;
   document.getElementById('settings-interval-minutes').value = String(s.intervalMinutes);
   document.getElementById('settings-daily-goal').value = String(s.dailyGoal);
+  document.getElementById('settings-hydration-goal').value = String(s.hydrationGoal);
   document.getElementById('settings-sound-toggle').checked = !s.muted;
   document.getElementById('settings-sound-instrument').value = s.soundInstrument;
   document.querySelectorAll('.theme-swatch-card').forEach(card => {
@@ -230,6 +232,7 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
     reminderMode: document.getElementById('settings-reminder-mode').value,
     intervalMinutes: parseInt(document.getElementById('settings-interval-minutes').value, 10),
     dailyGoal: parseInt(document.getElementById('settings-daily-goal').value, 10),
+    hydrationGoal: parseInt(document.getElementById('settings-hydration-goal').value, 10),
     fixedTimes: [...settingsFixedTimes],
     muted: !document.getElementById('settings-sound-toggle').checked,
     soundInstrument: document.getElementById('settings-sound-instrument').value
@@ -331,9 +334,39 @@ function renderToday() {
   renderStiffnessCheckGroup();
   recalcCoaching();
   renderDailyQuests();
-  renderGoalRing();
+  renderMovement();
+  renderWaterCups();
   tickToday();
 }
+
+function renderWaterCups() {
+  const row = document.getElementById('water-cups-row');
+  const label = document.getElementById('water-progress-text');
+  if (!row || !label) return;
+  const goal = getSettings().hydrationGoal;
+  const current = Math.min(getWaterCups(), goal);
+  label.textContent = `${current} / ${goal} cups`;
+  let html = '';
+  for (let i = 1; i <= goal; i++)
+    html += `<span class="water-cup${i <= current ? ' filled' : ''}">${i <= current ? '🥤' : '🥛'}</span>`;
+  row.innerHTML = html;
+}
+
+document.getElementById('btn-water-plus').addEventListener('click', () => {
+  const goal = getSettings().hydrationGoal;
+  if (getWaterCups() < goal) {
+    setWaterCups(getWaterCups() + 1);
+    renderWaterCups();
+    sound(659.25, 200);
+  }
+});
+document.getElementById('btn-water-minus').addEventListener('click', () => {
+  if (getWaterCups() > 0) {
+    setWaterCups(getWaterCups() - 1);
+    renderWaterCups();
+    sound(523.25, 200);
+  }
+});
 
 function renderPrimaryQuest() {
   const critical = tightestZone(getTodayRecord().bodyStiffness) !== null;
@@ -346,15 +379,68 @@ function renderPrimaryQuest() {
   document.getElementById('primary-quest-insight').textContent = suggestedQuest.desc;
 }
 
-function renderGoalRing() {
+// "Today's movement" card: ring (breaks/goal) is primary, grid heatmap is the toggle.
+function renderMovement() {
+  const view = getSettings().lifelogView || 'ring';
+  document.getElementById('btn-lifelog-ring').classList.toggle('active', view === 'ring');
+  document.getElementById('btn-lifelog-grid').classList.toggle('active', view === 'grid');
+  document.getElementById('lifelog-ring-view').style.display = view === 'ring' ? 'flex' : 'none';
+  document.getElementById('lifelog-grid-view').style.display = view === 'grid' ? 'block' : 'none';
+  renderMovementRing();
+  if (view === 'grid') renderMovementGrid();
+}
+
+function renderMovementRing() {
   const goal = getSettings().dailyGoal;
   const done = (getTodayRecord().completedBreaks || []).length;
-  const CIRC = 188; // 2 * PI * r, r=30
+  const CIRC = 314.16; // 2 * PI * r, r=50
   const pct = Math.min(1, done / goal);
-  document.getElementById('goal-ring-progress').style.strokeDashoffset = String(CIRC * (1 - pct));
-  document.getElementById('goal-ring-count').textContent = `${Math.min(done, goal)} / ${goal}`;
-  document.getElementById('goal-ring-container').classList.toggle('met', done >= goal);
+  document.getElementById('lifelog-ring-circle').style.strokeDashoffset = String(CIRC * (1 - pct));
+  document.getElementById('lifelog-ring-value').textContent = `${Math.min(done, goal)} / ${goal}`;
+  document.getElementById('movement-card').classList.toggle('met', done >= goal);
+  const left = goal - done;
+  const desc = document.getElementById('lifelog-ring-desc');
+  if (done === 0) desc.textContent = 'Fresh start — first break recommended soon.';
+  else if (left > 0) desc.textContent = `${left} more ${left === 1 ? 'break' : 'breaks'} to hit today's goal.`;
+  else desc.textContent = 'Daily goal met. Nice work. ✨';
 }
+
+function fmtClock(min) {
+  const h = Math.floor(min / 60), m = min % 60;
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+}
+
+function renderMovementGrid() {
+  const s = getSettings();
+  const startMin = parseHM(s.workStart);
+  const endMin = parseHM(s.workEnd);
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const breakMins = (getTodayRecord().completedBreaks || []).map(b => {
+    const d = new Date(b.completedAt);
+    return d.getHours() * 60 + d.getMinutes();
+  });
+  const blocks = lifelogStatuses(startMin, endMin, nowMin, breakMins);
+  const label = { active: 'Active break', sedentary: 'Sitting', away: 'Upcoming' };
+  const container = document.getElementById('lifelog-timeline-container');
+  container.style.gridTemplateColumns = `repeat(${blocks.length}, 1fr)`;
+  container.innerHTML = blocks.map(b =>
+    `<div class="lifelog-block status-${b.status}" data-tooltip="${fmtClock(b.start)}–${fmtClock(b.end)}: ${label[b.status]}"></div>`
+  ).join('');
+  document.getElementById('lifelog-label-start').textContent = fmtClock(startMin);
+  document.getElementById('lifelog-label-mid').textContent = fmtClock(startMin + Math.floor((endMin - startMin) / 2));
+  document.getElementById('lifelog-label-end').textContent = fmtClock(endMin);
+}
+
+function setLifelogView(v) {
+  saveSettings({ ...getSettings(), lifelogView: v });
+  renderMovement();
+  sound(659, 180);
+}
+document.getElementById('btn-lifelog-ring').addEventListener('click', () => setLifelogView('ring'));
+document.getElementById('btn-lifelog-grid').addEventListener('click', () => setLifelogView('grid'));
 
 document.getElementById('btn-reroll-quest').addEventListener('click', () => {
   suggestedQuest = suggestExercise(getTodayRecord().lastTargetArea, suggestedQuest?.id, null, preferredAreasFrom(getTodayRecord().bodyStiffness));
@@ -564,6 +650,8 @@ function completeQuest(xpFactor = 1) {
   if (xpFactor > 0) {
     sound(659, 300); setTimeout(() => sound(784, 400), 350);
     logBreak(quest.id, quest.targetArea, quest.tier);
+    if (quest.id === 'hydration-break')
+      setWaterCups(Math.min(getWaterCups() + 1, getSettings().hydrationGoal));
     recordDaySummary({ date: todayDateString(), minutes: quest.duration * xpFactor, targetArea: quest.targetArea });
     const result = awardBreak(Math.round(quest.xp * xpFactor));
     showXpToast(`+${result.xpGained} XP${xpFactor < 1 ? ' (partial)' : ''}${result.leveledUp ? ` · Level ${result.level}: ${result.title}` : ''}`);

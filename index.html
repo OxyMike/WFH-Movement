@@ -149,15 +149,49 @@
                             <div class="sitting-timer" id="today-seated-timer">–</div>
                             <div class="sitting-badge" id="next-break-line">Next break soon</div>
                           </div>
-                          <div class="goal-ring-container" id="goal-ring-container">
-                            <svg class="goal-ring-svg" width="72" height="72">
-                              <circle class="goal-ring-bg" cx="36" cy="36" r="30"></circle>
-                              <circle class="goal-ring-progress" id="goal-ring-progress" cx="36" cy="36" r="30" stroke-dasharray="188" stroke-dashoffset="188"></circle>
-                            </svg>
-                            <div class="goal-ring-text">
-                              <span class="goal-ring-count" id="goal-ring-count">0 / 4</span>
+                        </div>
+
+                        <!-- Today's Movement (ring + grid lifelog) -->
+                        <div class="fd-card lifelog-card" id="movement-card">
+                          <div class="lifelog-head">
+                            <div>
+                              <div class="card-title">Today's movement</div>
+                              <p class="lifelog-sub">Breaks toward your goal, and when they happened.</p>
                             </div>
-                            <div class="goal-ring-label">breaks today</div>
+                            <div class="lifelog-toggle-group">
+                              <button class="lifelog-toggle-btn active" id="btn-lifelog-ring">⭕ Ring</button>
+                              <button class="lifelog-toggle-btn" id="btn-lifelog-grid">📊 Grid</button>
+                            </div>
+                          </div>
+
+                          <!-- Ring view (default) -->
+                          <div id="lifelog-ring-view" class="lifelog-ring-view">
+                            <div class="lifelog-ring-wrap">
+                              <svg width="120" height="120" viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-color)" stroke-width="8" stroke-opacity="0.5"></circle>
+                                <circle id="lifelog-ring-circle" class="lifelog-ring-progress" cx="60" cy="60" r="50" fill="none" stroke="var(--primary)" stroke-width="8" stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round"></circle>
+                              </svg>
+                              <div class="lifelog-ring-center">
+                                <span id="lifelog-ring-value" class="lifelog-ring-value">0 / 4</span>
+                                <span class="lifelog-ring-unit">breaks</span>
+                              </div>
+                            </div>
+                            <p id="lifelog-ring-desc" class="lifelog-ring-desc">Fresh start — first break recommended soon.</p>
+                          </div>
+
+                          <!-- Grid view -->
+                          <div id="lifelog-grid-view" class="lifelog-grid-view" style="display:none;">
+                            <div class="lifelog-legend">
+                              <span><span class="legend-swatch legend-active"></span>Break</span>
+                              <span><span class="legend-swatch legend-sedentary"></span>Sitting</span>
+                              <span><span class="legend-swatch legend-away"></span>Upcoming</span>
+                            </div>
+                            <div class="lifelog-timeline-grid" id="lifelog-timeline-container"></div>
+                            <div class="lifelog-labels">
+                              <span id="lifelog-label-start">8:00 AM</span>
+                              <span id="lifelog-label-mid">1:00 PM</span>
+                              <span id="lifelog-label-end">6:00 PM</span>
+                            </div>
                           </div>
                         </div>
 
@@ -371,12 +405,33 @@
                           <p class="view-subtitle">Your name, your hours, your reminders.</p>
                         </div>
                         <div class="fd-card">
+                          <div class="card-title">Profile &amp; avatar</div>
+                          <p style="color:var(--text-muted); font-size:12.5px; margin-bottom:16px;">Your display name and the symbol that represents you in the sidebar. The first option keeps your name's first letter.</p>
+                          <div class="settings-item" style="margin-bottom:18px;">
+                            <div class="settings-label">Your name</div>
+                            <div class="settings-description">How the dashboard greets you.</div>
+                            <div class="settings-input-row"><input type="text" id="settings-name-input" class="settings-select" style="width:200px;" placeholder="Your name"></div>
+                          </div>
+                          <div class="avatar-grid">
+                            <button class="avatar-pill-btn" id="avatar-letter-pill" data-avatar="">M</button>
+                            <button class="avatar-pill-btn" data-avatar="👩‍💻">👩‍💻</button>
+                            <button class="avatar-pill-btn" data-avatar="👨‍💻">👨‍💻</button>
+                            <button class="avatar-pill-btn" data-avatar="🧘‍♀️">🧘‍♀️</button>
+                            <button class="avatar-pill-btn" data-avatar="🏃">🏃</button>
+                            <button class="avatar-pill-btn" data-avatar="💪">💪</button>
+                            <button class="avatar-pill-btn" data-avatar="🚶">🚶</button>
+                            <button class="avatar-pill-btn" data-avatar="🤸">🤸</button>
+                            <button class="avatar-pill-btn" data-avatar="☕">☕</button>
+                            <button class="avatar-pill-btn" data-avatar="🐶">🐶</button>
+                            <button class="avatar-pill-btn" data-avatar="🐱">🐱</button>
+                            <button class="avatar-pill-btn" data-avatar="🚀">🚀</button>
+                            <button class="avatar-pill-btn" data-avatar="🔋">🔋</button>
+                            <button class="avatar-pill-btn" data-avatar="🌱">🌱</button>
+                            <button class="avatar-pill-btn" data-avatar="⭐">⭐</button>
+                          </div>
+                        </div>
+                        <div class="fd-card">
                           <div class="settings-list">
-                            <div class="settings-item">
-                              <div class="settings-label">Your name</div>
-                              <div class="settings-description">How the dashboard greets you.</div>
-                              <div class="settings-input-row"><input type="text" id="settings-name-input" class="settings-select" style="width:200px;" placeholder="Your name"></div>
-                            </div>
                             <div class="settings-item">
                               <div class="settings-label">Work hours</div>
                               <div class="settings-description">Reminders only fire inside this window.</div>
@@ -437,6 +492,19 @@
                               </div>
                             </div>
                             <div class="settings-item">
+                              <div class="settings-label">Daily hydration goal</div>
+                              <div class="settings-description">Your target water intake, counted in 8 fl oz cups on the Today rail.</div>
+                              <div class="settings-input-row">
+                                <select class="settings-select" id="settings-hydration-goal">
+                                  <option value="4">4 cups (32 fl oz)</option>
+                                  <option value="6">6 cups (48 fl oz)</option>
+                                  <option value="8">8 cups (64 fl oz)</option>
+                                  <option value="10">10 cups (80 fl oz)</option>
+                                  <option value="12">12 cups (96 fl oz)</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="settings-item">
                               <div class="settings-label">Sound</div>
                               <div class="settings-description">Chimes at the halfway point and when a break completes.</div>
                               <div class="settings-input-row">
@@ -486,27 +554,6 @@
                               </div>
                               <span style="font-size:11.5px; font-weight:600; color:var(--text-color);">Sunset Peach</span>
                             </div>
-                          </div>
-                        </div>
-                        <div class="fd-card" style="margin-top: 20px;">
-                          <div class="card-title">Your avatar</div>
-                          <p style="color:var(--text-muted); font-size:12.5px; margin-bottom:16px;">Pick a symbol for your sidebar. The first option keeps your name's first letter.</p>
-                          <div class="avatar-grid">
-                            <button class="avatar-pill-btn" id="avatar-letter-pill" data-avatar="">M</button>
-                            <button class="avatar-pill-btn" data-avatar="👩‍💻">👩‍💻</button>
-                            <button class="avatar-pill-btn" data-avatar="👨‍💻">👨‍💻</button>
-                            <button class="avatar-pill-btn" data-avatar="🧘‍♀️">🧘‍♀️</button>
-                            <button class="avatar-pill-btn" data-avatar="🏃">🏃</button>
-                            <button class="avatar-pill-btn" data-avatar="💪">💪</button>
-                            <button class="avatar-pill-btn" data-avatar="🚶">🚶</button>
-                            <button class="avatar-pill-btn" data-avatar="🤸">🤸</button>
-                            <button class="avatar-pill-btn" data-avatar="☕">☕</button>
-                            <button class="avatar-pill-btn" data-avatar="🐶">🐶</button>
-                            <button class="avatar-pill-btn" data-avatar="🐱">🐱</button>
-                            <button class="avatar-pill-btn" data-avatar="🚀">🚀</button>
-                            <button class="avatar-pill-btn" data-avatar="🔋">🔋</button>
-                            <button class="avatar-pill-btn" data-avatar="🌱">🌱</button>
-                            <button class="avatar-pill-btn" data-avatar="⭐">⭐</button>
                           </div>
                         </div>
                     </section>
@@ -569,6 +616,24 @@
                                     <button class="btn-secondary" id="btn-live-skip">Skip</button>
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Hydration widget -->
+                    <div id="hydration-widget">
+                        <h4 class="rail-section-title">Daily Hydration</h4>
+                        <div class="fd-card hydration-tracker-card">
+                            <div class="hydration-header">
+                                <span class="hydration-title">💧 Water</span>
+                                <div class="hydration-stepper">
+                                    <button class="hydration-btn" id="btn-water-minus" aria-label="Remove a cup">−</button>
+                                    <span id="water-progress-text">0 / 8 cups</span>
+                                    <button class="hydration-btn" id="btn-water-plus" aria-label="Add a cup">+</button>
+                                </div>
+                            </div>
+                            <div id="water-cups-row" class="water-cups-row">
+                                <!-- cups injected by renderWaterCups() -->
                             </div>
                         </div>
                     </div>

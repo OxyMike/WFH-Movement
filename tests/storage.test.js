@@ -12,7 +12,8 @@ global.localStorage = {
 import {
   getSettings, saveSettings, getTodayRecord, logBreak,
   getStreak, resetAll, isFirstVisit, getState, saveState,
-  acknowledgeShieldUse, isWorkday, previousWorkday, nextWorkdayName
+  acknowledgeShieldUse, isWorkday, previousWorkday, nextWorkdayName,
+  getWaterCups, setWaterCups
 } from '../storage.js';
 
 test('nextWorkdayName from a Saturday with Mon-Fri workdays is Monday', () => {
@@ -196,6 +197,47 @@ test('bestStreak tracks the maximum and legacy history defaults cleanly', () => 
   const h = getStreak();
   if (h.bestStreak !== 7) throw new Error('bestStreak should default to current streak');
   if (h.shieldHeld !== false || h.shieldUsedFor !== null) throw new Error('legacy shield defaults wrong');
+});
+
+test('getWaterCups defaults to 0 on a fresh day', () => {
+  resetAll();
+  assertEqual(getWaterCups(), 0);
+});
+
+test('setWaterCups round-trips and getWaterCups reads it back', () => {
+  resetAll();
+  setWaterCups(3);
+  assertEqual(getWaterCups(), 3);
+});
+
+test('setWaterCups clamps negatives to 0', () => {
+  resetAll();
+  setWaterCups(-2);
+  assertEqual(getWaterCups(), 0);
+});
+
+test('setWaterCups floors fractional values', () => {
+  resetAll();
+  setWaterCups(2.9);
+  assertEqual(getWaterCups(), 2);
+});
+
+test('water count resets when the day rolls over', () => {
+  resetAll();
+  setWaterCups(5);
+  // Simulate the stored record belonging to a past day
+  const state = getState();
+  state.today.date = '2020-01-01';
+  saveState(state);
+  assertEqual(getWaterCups(), 0, 'stale-day water count should read as 0');
+});
+
+test('setWaterCups does not disturb other today-record fields', () => {
+  resetAll();
+  logBreak('chin-tucks', 'neck', 'easy');
+  setWaterCups(4);
+  assertEqual(getTodayRecord().completedBreaks.length, 1);
+  assertEqual(getWaterCups(), 4);
 });
 
 summary();
