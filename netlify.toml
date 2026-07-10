@@ -1,6 +1,11 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# /.netlify/functions/* is reserved and bypasses this SPA redirect.
 [[redirects]]
   from = "/*"
   to = "/index.html"

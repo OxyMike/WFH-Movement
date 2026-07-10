@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS = {
   dailyGoal: 4,
   hydrationGoal: 8,
   lifelogView: 'ring',
+  pushEnabled: false,
   volume: 0.5,
   soundInstrument: 'standard',
   theme: 'sage',

@@ -1,0 +1,14 @@
+{
+  "name": "wfh-movement",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "WFH Movement — desk break reminders. Static PWA + Netlify push backend.",
+  "scripts": {
+    "test": "for f in tests/*.test.js; do node \"$f\" || exit 1; done"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0",
+    "web-push": "^3.6.7"
+  }
+}

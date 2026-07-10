@@ -162,6 +162,7 @@ function renderSettings() {
   document.getElementById('settings-interval-minutes').value = String(s.intervalMinutes);
   document.getElementById('settings-daily-goal').value = String(s.dailyGoal);
   document.getElementById('settings-hydration-goal').value = String(s.hydrationGoal);
+  document.getElementById('wrist-reminders-toggle').checked = !!s.pushEnabled;
   document.getElementById('settings-sound-toggle').checked = !s.muted;
   document.getElementById('settings-sound-instrument').value = s.soundInstrument;
   document.querySelectorAll('.theme-swatch-card').forEach(card => {
@@ -225,6 +226,7 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
     volume: getSettings().volume,
     theme: getSettings().theme,
     avatar: getSettings().avatar,
+    pushEnabled: getSettings().pushEnabled,
     userName: document.getElementById('settings-name-input').value.trim(),
     workStart: document.getElementById('settings-work-start').value,
     workEnd: document.getElementById('settings-work-end').value,
@@ -239,6 +241,7 @@ document.getElementById('btn-save-settings').addEventListener('click', () => {
   });
   if (reminderEngine) reminderEngine.stop();
   reminderEngine = startReminderEngine(onReminderFires);
+  syncPushScheduleIfEnabled();
   showXpToast('Settings saved');
   updateTopBar();
   showTab('today');
@@ -252,15 +255,15 @@ document.getElementById('btn-reset-database').addEventListener('click', () => {
 });
 
 // ---------------------------------------------------------------------------
-// SPIKE: wrist reminders via Web Push.
-// Proves an iOS home-screen PWA push reaches the Apple Watch. The subscription
-// is only shown on screen -- nothing is sent anywhere. Replace with a real
-// subscribe-to-server call once the wrist buzz is confirmed.
+// Wrist reminders via Web Push. Subscribes the browser and sends the schedule
+// to the server (Netlify function), which pushes on a 5-min cron even when the
+// app is closed. Only the schedule + push endpoint leave the device.
 // ---------------------------------------------------------------------------
 
 const VAPID_PUBLIC_KEY = 'BCUcwu1ufUmHlGXQrZ7Nt0TobKvc5dTTCuwLMnG0m8qOoyGlFZgdyyqnuJuZbPZS7YH3pgR9-ugLqvRqCWhgnpk';
+const SAVE_SUB_URL = '/.netlify/functions/save-subscription';
 
-// Push wants the key as raw bytes, not the base64url string Apple hands you.
+// Push wants the key as raw bytes, not the base64url string the generator hands you.
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -268,30 +271,43 @@ function urlBase64ToUint8Array(base64String) {
   return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
 }
 
-function pushStatus(msg, ok) {
-  const el = document.getElementById('push-spike-status');
-  el.textContent = msg;
+// Only scheduling fields -- no XP, history, or body data.
+function schedulePayload() {
+  const s = getSettings();
+  return {
+    workStart: s.workStart, workEnd: s.workEnd, workDays: s.workDays,
+    reminderMode: s.reminderMode, intervalMinutes: s.intervalMinutes, fixedTimes: s.fixedTimes
+  };
+}
+
+function wristStatus(msg, ok) {
+  const el = document.getElementById('wrist-reminders-status');
+  if (!el) return;
+  el.textContent = msg || '';
   el.style.color = ok ? 'var(--primary)' : 'var(--coral)';
 }
 
-async function copyPushSub() {
-  const json = document.getElementById('push-spike-json').value;
-  try {
-    await navigator.clipboard.writeText(json);
-  } catch {
-    // ponytail: clipboard can be blocked; the textarea is selectable either way
-  }
+async function postSubscription(sub) {
+  return fetch(SAVE_SUB_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      subscription: sub.toJSON(),
+      schedule: schedulePayload(),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
+  });
 }
 
 async function enableWristReminders() {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    pushStatus('Push is not available here. On iPhone: Share > Add to Home Screen, then open the app from that icon.', false);
-    return;
+    wristStatus('Not supported here. On iPhone: add this app to your Home Screen and open it from that icon.', false);
+    return false;
   }
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') {
-    pushStatus('Notifications denied. Turn them on for this app in iOS Settings, then try again.', false);
-    return;
+    wristStatus('Notifications are off. Turn them on for this app in iOS Settings, then try again.', false);
+    return false;
   }
   try {
     const reg = await navigator.serviceWorker.ready;
@@ -302,17 +318,54 @@ async function enableWristReminders() {
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
       });
     }
-    document.getElementById('push-spike-json').value = JSON.stringify(sub.toJSON(), null, 2);
-    document.getElementById('push-spike-output').classList.remove('hidden');
-    await copyPushSub();
-    pushStatus('Subscribed. Send the test push, then lock your phone and watch your wrist.', true);
+    const res = await postSubscription(sub);
+    if (!res.ok) { wristStatus('Could not reach the reminder server. Try again.', false); return false; }
+    wristStatus('On. Your wrist will buzz at break time.', true);
+    return true;
   } catch (e) {
-    pushStatus(`Subscribe failed: ${e.message}`, false);
+    wristStatus(`Could not enable: ${e.message}`, false);
+    return false;
   }
 }
 
-document.getElementById('btn-enable-push').addEventListener('click', enableWristReminders);
-document.getElementById('btn-copy-push-sub').addEventListener('click', copyPushSub);
+async function disableWristReminders() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if (sub) {
+      await fetch(SAVE_SUB_URL, {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ endpoint: sub.endpoint })
+      });
+      await sub.unsubscribe();
+    }
+  } catch {
+    // ponytail: best-effort; the server also prunes dead endpoints on send
+  }
+  wristStatus('Off.', true);
+}
+
+// Re-send the schedule when settings change, so the server stays in sync.
+async function syncPushScheduleIfEnabled() {
+  if (!getSettings().pushEnabled) return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if (sub) await postSubscription(sub);
+  } catch {
+    // ignore; next toggle/save retries
+  }
+}
+
+document.getElementById('wrist-reminders-toggle').addEventListener('change', async (e) => {
+  const wantOn = e.target.checked;
+  e.target.disabled = true;
+  const ok = wantOn ? await enableWristReminders() : (await disableWristReminders(), true);
+  e.target.disabled = false;
+  if (wantOn && !ok) e.target.checked = false;
+  saveSettings({ ...getSettings(), pushEnabled: wantOn && ok });
+});
 
 // ---------------------------------------------------------------------------
 // Top bar and sidebar identity
