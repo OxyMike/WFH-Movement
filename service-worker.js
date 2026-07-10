@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wfh-movement-v13';
+const CACHE_NAME = 'wfh-movement-v14';
 const ASSETS = [
   '/',
   '/index.html',
@@ -61,6 +61,36 @@ self.addEventListener('message', event => {
       });
     }, delayMs);
   }
+});
+
+// Server-sent push. Unlike the SCHEDULE_NOTIFICATION timer above, this fires
+// even when the app is closed -- iOS terminates the worker, so a local
+// setTimeout never survives. Payload is optional; fall back to a default.
+self.addEventListener('push', event => {
+  let title = 'Time to move';
+  let body = 'Your next quest is ready. Two minutes buys back an hour of sitting.';
+  try {
+    const data = event.data?.json();
+    if (data?.title) title = data.title;
+    if (data?.body) body = data.body;
+  } catch {
+    const text = event.data?.text();
+    if (text) body = text;
+  }
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body,
+      icon: '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
+      tag: 'wfh-movement-break',
+      renotify: true,
+      data: { url: '/' },
+      actions: [
+        { action: 'start', title: 'Start quest' },
+        { action: 'later', title: 'Later' }
+      ]
+    })
+  );
 });
 
 self.addEventListener('notificationclick', event => {

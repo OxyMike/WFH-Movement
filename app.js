@@ -252,6 +252,69 @@ document.getElementById('btn-reset-database').addEventListener('click', () => {
 });
 
 // ---------------------------------------------------------------------------
+// SPIKE: wrist reminders via Web Push.
+// Proves an iOS home-screen PWA push reaches the Apple Watch. The subscription
+// is only shown on screen -- nothing is sent anywhere. Replace with a real
+// subscribe-to-server call once the wrist buzz is confirmed.
+// ---------------------------------------------------------------------------
+
+const VAPID_PUBLIC_KEY = 'BCUcwu1ufUmHlGXQrZ7Nt0TobKvc5dTTCuwLMnG0m8qOoyGlFZgdyyqnuJuZbPZS7YH3pgR9-ugLqvRqCWhgnpk';
+
+// Push wants the key as raw bytes, not the base64url string Apple hands you.
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = atob(base64);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+function pushStatus(msg, ok) {
+  const el = document.getElementById('push-spike-status');
+  el.textContent = msg;
+  el.style.color = ok ? 'var(--primary)' : 'var(--coral)';
+}
+
+async function copyPushSub() {
+  const json = document.getElementById('push-spike-json').value;
+  try {
+    await navigator.clipboard.writeText(json);
+  } catch {
+    // ponytail: clipboard can be blocked; the textarea is selectable either way
+  }
+}
+
+async function enableWristReminders() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    pushStatus('Push is not available here. On iPhone: Share > Add to Home Screen, then open the app from that icon.', false);
+    return;
+  }
+  const permission = await Notification.requestPermission();
+  if (permission !== 'granted') {
+    pushStatus('Notifications denied. Turn them on for this app in iOS Settings, then try again.', false);
+    return;
+  }
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+    }
+    document.getElementById('push-spike-json').value = JSON.stringify(sub.toJSON(), null, 2);
+    document.getElementById('push-spike-output').classList.remove('hidden');
+    await copyPushSub();
+    pushStatus('Subscribed. Send the test push, then lock your phone and watch your wrist.', true);
+  } catch (e) {
+    pushStatus(`Subscribe failed: ${e.message}`, false);
+  }
+}
+
+document.getElementById('btn-enable-push').addEventListener('click', enableWristReminders);
+document.getElementById('btn-copy-push-sub').addEventListener('click', copyPushSub);
+
+// ---------------------------------------------------------------------------
 // Top bar and sidebar identity
 // ---------------------------------------------------------------------------
 

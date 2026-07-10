@@ -556,6 +556,19 @@
                             </div>
                           </div>
                         </div>
+
+                        <!-- SPIKE: wrist reminders (web push). Temporary — remove once validated. -->
+                        <div class="fd-card" id="push-spike-card" style="margin-top: 20px;">
+                          <div class="card-title">Wrist reminders <span style="font-size:11px; font-weight:600; color:var(--coral);">BETA</span></div>
+                          <p style="color:var(--text-muted); font-size:12.5px; margin-bottom:16px;">Sends break reminders to your phone (and Apple Watch) even when this app is closed. Add this app to your Home Screen first, then open it from that icon.</p>
+                          <button class="btn-primary" id="btn-enable-push">Enable wrist reminders</button>
+                          <p id="push-spike-status" style="font-size:12.5px; font-weight:600; margin:12px 0 0;"></p>
+                          <div id="push-spike-output" class="hidden" style="margin-top:14px;">
+                            <p style="color:var(--text-muted); font-size:12px; margin-bottom:6px;">Subscription copied to your clipboard. Paste it somewhere you can reach from your computer.</p>
+                            <textarea id="push-spike-json" readonly rows="6" style="width:100%; font-family:monospace; font-size:10.5px; padding:8px; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-input); color:var(--text-color);"></textarea>
+                            <button class="btn-secondary" id="btn-copy-push-sub" style="margin-top:8px;">Copy again</button>
+                          </div>
+                        </div>
                     </section>
 
                 </main>
