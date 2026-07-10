@@ -1,6 +1,6 @@
 // tests/push-schedule.test.js
 import { test, run, assert, assertEqual } from './run.js';
-import { toMinutes, localParts, dueReminder } from '../push-schedule.js';
+import { toMinutes, localParts, dueReminder, reminderContent } from '../push-schedule.js';
 
 test('toMinutes parses HH:MM', () => {
   assertEqual(toMinutes('08:00'), 480);
@@ -73,6 +73,34 @@ test('fixed: not due before the first fixed time', () => {
 test('fixed: ignores fixed times outside the work window', () => {
   const F2 = { ...F, fixedTimes: ['07:00', '20:00'] }; // both outside 08:00-17:00
   assertEqual(dueReminder(F2, '2026-07-10', 5, 1000, null), null);
+});
+
+const QUESTS = [
+  { name: 'Posture Reset', duration: 4, desc: 'Neck release.' },
+  { name: 'Calf Raises', duration: 1, desc: 'Up on toes.' },
+  { name: 'Back Twist', duration: 2, desc: 'Rotate slowly.' },
+  { name: 'Wrist Stretch', duration: 1, desc: 'Flex fingers back.' },
+  { name: 'Side Bends', duration: 2, desc: 'Lean each way.' },
+  { name: 'Sit to Stand', duration: 3, desc: 'Up and down.' }
+];
+
+test('reminderContent names a real exercise and is deterministic per slot', () => {
+  const a = reminderContent(QUESTS, '2026-07-10T525');
+  const b = reminderContent(QUESTS, '2026-07-10T525');
+  assertEqual(a.body, b.body); // same slot -> same pick
+  assert(QUESTS.some(q => a.body.includes(q.name)), 'body should name a library exercise');
+  assertEqual(a.title, 'Time to move');
+});
+
+test('reminderContent varies across slots', () => {
+  const seen = new Set(['525', '570', '615', '660', '705'].map(s => reminderContent(QUESTS, '2026-07-10T' + s).body));
+  assert(seen.size > 1, 'different slots should not all pick the same exercise');
+});
+
+test('reminderContent falls back when the library is empty', () => {
+  const c = reminderContent([], '2026-07-10T525');
+  assertEqual(c.title, 'Time to move');
+  assert(c.body.length > 0, 'has a fallback body');
 });
 
 run();

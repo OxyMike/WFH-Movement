@@ -53,3 +53,22 @@ export function dueReminder(settings, localDateStr, localDow, nowMin, lastSentKe
   const key = `${localDateStr}T${slot}`;
   return key === lastSentKey ? null : key;
 }
+
+// Notification text for a due reminder. Picks a real exercise from the library,
+// varied by slot so back-to-back reminders differ. The server has no access to
+// the user's personalized suggestion (that state stays on the device), so this
+// is a real-but-generic pick; tapping the notification opens the app, which
+// shows the personalized recommendation.
+export function reminderContent(exercises, slotKey) {
+  if (!exercises || !exercises.length) {
+    return { title: 'Time to move', body: 'Stand up and stretch. Two minutes.' };
+  }
+  // Rotate on the slot minute (varies every reminder) plus a per-day offset
+  // (so the same clock slot isn't the same exercise every day).
+  const [dateStr = '', slotStr = '0'] = String(slotKey).split('T');
+  const slotMin = parseInt(slotStr, 10) || 0;
+  let dayOffset = 0;
+  for (const c of dateStr) dayOffset = (dayOffset * 31 + c.charCodeAt(0)) >>> 0;
+  const q = exercises[(slotMin + dayOffset) % exercises.length];
+  return { title: 'Time to move', body: `${q.name} · ${q.duration} min. ${q.desc}` };
+}

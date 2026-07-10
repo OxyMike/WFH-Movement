@@ -1,10 +1,12 @@
 import { getStore } from '@netlify/blobs';
 import webpush from 'web-push';
-import { localParts, dueReminder } from '../../push-schedule.js';
+import { localParts, dueReminder, reminderContent } from '../../push-schedule.js';
+import { EXERCISES } from '../../exercises.js';
 
-// Scheduled every 5 minutes. For each stored subscriber, decide -- in THEIR
+// Scheduled every minute. For each stored subscriber, decide -- in THEIR
 // timezone -- whether a reminder slot is due, push it, and record the slot so it
 // never repeats. Prune subscriptions Apple/Google report as gone (404/410).
+// Every-minute (vs every-5) keeps delivery within ~1 min of the scheduled slot.
 
 const SUBS = 'wfh-push-subs';
 
@@ -29,10 +31,8 @@ export default async () => {
     if (!slotKey) continue;
 
     try {
-      await webpush.sendNotification(rec.subscription, JSON.stringify({
-        title: 'Time to move',
-        body: 'Stand up. Roll your shoulders. Two minutes.'
-      }));
+      await webpush.sendNotification(rec.subscription,
+        JSON.stringify(reminderContent(EXERCISES, slotKey)));
       rec.lastSentKey = slotKey;
       await store.setJSON(key, rec);
       sent++;
@@ -46,7 +46,7 @@ export default async () => {
   return json({ sent, pruned, checked: blobs.length });
 };
 
-export const config = { schedule: '*/5 * * * *' };
+export const config = { schedule: '* * * * *' };
 
 function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json' } });
